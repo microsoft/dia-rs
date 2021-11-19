@@ -1,0 +1,25 @@
+[package]
+name = "microsoft-dia"
+version = "0.1.0"
+authors = ["Microsoft"]
+edition = "2018"
+license = "MIT OR Apache-2.0"
+description = "Rust for Debug Interface Access (DIA) SDK"
+repository = "https://github.com/microsoft/dia-rs"
+documentation = ""
+readme = "README.md"
+exclude = [".github", ".windows", ".metadata", "docs", "tests"]
+
+[build-dependencies.windows]
+git = "https://github.com/microsoft/windows-rs"
+features = [
+    "build"
+]
+
+[dependencies.windows]
+git = "https://github.com/microsoft/windows-rs"
+features = [
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Ole",
+    "Win32_Foundation"
+]
