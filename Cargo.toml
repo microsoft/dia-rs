@@ -1,6 +1,6 @@
 [package]
 name = "microsoft-dia"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Microsoft"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -10,16 +10,16 @@ documentation = ""
 readme = "README.md"
 exclude = [".github", ".windows", ".metadata", "docs", "tests"]
 
-[build-dependencies.windows]
-git = "https://github.com/microsoft/windows-rs"
-features = [
-    "build"
+[workspace]
+members = [
+    "crates/tools/*",
+    "crates/samples/*",
 ]
 
 [dependencies.windows]
-git = "https://github.com/microsoft/windows-rs"
+version = "0.33"
 features = [
+    "Win32_Foundation",
     "Win32_System_Com_StructuredStorage",
-    "Win32_System_Ole",
-    "Win32_Foundation"
+    "Win32_System_Ole"
 ]
