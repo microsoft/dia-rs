@@ -58,10 +58,10 @@ jobs:
 
   cargo_doc:
     name: Check cargo docs
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v2
 
     - name: Run cargo doc
-      run: cargo doc --no-deps
+      run: cargo doc --no-deps --workspace
