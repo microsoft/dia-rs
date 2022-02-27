@@ -1,3 +1,5 @@
-windows::core::include_bindings!();
+#![doc(html_no_source)]
 
-pub use Microsoft::Dia::*;
+extern crate windows;
+
+pub mod Microsoft;
