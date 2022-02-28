@@ -2,4 +2,5 @@
 
 extern crate windows;
 
-pub mod Microsoft;
+mod Microsoft;
+pub use Microsoft::Dia::*;
