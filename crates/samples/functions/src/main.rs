@@ -1,4 +1,4 @@
-use microsoft_dia::Microsoft::Dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
+use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
 use windows::Win32::System::Com::{CoCreateInstance, CoInitializeEx, CLSCTX_INPROC_SERVER, COINIT_MULTITHREADED};
 
 fn main() -> windows::core::Result<()> {
