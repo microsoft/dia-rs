@@ -2,5 +2,7 @@
 
 extern crate windows;
 
+pub mod helpers;
+
 mod Microsoft;
 pub use Microsoft::Dia::*;
