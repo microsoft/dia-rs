@@ -3875,11 +3875,11 @@ impl IDiaAddressMap {
     pub unsafe fn SetimageAlign(&self, newval: u32) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).SetimageAlign)(::core::mem::transmute_copy(self), ::core::mem::transmute(newval)).ok()
     }
-    pub unsafe fn set_imageHeaders<'a, Param2: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, cbdata: u32, pbdata: *const u8, originalheaders: Param2) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).set_imageHeaders)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pbdata), originalheaders.into_param().abi()).ok()
+    pub unsafe fn set_imageHeaders<'a, Param2: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, pbdata: &[u8], originalheaders: Param2) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).set_imageHeaders)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(pbdata)), originalheaders.into_param().abi()).ok()
     }
-    pub unsafe fn set_addressMap<'a, Param2: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, cdata: u32, pdata: *const DiaAddressMapEntry, imagetosymbols: Param2) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).set_addressMap)(::core::mem::transmute_copy(self), ::core::mem::transmute(cdata), ::core::mem::transmute(pdata), imagetosymbols.into_param().abi()).ok()
+    pub unsafe fn set_addressMap<'a, Param2: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, pdata: &[DiaAddressMapEntry], imagetosymbols: Param2) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).set_addressMap)(::core::mem::transmute_copy(self), pdata.len() as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(pdata)), imagetosymbols.into_param().abi()).ok()
     }
 }
 impl ::core::convert::From<IDiaAddressMap> for ::windows::core::IUnknown {
@@ -3958,10 +3958,10 @@ impl IDiaDataSource {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).openSession)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<IDiaSession>(result__)
     }
-    pub unsafe fn loadDataFromCodeViewInfo<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param4: ::windows::core::IntoParam<'a, ::windows::core::IUnknown>>(&self, executable: Param0, searchpath: Param1, cbcvinfo: u32, pbcvinfo: *const u8, pcallback: Param4) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).loadDataFromCodeViewInfo)(::core::mem::transmute_copy(self), executable.into_param().abi(), searchpath.into_param().abi(), ::core::mem::transmute(cbcvinfo), ::core::mem::transmute(pbcvinfo), pcallback.into_param().abi()).ok()
+    pub unsafe fn loadDataFromCodeViewInfo<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param4: ::windows::core::IntoParam<'a, ::windows::core::IUnknown>>(&self, executable: Param0, searchpath: Param1, pbcvinfo: &[u8], pcallback: Param4) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).loadDataFromCodeViewInfo)(::core::mem::transmute_copy(self), executable.into_param().abi(), searchpath.into_param().abi(), pbcvinfo.len() as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(pbcvinfo)), pcallback.into_param().abi()).ok()
     }
-    pub unsafe fn loadDataFromMiscInfo<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param7: ::windows::core::IntoParam<'a, ::windows::core::IUnknown>>(&self, executable: Param0, searchpath: Param1, timestampexe: u32, timestampdbg: u32, sizeofexe: u32, cbmiscinfo: u32, pbmiscinfo: *const u8, pcallback: Param7) -> ::windows::core::Result<()> {
+    pub unsafe fn loadDataFromMiscInfo<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>, Param7: ::windows::core::IntoParam<'a, ::windows::core::IUnknown>>(&self, executable: Param0, searchpath: Param1, timestampexe: u32, timestampdbg: u32, sizeofexe: u32, pbmiscinfo: &[u8], pcallback: Param7) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).loadDataFromMiscInfo)(
             ::core::mem::transmute_copy(self),
             executable.into_param().abi(),
@@ -3969,8 +3969,8 @@ impl IDiaDataSource {
             ::core::mem::transmute(timestampexe),
             ::core::mem::transmute(timestampdbg),
             ::core::mem::transmute(sizeofexe),
-            ::core::mem::transmute(cbmiscinfo),
-            ::core::mem::transmute(pbmiscinfo),
+            pbmiscinfo.len() as _,
+            ::core::mem::transmute(::windows::core::as_ptr_or_null(pbmiscinfo)),
             pcallback.into_param().abi(),
         )
         .ok()
@@ -4044,11 +4044,11 @@ impl IDiaEnumDebugStreamData {
         let mut result__: ::core::mem::ManuallyDrop<::windows::Win32::Foundation::BSTR> = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).name)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BSTR>(result__)
     }
-    pub unsafe fn Item(&self, index: u32, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).Item)(::core::mem::transmute_copy(self), ::core::mem::transmute(index), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn Item(&self, index: u32, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).Item)(::core::mem::transmute_copy(self), ::core::mem::transmute(index), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
-    pub unsafe fn Next(&self, celt: u32, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8, pceltfetched: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).Next)(::core::mem::transmute_copy(self), ::core::mem::transmute(celt), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata), ::core::mem::transmute(pceltfetched)).ok()
+    pub unsafe fn Next(&self, celt: u32, pcbdata: *mut u32, pbdata: &mut [u8], pceltfetched: *mut u32) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).Next)(::core::mem::transmute_copy(self), ::core::mem::transmute(celt), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata)), ::core::mem::transmute(pceltfetched)).ok()
     }
     pub unsafe fn Skip(&self, celt: u32) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).Skip)(::core::mem::transmute_copy(self), ::core::mem::transmute(celt)).ok()
@@ -5411,8 +5411,8 @@ impl IDiaInjectedSource {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).sourceCompression)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn source(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).source)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn source(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).source)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
 }
 impl ::core::convert::From<IDiaInjectedSource> for ::windows::core::IUnknown {
@@ -5490,8 +5490,8 @@ impl IDiaInputAssemblyFile {
         let mut result__: ::core::mem::ManuallyDrop<::windows::Win32::Foundation::BSTR> = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).fileName)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BSTR>(result__)
     }
-    pub unsafe fn version(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).version)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn version(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).version)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
 }
 impl ::core::convert::From<IDiaInputAssemblyFile> for ::windows::core::IUnknown {
@@ -5667,8 +5667,8 @@ pub struct IDiaLineNumber_Vtbl {
 #[repr(transparent)]
 pub struct IDiaLoadCallback(::windows::core::IUnknown);
 impl IDiaLoadCallback {
-    pub unsafe fn NotifyDebugDir<'a, Param0: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, fexecutable: Param0, cbdata: u32, pbdata: *const u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).NotifyDebugDir)(::core::mem::transmute_copy(self), fexecutable.into_param().abi(), ::core::mem::transmute(cbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn NotifyDebugDir<'a, Param0: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, fexecutable: Param0, pbdata: &[u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).NotifyDebugDir)(::core::mem::transmute_copy(self), fexecutable.into_param().abi(), pbdata.len() as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn NotifyOpenDBG<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, dbgpath: Param0, resultcode: ::windows::core::HRESULT) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).NotifyOpenDBG)(::core::mem::transmute_copy(self), dbgpath.into_param().abi(), ::core::mem::transmute(resultcode)).ok()
@@ -5736,8 +5736,8 @@ pub struct IDiaLoadCallback_Vtbl {
 #[repr(transparent)]
 pub struct IDiaLoadCallback2(::windows::core::IUnknown);
 impl IDiaLoadCallback2 {
-    pub unsafe fn NotifyDebugDir<'a, Param0: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, fexecutable: Param0, cbdata: u32, pbdata: *const u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.NotifyDebugDir)(::core::mem::transmute_copy(self), fexecutable.into_param().abi(), ::core::mem::transmute(cbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn NotifyDebugDir<'a, Param0: ::windows::core::IntoParam<'a, ::windows::Win32::Foundation::BOOL>>(&self, fexecutable: Param0, pbdata: &[u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.NotifyDebugDir)(::core::mem::transmute_copy(self), fexecutable.into_param().abi(), pbdata.len() as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn NotifyOpenDBG<'a, Param0: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, dbgpath: Param0, resultcode: ::windows::core::HRESULT) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).base.NotifyOpenDBG)(::core::mem::transmute_copy(self), dbgpath.into_param().abi(), ::core::mem::transmute(resultcode)).ok()
@@ -5836,11 +5836,11 @@ pub struct IDiaLoadCallback2_Vtbl {
 #[repr(transparent)]
 pub struct IDiaPropertyStorage(::windows::core::IUnknown);
 impl IDiaPropertyStorage {
-    pub unsafe fn ReadMultiple(&self, cpspec: u32, rgpspec: *const ::windows::Win32::System::Com::StructuredStorage::PROPSPEC, rgvar: *mut ::windows::Win32::System::Com::StructuredStorage::PROPVARIANT) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).ReadMultiple)(::core::mem::transmute_copy(self), ::core::mem::transmute(cpspec), ::core::mem::transmute(rgpspec), ::core::mem::transmute(rgvar)).ok()
+    pub unsafe fn ReadMultiple<'a, const PARAM0: usize>(&self, rgpspec: &[::windows::Win32::System::Com::StructuredStorage::PROPSPEC; PARAM0], rgvar: &mut [::windows::Win32::System::Com::StructuredStorage::PROPVARIANT; PARAM0]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).ReadMultiple)(::core::mem::transmute_copy(self), PARAM0 as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(rgpspec)), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(rgvar))).ok()
     }
-    pub unsafe fn ReadPropertyNames(&self, cpropid: u32, rgpropid: *const u32, rglpwstrname: *mut ::windows::Win32::Foundation::BSTR) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).ReadPropertyNames)(::core::mem::transmute_copy(self), ::core::mem::transmute(cpropid), ::core::mem::transmute(rgpropid), ::core::mem::transmute(rglpwstrname)).ok()
+    pub unsafe fn ReadPropertyNames<'a, const PARAM0: usize>(&self, rgpropid: &[u32; PARAM0], rglpwstrname: &mut [::windows::Win32::Foundation::BSTR; PARAM0]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).ReadPropertyNames)(::core::mem::transmute_copy(self), PARAM0 as _, ::core::mem::transmute(::windows::core::as_ptr_or_null(rgpropid)), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(rglpwstrname))).ok()
     }
     pub unsafe fn Enum(&self) -> ::windows::core::Result<::windows::Win32::System::Com::StructuredStorage::IEnumSTATPROPSTG> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -5923,8 +5923,8 @@ pub struct IDiaPropertyStorage_Vtbl {
 #[repr(transparent)]
 pub struct IDiaReadExeAtOffsetCallback(::windows::core::IUnknown);
 impl IDiaReadExeAtOffsetCallback {
-    pub unsafe fn ReadExecutableAt(&self, fileoffset: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).ReadExecutableAt)(::core::mem::transmute_copy(self), ::core::mem::transmute(fileoffset), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn ReadExecutableAt(&self, fileoffset: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).ReadExecutableAt)(::core::mem::transmute_copy(self), ::core::mem::transmute(fileoffset), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
 }
 impl ::core::convert::From<IDiaReadExeAtOffsetCallback> for ::windows::core::IUnknown {
@@ -5976,8 +5976,8 @@ pub struct IDiaReadExeAtOffsetCallback_Vtbl {
 #[repr(transparent)]
 pub struct IDiaReadExeAtRVACallback(::windows::core::IUnknown);
 impl IDiaReadExeAtRVACallback {
-    pub unsafe fn ReadExecutableAtRVA(&self, relativevirtualaddress: u32, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).ReadExecutableAtRVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(relativevirtualaddress), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn ReadExecutableAtRVA(&self, relativevirtualaddress: u32, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).ReadExecutableAtRVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(relativevirtualaddress), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
 }
 impl ::core::convert::From<IDiaReadExeAtRVACallback> for ::windows::core::IUnknown {
@@ -6472,15 +6472,15 @@ impl IDiaSession {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).getFuncMDTokenMapSize)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn getFuncMDTokenMap(&self, cb: u32, pcb: *mut u32, pb: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).getFuncMDTokenMap)(::core::mem::transmute_copy(self), ::core::mem::transmute(cb), ::core::mem::transmute(pcb), ::core::mem::transmute(pb)).ok()
+    pub unsafe fn getFuncMDTokenMap(&self, pcb: *mut u32, pb: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).getFuncMDTokenMap)(::core::mem::transmute_copy(self), pb.len() as _, ::core::mem::transmute(pcb), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pb))).ok()
     }
     pub unsafe fn getTypeMDTokenMapSize(&self) -> ::windows::core::Result<u32> {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).getTypeMDTokenMapSize)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn getTypeMDTokenMap(&self, cb: u32, pcb: *mut u32, pb: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).getTypeMDTokenMap)(::core::mem::transmute_copy(self), ::core::mem::transmute(cb), ::core::mem::transmute(pcb), ::core::mem::transmute(pb)).ok()
+    pub unsafe fn getTypeMDTokenMap(&self, pcb: *mut u32, pb: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).getTypeMDTokenMap)(::core::mem::transmute_copy(self), pb.len() as _, ::core::mem::transmute(pcb), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pb))).ok()
     }
     pub unsafe fn getNumberOfFunctionFragments_VA(&self, vafunc: u64, cbfunc: u32) -> ::windows::core::Result<u32> {
         let mut result__: u32 = ::core::mem::zeroed();
@@ -6490,11 +6490,11 @@ impl IDiaSession {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).getNumberOfFunctionFragments_RVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(rvafunc), ::core::mem::transmute(cbfunc), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn getFunctionFragments_VA(&self, vafunc: u64, cbfunc: u32, cfragments: u32, pvafragment: *mut u64, plenfragment: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).getFunctionFragments_VA)(::core::mem::transmute_copy(self), ::core::mem::transmute(vafunc), ::core::mem::transmute(cbfunc), ::core::mem::transmute(cfragments), ::core::mem::transmute(pvafragment), ::core::mem::transmute(plenfragment)).ok()
+    pub unsafe fn getFunctionFragments_VA<'a, const PARAM2: usize>(&self, vafunc: u64, cbfunc: u32, pvafragment: &mut [u64; PARAM2], plenfragment: &mut [u32; PARAM2]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).getFunctionFragments_VA)(::core::mem::transmute_copy(self), ::core::mem::transmute(vafunc), ::core::mem::transmute(cbfunc), PARAM2 as _, ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pvafragment)), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(plenfragment))).ok()
     }
-    pub unsafe fn getFunctionFragments_RVA(&self, rvafunc: u32, cbfunc: u32, cfragments: u32, prvafragment: *mut u32, plenfragment: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).getFunctionFragments_RVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(rvafunc), ::core::mem::transmute(cbfunc), ::core::mem::transmute(cfragments), ::core::mem::transmute(prvafragment), ::core::mem::transmute(plenfragment)).ok()
+    pub unsafe fn getFunctionFragments_RVA<'a, const PARAM2: usize>(&self, rvafunc: u32, cbfunc: u32, prvafragment: &mut [u32; PARAM2], plenfragment: &mut [u32; PARAM2]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).getFunctionFragments_RVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(rvafunc), ::core::mem::transmute(cbfunc), PARAM2 as _, ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(prvafragment)), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(plenfragment))).ok()
     }
     pub unsafe fn getExports(&self) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -6632,8 +6632,8 @@ impl IDiaSourceFile {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).compilands)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn checksum(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).checksum)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn checksum(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).checksum)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
 }
 impl ::core::convert::From<IDiaSourceFile> for ::windows::core::IUnknown {
@@ -6693,7 +6693,6 @@ impl IDiaStackFrame {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).r#type)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    // https://github.com/microsoft/windows-rs/issues/1571
     pub unsafe fn baseAddress(&self) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).baseAddress)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u64>(result__)
@@ -6822,8 +6821,8 @@ impl IDiaStackWalkFrame {
     pub unsafe fn SetregisterValue(&self, index: u32, newval: u64) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).SetregisterValue)(::core::mem::transmute_copy(self), ::core::mem::transmute(index), ::core::mem::transmute(newval)).ok()
     }
-    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn searchForReturnAddress<'a, Param0: ::windows::core::IntoParam<'a, IDiaFrameData>>(&self, frame: Param0) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
@@ -6894,8 +6893,8 @@ impl IDiaStackWalkHelper {
     pub unsafe fn SetregisterValue(&self, index: u32, newval: u64) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).SetregisterValue)(::core::mem::transmute_copy(self), ::core::mem::transmute(index), ::core::mem::transmute(newval)).ok()
     }
-    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn searchForReturnAddress<'a, Param0: ::windows::core::IntoParam<'a, IDiaFrameData>>(&self, frame: Param0) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
@@ -6913,8 +6912,8 @@ impl IDiaStackWalkHelper {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).symbolForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), ::core::mem::transmute(&mut result__)).from_abi::<IDiaSymbol>(result__)
     }
-    pub unsafe fn pdataForVA(&self, va: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).pdataForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn pdataForVA(&self, va: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).pdataForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn imageForVA(&self, vacontext: u64) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
@@ -6998,8 +6997,8 @@ impl IDiaStackWalkHelper2 {
     pub unsafe fn SetregisterValue(&self, index: u32, newval: u64) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).base.SetregisterValue)(::core::mem::transmute_copy(self), ::core::mem::transmute(index), ::core::mem::transmute(newval)).ok()
     }
-    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn readMemory(&self, r#type: MemoryTypeEnum, va: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.readMemory)(::core::mem::transmute_copy(self), ::core::mem::transmute(r#type), ::core::mem::transmute(va), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn searchForReturnAddress<'a, Param0: ::windows::core::IntoParam<'a, IDiaFrameData>>(&self, frame: Param0) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
@@ -7017,8 +7016,8 @@ impl IDiaStackWalkHelper2 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.symbolForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), ::core::mem::transmute(&mut result__)).from_abi::<IDiaSymbol>(result__)
     }
-    pub unsafe fn pdataForVA(&self, va: u64, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.pdataForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn pdataForVA(&self, va: u64, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.pdataForVA)(::core::mem::transmute_copy(self), ::core::mem::transmute(va), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn imageForVA(&self, vacontext: u64) -> ::windows::core::Result<u64> {
         let mut result__: u64 = ::core::mem::zeroed();
@@ -7563,8 +7562,8 @@ impl IDiaSymbol {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -7614,11 +7613,11 @@ impl IDiaSymbol {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -7872,11 +7871,11 @@ impl IDiaSymbol {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -8058,8 +8057,8 @@ impl IDiaSymbol {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -8786,8 +8785,8 @@ impl IDiaSymbol10 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -8837,11 +8836,11 @@ impl IDiaSymbol10 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -9095,11 +9094,11 @@ impl IDiaSymbol10 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -9281,8 +9280,8 @@ impl IDiaSymbol10 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -9472,8 +9471,8 @@ impl IDiaSymbol10 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.isRTCs)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn sourceLink(&self, cb: u32, pcb: *mut u32, pb: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).sourceLink)(::core::mem::transmute_copy(self), ::core::mem::transmute(cb), ::core::mem::transmute(pcb), ::core::mem::transmute(pb)).ok()
+    pub unsafe fn sourceLink(&self, pcb: *mut u32, pb: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).sourceLink)(::core::mem::transmute_copy(self), pb.len() as _, ::core::mem::transmute(pcb), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pb))).ok()
     }
 }
 impl ::core::convert::From<IDiaSymbol10> for ::windows::core::IUnknown {
@@ -10029,8 +10028,8 @@ impl IDiaSymbol2 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -10080,11 +10079,11 @@ impl IDiaSymbol2 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -10338,11 +10337,11 @@ impl IDiaSymbol2 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -10524,8 +10523,8 @@ impl IDiaSymbol2 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -11051,8 +11050,8 @@ impl IDiaSymbol3 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -11102,11 +11101,11 @@ impl IDiaSymbol3 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -11360,11 +11359,11 @@ impl IDiaSymbol3 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -11546,8 +11545,8 @@ impl IDiaSymbol3 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -12100,8 +12099,8 @@ impl IDiaSymbol4 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -12151,11 +12150,11 @@ impl IDiaSymbol4 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -12409,11 +12408,11 @@ impl IDiaSymbol4 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -12595,8 +12594,8 @@ impl IDiaSymbol4 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -13172,8 +13171,8 @@ impl IDiaSymbol5 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -13223,11 +13222,11 @@ impl IDiaSymbol5 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -13481,11 +13480,11 @@ impl IDiaSymbol5 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -13667,8 +13666,8 @@ impl IDiaSymbol5 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -14268,8 +14267,8 @@ impl IDiaSymbol6 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -14319,11 +14318,11 @@ impl IDiaSymbol6 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -14577,11 +14576,11 @@ impl IDiaSymbol6 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -14763,8 +14762,8 @@ impl IDiaSymbol6 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -15388,8 +15387,8 @@ impl IDiaSymbol7 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -15439,11 +15438,11 @@ impl IDiaSymbol7 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -15697,11 +15696,11 @@ impl IDiaSymbol7 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -15883,8 +15882,8 @@ impl IDiaSymbol7 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -16532,8 +16531,8 @@ impl IDiaSymbol8 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -16583,11 +16582,11 @@ impl IDiaSymbol8 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -16841,11 +16840,11 @@ impl IDiaSymbol8 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -17027,8 +17026,8 @@ impl IDiaSymbol8 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -17725,8 +17724,8 @@ impl IDiaSymbol9 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.upperBoundId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn dataBytes(&self, cbdata: u32, pcbdata: *mut u32, pbdata: *mut u8) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), ::core::mem::transmute(cbdata), ::core::mem::transmute(pcbdata), ::core::mem::transmute(pbdata)).ok()
+    pub unsafe fn dataBytes(&self, pcbdata: *mut u32, pbdata: &mut [u8]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.dataBytes)(::core::mem::transmute_copy(self), pbdata.len() as _, ::core::mem::transmute(pcbdata), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pbdata))).ok()
     }
     pub unsafe fn findChildren<'a, Param1: ::windows::core::IntoParam<'a, ::windows::core::PCWSTR>>(&self, symtag: SymTag, name: Param1, compareflags: u32) -> ::windows::core::Result<IDiaEnumSymbols> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -17776,11 +17775,11 @@ impl IDiaSymbol9 {
         let mut result__: u32 = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.oemSymbolId)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<u32>(result__)
     }
-    pub unsafe fn types(&self, ctypes: u32, pctypes: *mut u32, ptypes: *mut ::core::option::Option<IDiaSymbol>) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypes), ::core::mem::transmute(pctypes), ::core::mem::transmute(ptypes)).ok()
+    pub unsafe fn types(&self, pctypes: *mut u32, ptypes: &mut [::core::option::Option<IDiaSymbol>]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.types)(::core::mem::transmute_copy(self), ptypes.len() as _, ::core::mem::transmute(pctypes), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ptypes))).ok()
     }
-    pub unsafe fn typeIds(&self, ctypeids: u32, pctypeids: *mut u32, pdwtypeids: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), ::core::mem::transmute(ctypeids), ::core::mem::transmute(pctypeids), ::core::mem::transmute(pdwtypeids)).ok()
+    pub unsafe fn typeIds(&self, pctypeids: *mut u32, pdwtypeids: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.typeIds)(::core::mem::transmute_copy(self), pdwtypeids.len() as _, ::core::mem::transmute(pctypeids), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pdwtypeids))).ok()
     }
     pub unsafe fn objectPointerType(&self) -> ::windows::core::Result<IDiaSymbol> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -18034,11 +18033,11 @@ impl IDiaSymbol9 {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.isMatrixRowMajor)(::core::mem::transmute_copy(self), ::core::mem::transmute(&mut result__)).from_abi::<::windows::Win32::Foundation::BOOL>(result__)
     }
-    pub unsafe fn numericProperties(&self, cnt: u32, pcnt: *mut u32, pproperties: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pproperties)).ok()
+    pub unsafe fn numericProperties(&self, pcnt: *mut u32, pproperties: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.numericProperties)(::core::mem::transmute_copy(self), pproperties.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pproperties))).ok()
     }
-    pub unsafe fn modifierValues(&self, cnt: u32, pcnt: *mut u32, pmodifiers: *mut u16) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(pmodifiers)).ok()
+    pub unsafe fn modifierValues(&self, pcnt: *mut u32, pmodifiers: &mut [u16]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.modifierValues)(::core::mem::transmute_copy(self), pmodifiers.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(pmodifiers))).ok()
     }
     pub unsafe fn isReturnValue(&self) -> ::windows::core::Result<::windows::Win32::Foundation::BOOL> {
         let mut result__: ::windows::Win32::Foundation::BOOL = ::core::mem::zeroed();
@@ -18220,8 +18219,8 @@ impl IDiaSymbol9 {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
         (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.findSymbolsByRVAForAcceleratorPointerTag)(::core::mem::transmute_copy(self), ::core::mem::transmute(tagvalue), ::core::mem::transmute(rva), ::core::mem::transmute(&mut result__)).from_abi::<IDiaEnumSymbols>(result__)
     }
-    pub unsafe fn acceleratorPointerTags(&self, cnt: u32, pcnt: *mut u32, ppointertags: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ::core::mem::transmute(cnt), ::core::mem::transmute(pcnt), ::core::mem::transmute(ppointertags)).ok()
+    pub unsafe fn acceleratorPointerTags(&self, pcnt: *mut u32, ppointertags: &mut [u32]) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.base.base.base.base.base.base.base.acceleratorPointerTags)(::core::mem::transmute_copy(self), ppointertags.len() as _, ::core::mem::transmute(pcnt), ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(ppointertags))).ok()
     }
     pub unsafe fn getSrcLineOnTypeDefn(&self) -> ::windows::core::Result<IDiaLineNumber> {
         let mut result__: ::windows::core::RawPtr = ::core::mem::zeroed();
@@ -18623,8 +18622,8 @@ pub struct IDiaSymbol9_Vtbl {
 #[repr(transparent)]
 pub struct IDiaTable(::windows::core::IUnknown);
 impl IDiaTable {
-    pub unsafe fn Next(&self, celt: u32, rgelt: *mut ::core::option::Option<::windows::core::IUnknown>, pceltfetched: *mut u32) -> ::windows::core::Result<()> {
-        (::windows::core::Interface::vtable(self).base.Next)(::core::mem::transmute_copy(self), ::core::mem::transmute(celt), ::core::mem::transmute(rgelt), ::core::mem::transmute(pceltfetched)).ok()
+    pub unsafe fn Next(&self, rgelt: &mut [::core::option::Option<::windows::core::IUnknown>], pceltfetched: *mut u32) -> ::windows::core::Result<()> {
+        (::windows::core::Interface::vtable(self).base.Next)(::core::mem::transmute_copy(self), rgelt.len() as _, ::core::mem::transmute(::windows::core::as_mut_ptr_or_null(rgelt)), ::core::mem::transmute(pceltfetched)).ok()
     }
     pub unsafe fn Skip(&self, celt: u32) -> ::windows::core::Result<()> {
         (::windows::core::Interface::vtable(self).base.Skip)(::core::mem::transmute_copy(self), ::core::mem::transmute(celt)).ok()

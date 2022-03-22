@@ -12,7 +12,7 @@ fn main() {
     let root = reader.types.get_namespace("Microsoft").unwrap();
 
     let mut trees = Vec::new();
-    collect_subtrees(&output_path, root.namespace, root, &mut trees);
+    collect_subtrees(&output_path, root, &mut trees);
 
     trees.iter().for_each(|tree| gen_tree(&output_path, tree));
 
@@ -20,10 +20,10 @@ fn main() {
     println!("Elapsed: {} ms", start.elapsed().as_millis());
 }
 
-fn collect_subtrees<'a>(output: &std::path::Path, root: &'static str, tree: &'a windows_metadata::TypeTree, trees: &mut Vec<&'a windows_metadata::TypeTree>) {
+fn collect_subtrees<'a>(output: &std::path::Path, tree: &'a windows_metadata::TypeTree, trees: &mut Vec<&'a windows_metadata::TypeTree>) {
     trees.push(tree);
 
-    tree.namespaces.values().for_each(|tree| collect_subtrees(output, root, tree, trees));
+    tree.namespaces.values().for_each(|tree| collect_subtrees(output, tree, trees));
 
     let mut path = std::path::PathBuf::from(output);
     path.push(tree.namespace.replace('.', "/"));
@@ -35,7 +35,13 @@ fn gen_tree(output: &std::path::Path, tree: &windows_metadata::TypeTree) {
 
     path.push(tree.namespace.replace('.', "/"));
 
-    let gen = windows_bindgen::Gen { namespace: tree.namespace, min_xaml: true, windows_extern: true, ..Default::default() };
+    let gen = windows_bindgen::Gen {
+        namespace: tree.namespace,
+        min_xaml: true,
+        windows_extern: true,
+        cfg: false,
+        ..Default::default()
+    };
     let mut tokens = windows_bindgen::gen_namespace(&gen);
     tokens.push_str(r#"#[cfg(feature = "implement")] ::core::include!("impl.rs");"#);
     fmt_tokens(tree.namespace, &mut tokens);
