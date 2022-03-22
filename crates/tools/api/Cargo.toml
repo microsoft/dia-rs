@@ -5,5 +5,5 @@ edition = "2018"
 publish = false
 
 [dependencies]
-windows-bindgen = "0.33"
-windows-metadata = "0.33"
+windows-bindgen = "0.34"
+windows-metadata = "0.34"

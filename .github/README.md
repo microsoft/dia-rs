@@ -10,7 +10,7 @@ Start by adding `windows` and `microsoft-dia` dependencies to Cargo.toml:
 
 ```toml
 [dependencies.windows]
-version = "0.33"
+version = "0.34"
 features = [
     "alloc",
     "Win32_System_Com"
