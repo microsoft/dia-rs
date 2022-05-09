@@ -69,7 +69,7 @@ impl IDiaAddressMap_Vtbl {
             (*this).set_addressMap(::core::mem::transmute_copy(&cdata), ::core::mem::transmute_copy(&pdata), ::core::mem::transmute_copy(&imagetosymbols)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             addressMapEnabled: addressMapEnabled::<Identity, Impl, OFFSET>,
             SetaddressMapEnabled: SetaddressMapEnabled::<Identity, Impl, OFFSET>,
             relativeVirtualAddressEnabled: relativeVirtualAddressEnabled::<Identity, Impl, OFFSET>,
@@ -160,7 +160,7 @@ impl IDiaDataSource_Vtbl {
                 .into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             lastError: lastError::<Identity, Impl, OFFSET>,
             loadDataFromPdb: loadDataFromPdb::<Identity, Impl, OFFSET>,
             loadAndValidateDataFromPdb: loadAndValidateDataFromPdb::<Identity, Impl, OFFSET>,
@@ -252,7 +252,7 @@ impl IDiaEnumDebugStreamData_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             name: name::<Identity, Impl, OFFSET>,
@@ -338,7 +338,7 @@ impl IDiaEnumDebugStreams_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -447,7 +447,7 @@ impl IDiaEnumFrameData_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -534,7 +534,7 @@ impl IDiaEnumInjectedSources_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -619,7 +619,7 @@ impl IDiaEnumInputAssemblyFiles_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -704,7 +704,7 @@ impl IDiaEnumLineNumbers_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -789,7 +789,7 @@ impl IDiaEnumSectionContribs_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -874,7 +874,7 @@ impl IDiaEnumSegments_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -959,7 +959,7 @@ impl IDiaEnumSourceFiles_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -990,7 +990,7 @@ impl IDiaEnumStackFrames_Vtbl {
             (*this).Reset().into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             Next: Next::<Identity, Impl, OFFSET>,
             Reset: Reset::<Identity, Impl, OFFSET>,
         }
@@ -1070,7 +1070,7 @@ impl IDiaEnumSymbols_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -1149,7 +1149,7 @@ impl IDiaEnumSymbolsByAddr_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             symbolByAddr: symbolByAddr::<Identity, Impl, OFFSET>,
             symbolByRVA: symbolByRVA::<Identity, Impl, OFFSET>,
             symbolByVA: symbolByVA::<Identity, Impl, OFFSET>,
@@ -1215,7 +1215,7 @@ impl IDiaEnumSymbolsByAddr2_Vtbl {
             (*this).PrevEx(::core::mem::transmute_copy(&fpromoteblocksym), ::core::mem::transmute_copy(&celt), ::core::mem::transmute_copy(&rgelt), ::core::mem::transmute_copy(&pceltfetched)).into()
         }
         Self {
-            base: IDiaEnumSymbolsByAddr_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaEnumSymbolsByAddr_Vtbl::new::<Identity, Impl, OFFSET>(),
             symbolByAddrEx: symbolByAddrEx::<Identity, Impl, OFFSET>,
             symbolByRVAEx: symbolByRVAEx::<Identity, Impl, OFFSET>,
             symbolByVAEx: symbolByVAEx::<Identity, Impl, OFFSET>,
@@ -1298,7 +1298,7 @@ impl IDiaEnumTables_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, Impl, OFFSET>,
             Count: Count::<Identity, Impl, OFFSET>,
             Item: Item::<Identity, Impl, OFFSET>,
@@ -1527,7 +1527,7 @@ impl IDiaFrameData_Vtbl {
             (*this).execute(::core::mem::transmute(&frame)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             addressSection: addressSection::<Identity, Impl, OFFSET>,
             addressOffset: addressOffset::<Identity, Impl, OFFSET>,
             relativeVirtualAddress: relativeVirtualAddress::<Identity, Impl, OFFSET>,
@@ -1593,7 +1593,7 @@ impl IDiaImageData_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             relativeVirtualAddress: relativeVirtualAddress::<Identity, Impl, OFFSET>,
             virtualAddress: virtualAddress::<Identity, Impl, OFFSET>,
             imageBase: imageBase::<Identity, Impl, OFFSET>,
@@ -1686,7 +1686,7 @@ impl IDiaInjectedSource_Vtbl {
             (*this).source(::core::mem::transmute_copy(&cbdata), ::core::mem::transmute_copy(&pcbdata), ::core::mem::transmute_copy(&pbdata)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             crc: crc::<Identity, Impl, OFFSET>,
             length: length::<Identity, Impl, OFFSET>,
             filename: filename::<Identity, Impl, OFFSET>,
@@ -1771,7 +1771,7 @@ impl IDiaInputAssemblyFile_Vtbl {
             (*this).version(::core::mem::transmute_copy(&cbdata), ::core::mem::transmute_copy(&pcbdata), ::core::mem::transmute_copy(&pbdata)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             uniqueId: uniqueId::<Identity, Impl, OFFSET>,
             index: index::<Identity, Impl, OFFSET>,
             timestamp: timestamp::<Identity, Impl, OFFSET>,
@@ -1957,7 +1957,7 @@ impl IDiaLineNumber_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             compiland: compiland::<Identity, Impl, OFFSET>,
             sourceFile: sourceFile::<Identity, Impl, OFFSET>,
             lineNumber: lineNumber::<Identity, Impl, OFFSET>,
@@ -2013,7 +2013,7 @@ impl IDiaLoadCallback_Vtbl {
             (*this).RestrictSymbolServerAccess().into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             NotifyDebugDir: NotifyDebugDir::<Identity, Impl, OFFSET>,
             NotifyOpenDBG: NotifyOpenDBG::<Identity, Impl, OFFSET>,
             NotifyOpenPDB: NotifyOpenPDB::<Identity, Impl, OFFSET>,
@@ -2054,7 +2054,7 @@ impl IDiaLoadCallback2_Vtbl {
             (*this).RestrictSystemRootAccess().into()
         }
         Self {
-            base: IDiaLoadCallback_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaLoadCallback_Vtbl::new::<Identity, Impl, OFFSET>(),
             RestrictOriginalPathAccess: RestrictOriginalPathAccess::<Identity, Impl, OFFSET>,
             RestrictReferencePathAccess: RestrictReferencePathAccess::<Identity, Impl, OFFSET>,
             RestrictDBGAccess: RestrictDBGAccess::<Identity, Impl, OFFSET>,
@@ -2154,7 +2154,7 @@ impl IDiaPropertyStorage_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             ReadMultiple: ReadMultiple::<Identity, Impl, OFFSET>,
             ReadPropertyNames: ReadPropertyNames::<Identity, Impl, OFFSET>,
             Enum: Enum::<Identity, Impl, OFFSET>,
@@ -2180,7 +2180,7 @@ impl IDiaReadExeAtOffsetCallback_Vtbl {
             (*this).ReadExecutableAt(::core::mem::transmute_copy(&fileoffset), ::core::mem::transmute_copy(&cbdata), ::core::mem::transmute_copy(&pcbdata), ::core::mem::transmute_copy(&pbdata)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             ReadExecutableAt: ReadExecutableAt::<Identity, Impl, OFFSET>,
         }
     }
@@ -2199,7 +2199,7 @@ impl IDiaReadExeAtRVACallback_Vtbl {
             (*this).ReadExecutableAtRVA(::core::mem::transmute_copy(&relativevirtualaddress), ::core::mem::transmute_copy(&cbdata), ::core::mem::transmute_copy(&pcbdata), ::core::mem::transmute_copy(&pbdata)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             ReadExecutableAtRVA: ReadExecutableAtRVA::<Identity, Impl, OFFSET>,
         }
     }
@@ -2476,7 +2476,7 @@ impl IDiaSectionContrib_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             compiland: compiland::<Identity, Impl, OFFSET>,
             addressSection: addressSection::<Identity, Impl, OFFSET>,
             addressOffset: addressOffset::<Identity, Impl, OFFSET>,
@@ -2618,7 +2618,7 @@ impl IDiaSegment_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             frame: frame::<Identity, Impl, OFFSET>,
             offset: offset::<Identity, Impl, OFFSET>,
             length: length::<Identity, Impl, OFFSET>,
@@ -3287,7 +3287,7 @@ impl IDiaSession_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             loadAddress: loadAddress::<Identity, Impl, OFFSET>,
             SetloadAddress: SetloadAddress::<Identity, Impl, OFFSET>,
             globalScope: globalScope::<Identity, Impl, OFFSET>,
@@ -3412,7 +3412,7 @@ impl IDiaSourceFile_Vtbl {
             (*this).checksum(::core::mem::transmute_copy(&cbdata), ::core::mem::transmute_copy(&pcbdata), ::core::mem::transmute_copy(&pbdata)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             uniqueId: uniqueId::<Identity, Impl, OFFSET>,
             fileName: fileName::<Identity, Impl, OFFSET>,
             checksumType: checksumType::<Identity, Impl, OFFSET>,
@@ -3609,7 +3609,7 @@ impl IDiaStackFrame_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             r#type: r#type::<Identity, Impl, OFFSET>,
             base: base::<Identity, Impl, OFFSET>,
             size: size::<Identity, Impl, OFFSET>,
@@ -3684,7 +3684,7 @@ impl IDiaStackWalkFrame_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             registerValue: registerValue::<Identity, Impl, OFFSET>,
             SetregisterValue: SetregisterValue::<Identity, Impl, OFFSET>,
             readMemory: readMemory::<Identity, Impl, OFFSET>,
@@ -3815,7 +3815,7 @@ impl IDiaStackWalkHelper_Vtbl {
             (*this).functionFragmentsForVA(::core::mem::transmute_copy(&vafunc), ::core::mem::transmute_copy(&cbfunc), ::core::mem::transmute_copy(&cfragments), ::core::mem::transmute_copy(&pvafragment), ::core::mem::transmute_copy(&plenfragment)).into()
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             registerValue: registerValue::<Identity, Impl, OFFSET>,
             SetregisterValue: SetregisterValue::<Identity, Impl, OFFSET>,
             readMemory: readMemory::<Identity, Impl, OFFSET>,
@@ -3837,7 +3837,7 @@ impl IDiaStackWalkHelper_Vtbl {
 pub trait IDiaStackWalkHelper2_Impl: Sized + IDiaStackWalkHelper_Impl {}
 impl IDiaStackWalkHelper2_Vtbl {
     pub const fn new<Identity: ::windows::core::IUnknownImpl, Impl: IDiaStackWalkHelper2_Impl, const OFFSET: isize>() -> IDiaStackWalkHelper2_Vtbl {
-        Self { base: IDiaStackWalkHelper_Vtbl::new::<Identity, Impl, OFFSET>() }
+        Self { base__: IDiaStackWalkHelper_Vtbl::new::<Identity, Impl, OFFSET>() }
     }
     pub fn matches(iid: &windows::core::GUID) -> bool {
         iid == &<IDiaStackWalkHelper2 as ::windows::core::Interface>::IID || iid == &<IDiaStackWalkHelper as ::windows::core::Interface>::IID
@@ -3872,7 +3872,7 @@ impl IDiaStackWalker_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             getEnumFrames: getEnumFrames::<Identity, Impl, OFFSET>,
             getEnumFrames2: getEnumFrames2::<Identity, Impl, OFFSET>,
         }
@@ -3884,7 +3884,7 @@ impl IDiaStackWalker_Vtbl {
 pub trait IDiaStackWalker2_Impl: Sized + IDiaStackWalker_Impl {}
 impl IDiaStackWalker2_Vtbl {
     pub const fn new<Identity: ::windows::core::IUnknownImpl, Impl: IDiaStackWalker2_Impl, const OFFSET: isize>() -> IDiaStackWalker2_Vtbl {
-        Self { base: IDiaStackWalker_Vtbl::new::<Identity, Impl, OFFSET>() }
+        Self { base__: IDiaStackWalker_Vtbl::new::<Identity, Impl, OFFSET>() }
     }
     pub fn matches(iid: &windows::core::GUID) -> bool {
         iid == &<IDiaStackWalker2 as ::windows::core::Interface>::IID || iid == &<IDiaStackWalker as ::windows::core::Interface>::IID
@@ -6691,7 +6691,7 @@ impl IDiaSymbol_Vtbl {
             }
         }
         Self {
-            base: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
+            base__: ::windows::core::IUnknownVtbl::new::<Identity, OFFSET>(),
             symIndexId: symIndexId::<Identity, Impl, OFFSET>,
             symTag: symTag::<Identity, Impl, OFFSET>,
             name: name::<Identity, Impl, OFFSET>,
@@ -6945,7 +6945,7 @@ impl IDiaSymbol10_Vtbl {
             (*this).sourceLink(::core::mem::transmute_copy(&cb), ::core::mem::transmute_copy(&pcb), ::core::mem::transmute_copy(&pb)).into()
         }
         Self {
-            base: IDiaSymbol9_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol9_Vtbl::new::<Identity, Impl, OFFSET>(),
             sourceLink: sourceLink::<Identity, Impl, OFFSET>,
         }
     }
@@ -7003,7 +7003,7 @@ impl IDiaSymbol2_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol_Vtbl::new::<Identity, Impl, OFFSET>(),
             isObjCClass: isObjCClass::<Identity, Impl, OFFSET>,
             isObjCCategory: isObjCCategory::<Identity, Impl, OFFSET>,
             isObjCProtocol: isObjCProtocol::<Identity, Impl, OFFSET>,
@@ -7042,7 +7042,7 @@ impl IDiaSymbol3_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol2_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol2_Vtbl::new::<Identity, Impl, OFFSET>(),
             inlinee: inlinee::<Identity, Impl, OFFSET>,
             inlineeId: inlineeId::<Identity, Impl, OFFSET>,
         }
@@ -7068,7 +7068,7 @@ impl IDiaSymbol4_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol3_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol3_Vtbl::new::<Identity, Impl, OFFSET>(),
             noexcept: noexcept::<Identity, Impl, OFFSET>,
         }
     }
@@ -7093,7 +7093,7 @@ impl IDiaSymbol5_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol4_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol4_Vtbl::new::<Identity, Impl, OFFSET>(),
             hasAbsoluteAddress: hasAbsoluteAddress::<Identity, Impl, OFFSET>,
         }
     }
@@ -7118,7 +7118,7 @@ impl IDiaSymbol6_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol5_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol5_Vtbl::new::<Identity, Impl, OFFSET>(),
             isStaticMemberFunc: isStaticMemberFunc::<Identity, Impl, OFFSET>,
         }
     }
@@ -7143,7 +7143,7 @@ impl IDiaSymbol7_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol6_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol6_Vtbl::new::<Identity, Impl, OFFSET>(),
             isSignRet: isSignRet::<Identity, Impl, OFFSET>,
         }
     }
@@ -7228,7 +7228,7 @@ impl IDiaSymbol8_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol7_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol7_Vtbl::new::<Identity, Impl, OFFSET>(),
             coroutineKind: coroutineKind::<Identity, Impl, OFFSET>,
             associatedSymbolKind: associatedSymbolKind::<Identity, Impl, OFFSET>,
             associatedSymbolSection: associatedSymbolSection::<Identity, Impl, OFFSET>,
@@ -7282,7 +7282,7 @@ impl IDiaSymbol9_Vtbl {
             }
         }
         Self {
-            base: IDiaSymbol8_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: IDiaSymbol8_Vtbl::new::<Identity, Impl, OFFSET>(),
             framePadSize: framePadSize::<Identity, Impl, OFFSET>,
             framePadOffset: framePadOffset::<Identity, Impl, OFFSET>,
             isRTCs: isRTCs::<Identity, Impl, OFFSET>,
@@ -7377,7 +7377,7 @@ impl IDiaTable_Vtbl {
             }
         }
         Self {
-            base: ::windows::Win32::System::Com::IEnumUnknown_Vtbl::new::<Identity, Impl, OFFSET>(),
+            base__: ::windows::Win32::System::Com::IEnumUnknown_Vtbl::new::<Identity, Impl, OFFSET>(),
             Skip2: Skip2::<Identity, Impl, OFFSET>,
             Reset2: Reset2::<Identity, Impl, OFFSET>,
             Clone2: Clone2::<Identity, Impl, OFFSET>,

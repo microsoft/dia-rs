@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies.windows]
-version = "0.34"
+version = "0.36"
 features = [
     "alloc"
 ]

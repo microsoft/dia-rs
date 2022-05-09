@@ -1,14 +1,15 @@
 use std::io::Write;
+use windows_metadata::reader::{TypeReader, TypeTree};
 
 fn main() {
     let start = std::time::Instant::now();
-    let mut output_path = std::path::PathBuf::from(windows_metadata::workspace_dir());
+    let mut output_path = std::path::PathBuf::from("");
 
     output_path.push("src/Microsoft");
     let _ = std::fs::remove_dir_all(&output_path);
     output_path.pop();
 
-    let reader = windows_metadata::TypeReader::get();
+    let reader = TypeReader::get();
     let root = reader.types.get_namespace("Microsoft").unwrap();
 
     let mut trees = Vec::new();
@@ -20,7 +21,7 @@ fn main() {
     println!("Elapsed: {} ms", start.elapsed().as_millis());
 }
 
-fn collect_subtrees<'a>(output: &std::path::Path, tree: &'a windows_metadata::TypeTree, trees: &mut Vec<&'a windows_metadata::TypeTree>) {
+fn collect_subtrees<'a>(output: &std::path::Path, tree: &'a TypeTree, trees: &mut Vec<&'a TypeTree>) {
     trees.push(tree);
 
     tree.namespaces.values().for_each(|tree| collect_subtrees(output, tree, trees));
@@ -30,7 +31,7 @@ fn collect_subtrees<'a>(output: &std::path::Path, tree: &'a windows_metadata::Ty
     std::fs::create_dir_all(&path).unwrap();
 }
 
-fn gen_tree(output: &std::path::Path, tree: &windows_metadata::TypeTree) {
+fn gen_tree(output: &std::path::Path, tree: &TypeTree) {
     let mut path = std::path::PathBuf::from(output);
 
     path.push(tree.namespace.replace('.', "/"));
