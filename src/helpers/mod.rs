@@ -17,7 +17,7 @@ type DllGetClassObject = unsafe extern "system" fn(*const GUID, *const GUID, *mu
 /// prior to use.
 ///
 pub unsafe fn NoRegCoCreate<T: Interface>(lib: &str, rclsid: *const GUID) -> Result<T> {
-    let instance = LoadLibraryExA(lib, HANDLE::default(), LOAD_WITH_ALTERED_SEARCH_PATH);
+    let instance = LoadLibraryExA(lib, HANDLE::default(), LOAD_WITH_ALTERED_SEARCH_PATH)?;
     if !instance.is_invalid() {
         if let Some(farproc) = GetProcAddress(instance, "DllGetClassObject") {
             let get_class_object: DllGetClassObject = std::mem::transmute(farproc);
