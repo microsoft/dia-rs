@@ -16,8 +16,7 @@ features = [
 ]
 
 [dependencies.microsoft-dia]
-git = "https://github.com/microsoft/dia-rs"
-version = "0.5.0"
+version = "0.1.0"
 ```
 
 Make use of any DIA SDK APIs as needed.
