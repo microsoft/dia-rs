@@ -30,12 +30,12 @@ fn gen_tree(reader: &Reader, output: &std::path::Path, tree: &Tree) {
     gen.namespace = tree.namespace;
     gen.cfg = false;
 
-    let mut tokens = windows_bindgen::namespace(&gen, &tree);
+    let mut tokens = windows_bindgen::namespace(&gen, tree);
     tokens.push_str(r#"#[cfg(feature = "implement")] ::core::include!("impl.rs");"#);
     fmt_tokens(tree.namespace, &mut tokens);
     std::fs::write(path.join("mod.rs"), tokens).unwrap();
 
-    let mut tokens = windows_bindgen::namespace_impl(&gen, &tree);
+    let mut tokens = windows_bindgen::namespace_impl(&gen, tree);
     fmt_tokens(tree.namespace, &mut tokens);
     std::fs::write(path.join("impl.rs"), tokens).unwrap();
 }
