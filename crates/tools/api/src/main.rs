@@ -1,5 +1,5 @@
 use std::io::Write;
-use windows_metadata::reader::{TypeReader, TypeTree};
+use windows_metadata::reader::{Reader, Tree, File};
 
 fn main() {
     let start = std::time::Instant::now();
@@ -9,46 +9,37 @@ fn main() {
     let _ = std::fs::remove_dir_all(&output_path);
     output_path.pop();
 
-    let reader = TypeReader::get();
-    let root = reader.types.get_namespace("Microsoft").unwrap();
+    let winmd_files = [
+        File::new(".windows/winmd/Microsoft.Dia.winmd").unwrap(),
+        File::new(".windows/winmd/Windows.Win32.winmd").unwrap(),
+        File::new(".windows/winmd/Windows.Win32.Interop.winmd").unwrap(),
+    ];
+    let reader = Reader::new(&winmd_files);
+    let root = reader.tree("Microsoft", &[]).expect("Microsoft namespace not found");
 
-    let mut trees = Vec::new();
-    collect_subtrees(&output_path, root, &mut trees);
-
-    trees.iter().for_each(|tree| gen_tree(&output_path, tree));
+    let trees = root.flatten();
+    trees.iter().for_each(|tree| gen_tree(&reader, &output_path, tree));
 
     output_path.pop();
     println!("Elapsed: {} ms", start.elapsed().as_millis());
 }
 
-fn collect_subtrees<'a>(output: &std::path::Path, tree: &'a TypeTree, trees: &mut Vec<&'a TypeTree>) {
-    trees.push(tree);
-
-    tree.namespaces.values().for_each(|tree| collect_subtrees(output, tree, trees));
-
+fn gen_tree(reader: &Reader, output: &std::path::Path, tree: &Tree) {
     let mut path = std::path::PathBuf::from(output);
+
     path.push(tree.namespace.replace('.', "/"));
     std::fs::create_dir_all(&path).unwrap();
-}
 
-fn gen_tree(output: &std::path::Path, tree: &TypeTree) {
-    let mut path = std::path::PathBuf::from(output);
+    let mut gen = windows_bindgen::Gen::new(reader);
+    gen.namespace = tree.namespace;
+    gen.cfg = false;
 
-    path.push(tree.namespace.replace('.', "/"));
-
-    let gen = windows_bindgen::Gen {
-        namespace: tree.namespace,
-        min_xaml: true,
-        windows_extern: true,
-        cfg: false,
-        ..Default::default()
-    };
-    let mut tokens = windows_bindgen::gen_namespace(&gen);
+    let mut tokens = windows_bindgen::namespace(&gen, &tree);
     tokens.push_str(r#"#[cfg(feature = "implement")] ::core::include!("impl.rs");"#);
     fmt_tokens(tree.namespace, &mut tokens);
     std::fs::write(path.join("mod.rs"), tokens).unwrap();
 
-    let mut tokens = windows_bindgen::gen_namespace_impl(&gen);
+    let mut tokens = windows_bindgen::namespace_impl(&gen, &tree);
     fmt_tokens(tree.namespace, &mut tokens);
     std::fs::write(path.join("impl.rs"), tokens).unwrap();
 }

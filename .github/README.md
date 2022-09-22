@@ -10,15 +10,14 @@ Start by adding `windows` and `microsoft-dia` dependencies to Cargo.toml:
 
 ```toml
 [dependencies.windows]
-version = "0.36"
+version = "0.41.0"
 features = [
-    "alloc",
     "Win32_System_Com"
 ]
 
 [dependencies.microsoft-dia]
 git = "https://github.com/microsoft/dia-rs"
-version = "0.4.0"
+version = "0.5.0"
 ```
 
 Make use of any DIA SDK APIs as needed.
@@ -28,7 +27,7 @@ fn main() -> windows::core::Result<()> {
     unsafe {
         CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED)?;
 
-        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate("msdia140.dll", &DiaSource)?;
+        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource)?;
         let executable = std::env::current_exe().unwrap();
         source.loadDataForExe(executable.as_os_str(), None, None)?;
         let session = source.openSession()?;

@@ -4,7 +4,7 @@ use windows::Win32::System::Com::{CoInitializeEx, COINIT_MULTITHREADED};
 fn main() -> windows::core::Result<()> {
     unsafe {
         CoInitializeEx(std::ptr::null_mut(), COINIT_MULTITHREADED)?;
-        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate("msdia140.dll", &DiaSource)?;
+        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource)?;
         let executable = std::env::current_exe().unwrap();
         source.loadDataForExe(executable.as_os_str(), None, None)?;
         let session = source.openSession()?;

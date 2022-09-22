@@ -1,6 +1,6 @@
 [package]
 name = "microsoft-dia"
-version = "0.4.0"
+version = "0.5.0"
 authors = ["Microsoft"]
 edition = "2018"
 license = "MIT OR Apache-2.0"
@@ -17,9 +17,8 @@ members = [
 ]
 
 [dependencies.windows]
-version = "0.36"
+version = "0.41.0"
 features = [
-    "alloc",
     "Win32_Foundation",
     "Win32_System_LibraryLoader",
     "Win32_System_Com_StructuredStorage",
