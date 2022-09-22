@@ -1,5 +1,5 @@
 use std::io::Write;
-use windows_metadata::reader::{Reader, Tree, File};
+use windows_metadata::reader::{File, Reader, Tree};
 
 fn main() {
     let start = std::time::Instant::now();
@@ -9,11 +9,7 @@ fn main() {
     let _ = std::fs::remove_dir_all(&output_path);
     output_path.pop();
 
-    let winmd_files = [
-        File::new(".windows/winmd/Microsoft.Dia.winmd").unwrap(),
-        File::new(".windows/winmd/Windows.Win32.winmd").unwrap(),
-        File::new(".windows/winmd/Windows.Win32.Interop.winmd").unwrap(),
-    ];
+    let winmd_files = [File::new(".windows/winmd/Microsoft.Dia.winmd").unwrap(), File::new(".windows/winmd/Windows.Win32.winmd").unwrap(), File::new(".windows/winmd/Windows.Win32.Interop.winmd").unwrap()];
     let reader = Reader::new(&winmd_files);
     let root = reader.tree("Microsoft", &[]).expect("Microsoft namespace not found");
 
