@@ -1,9 +1,9 @@
 [package]
-name = "dia_tools_api"
+name = "tools_api"
 version = "0.0.0"
 edition = "2018"
 publish = false
 
 [dependencies]
-windows-bindgen = "0.36"
-windows-metadata = "0.36"
+windows-bindgen = "0.41.0"
+windows-metadata = "0.41.0"
