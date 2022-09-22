@@ -6,7 +6,6 @@ edition = "2018"
 license = "MIT OR Apache-2.0"
 description = "Rust for Debug Interface Access (DIA) SDK"
 repository = "https://github.com/microsoft/dia-rs"
-documentation = ""
 readme = ".github/README.md"
 exclude = [".github", ".windows", ".metadata", "docs", "tests"]
 
