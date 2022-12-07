@@ -16,7 +16,7 @@ features = [
 ]
 
 [dependencies.microsoft-dia]
-version = "0.3.0"
+version = "0.4.0"
 ```
 
 Make use of any DIA SDK APIs as needed.
