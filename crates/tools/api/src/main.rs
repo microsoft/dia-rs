@@ -13,14 +13,15 @@ fn main() {
         File::new(".windows/winmd/Windows.Win32.Interop.winmd").unwrap(),
     ];
 
-    let output_path = PathBuf::from("src/Microsoft/Dia");
-    fs::remove_dir_all(&output_path).unwrap();
-    fs::create_dir_all(&output_path).unwrap();
+    let output_path = PathBuf::from("src/bindings.rs");
+    if output_path.exists() {
+        fs::remove_file(&output_path).unwrap();
+    }
 
     let mut generated_tokens = windows_bindgen::component("Microsoft.Dia", &files);
     fmt_tokens(&mut generated_tokens);
 
-    fs::write(output_path.join("mod.rs"), generated_tokens).unwrap();
+    fs::write(output_path, generated_tokens).unwrap();
 }
 
 fn fmt_tokens(tokens: &mut String) {
