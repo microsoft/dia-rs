@@ -1,9 +1,4 @@
-use std::{
-    fs,
-    io::Write,
-    path::PathBuf,
-    process::{Command, Stdio},
-};
+use std::{fs, path::PathBuf, process::Command};
 use windows_metadata::reader::File;
 
 fn main() {
@@ -17,29 +12,16 @@ fn main() {
     if output_path.exists() {
         fs::remove_file(&output_path).unwrap();
     }
+    fs::write(
+        &output_path,
+        windows_bindgen::component("Microsoft.Dia", &files),
+    )
+    .unwrap();
 
-    let mut generated_tokens = windows_bindgen::component("Microsoft.Dia", &files);
-    fmt_tokens(&mut generated_tokens);
-
-    fs::write(output_path, generated_tokens).unwrap();
-}
-
-fn fmt_tokens(tokens: &mut String) {
     let mut child = Command::new("rustfmt")
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::null())
+        .args([&output_path])
         .spawn()
-        .expect("Failed to spawn `rustfmt`");
+        .expect("Failed to start rustfmt");
 
-    let mut stdin = child.stdin.take().expect("Failed to open stdin");
-    stdin.write_all(tokens.as_bytes()).unwrap();
-    drop(stdin);
-
-    let output = child.wait_with_output().unwrap();
-    if output.status.success() {
-        *tokens = String::from_utf8(output.stdout).expect("Failed to parse UTF-8");
-    } else {
-        println!("rustfmt failed");
-    }
+    child.wait().expect("rustfmt failed");
 }
