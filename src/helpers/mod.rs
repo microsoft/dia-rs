@@ -7,8 +7,7 @@ use windows::Win32::{
     System::LibraryLoader::{GetProcAddress, LoadLibraryExA, LOAD_WITH_ALTERED_SEARCH_PATH},
 };
 
-type DllGetClassObject =
-    unsafe extern "system" fn(*const GUID, *const GUID, *mut *mut std::ffi::c_void) -> HRESULT;
+type DllGetClassObject = unsafe extern "system" fn(*const GUID, *const GUID, *mut *mut std::ffi::c_void) -> HRESULT;
 
 /// Creates a single object of a class associated with a specified CLSID
 /// present in the specified dynamic-link library-based COM server.
@@ -23,13 +22,7 @@ pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Re
         if let Some(farproc) = GetProcAddress(instance, s!("DllGetClassObject")) {
             let get_class_object: DllGetClassObject = std::mem::transmute(farproc);
             let mut factory: Option<IClassFactory> = None;
-            if get_class_object(
-                rclsid,
-                &IClassFactory::IID,
-                &mut factory as *mut _ as *mut _,
-            )
-            .is_ok()
-            {
+            if get_class_object(rclsid, &IClassFactory::IID, &mut factory as *mut _ as *mut _).is_ok() {
                 return factory.unwrap().CreateInstance(None);
             }
         }
