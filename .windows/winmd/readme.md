@@ -1,1 +1,1 @@
-Files in this directory are automatically generated or retrieved from NuGet. See `.metadata` for more information.
+Files in this directory are automatically generated. See `.metadata` for more information.
