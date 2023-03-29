@@ -17,7 +17,7 @@ type DllGetClassObject =
 /// requires the server implementing the specified class to be registered
 /// prior to use.
 ///
-pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Result<T> {
+pub unsafe fn NoRegCoCreate<T: ComInterface>(lib: PCSTR, rclsid: *const GUID) -> Result<T> {
     let instance = LoadLibraryExA(lib, HANDLE::default(), LOAD_WITH_ALTERED_SEARCH_PATH)?;
     if !instance.is_invalid() {
         if let Some(farproc) = GetProcAddress(instance, s!("DllGetClassObject")) {
