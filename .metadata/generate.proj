@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.Windows.WinmdGenerator/0.40.14-preview">
+<Project Sdk="Microsoft.Windows.WinmdGenerator/0.56.13-preview">
     <PropertyGroup Label="Globals">
         <OutputWinmd>../.windows/winmd/Microsoft.Dia.winmd</OutputWinmd>
         <WinmdVersion>255.255.255.255</WinmdVersion>
@@ -8,6 +8,7 @@
         <DiaIncRoot>$(DiaSdkRoot)\include</DiaIncRoot>
         <AdditionalIncludes>$(CompiledHeadersDir);$(DiaIncRoot)</AdditionalIncludes>
     </PropertyGroup>
+
     <ItemGroup>
         <Idls Include="$(DiaIdlRoot)\dia2.idl" />
         <Headers Include="$(CompiledHeadersDir)\dia2.h;$(DiaIncRoot)\cvconst.h" />
@@ -17,4 +18,11 @@
             <ExcludeFromCrossarch>true</ExcludeFromCrossarch>
         </Partition>
     </ItemGroup>
+
+    <Target Name="CopyWin32Metadata" AfterTargets="Build">
+        <ItemGroup>
+            <SourceFiles Include="$(PkgMicrosoft_Windows_SDK_Win32Metadata)\Windows.Win32.winmd"></SourceFiles>
+        </ItemGroup>
+        <Copy SourceFiles="@(SourceFiles)" DestinationFolder="../.windows/winmd" />
+    </Target>
 </Project>

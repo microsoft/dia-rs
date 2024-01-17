@@ -1,8 +1,8 @@
 [package]
 name = "microsoft-dia"
-version = "0.8.0"
+version = "0.9.0"
 authors = ["Microsoft"]
-edition = "2018"
+edition = "2021"
 license = "MIT OR Apache-2.0"
 description = "Rust for Debug Interface Access (DIA) SDK"
 repository = "https://github.com/microsoft/dia-rs"
@@ -11,16 +11,26 @@ exclude = [".github", ".windows", ".metadata", "docs", "tests"]
 
 [workspace]
 members = [
-    "crates/tools/*",
     "crates/samples/*",
 ]
 
 [dependencies.windows]
-version = "0.48.0"
+version = "0.52"
 features = [
     "implement",
     "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_Variant",
     "Win32_System_LibraryLoader",
     "Win32_System_Com_StructuredStorage",
     "Win32_System_Ole"
 ]
+
+[dependencies.windows-core]
+version = "0.52"
+features = [
+    "implement"
+]
+
+[build-dependencies.windows-bindgen]
+version = "0.52"

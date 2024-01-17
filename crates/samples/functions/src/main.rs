@@ -4,7 +4,7 @@ use windows::{
     Win32::System::Com::{CoInitializeEx, COINIT_MULTITHREADED},
 };
 
-fn main() -> windows::core::Result<()> {
+fn main() -> Result<()> {
     unsafe {
         CoInitializeEx(None, COINIT_MULTITHREADED)?;
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
