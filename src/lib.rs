@@ -2,6 +2,6 @@
 
 extern crate windows;
 
-pub mod helpers;
 pub mod bindings;
+pub mod helpers;
 pub use bindings::Dia::*;
