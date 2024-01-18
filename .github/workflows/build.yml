@@ -32,6 +32,16 @@ jobs:
       with:
         dotnet-version: '8.x'
 
+    - name: Setup Visual Studio
+      run: |
+        $vsInstallationPath = & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath
+        & "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe" modify --installPath "$vsInstallationPath" --add `
+        Microsoft.NetCore.Component.Runtime.8.0 `
+        Microsoft.NetCore.Component.SDK `
+        Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
+        Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+        Microsoft.VisualStudio.Component.Windows11SDK.22000
+
     - name: Build metadata
       run: dotnet build .metadata
 
