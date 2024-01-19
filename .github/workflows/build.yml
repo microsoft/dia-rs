@@ -9,23 +9,12 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
-  test:
-    name: Test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        include:
-        - os: windows-latest
-          rust: stable
-          other: x86_64-pc-windows-msvc
-          platform: x64
-        - os: windows-latest
-          rust: nightly
-          other: i686-pc-windows-msvc
-          platform: x86
+  metadata:
+    name: Build metadata
+    runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -53,6 +42,37 @@ jobs:
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         dotnet build .metadata
 
+    - name: Upload metadata
+      uses: actions/upload-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd/Microsoft.Dia.winmd
+
+  test:
+    name: Test
+    runs-on: ${{ matrix.os }}
+    needs: metadata
+    strategy:
+      matrix:
+        include:
+        - os: windows-latest
+          rust: stable
+          other: x86_64-pc-windows-msvc
+          platform: x64
+        - os: windows-latest
+          rust: nightly
+          other: i686-pc-windows-msvc
+          platform: x86
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
+
     - name: Update toolchain
       run: rustup update --no-self-update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
 
@@ -75,10 +95,16 @@ jobs:
   cargo_clippy:
     name: Check cargo clippy
     runs-on: windows-latest
-    needs: test
+    needs: metadata
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
 
     - name: Run cargo clippy
       run: cargo clippy --all -- -D warnings
@@ -86,10 +112,16 @@ jobs:
   cargo_doc:
     name: Check cargo docs
     runs-on: windows-latest
-    needs: test
+    needs: metadata
     steps:
     - name: Checkout
       uses: actions/checkout@v2
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
 
     - name: Run cargo doc
       run: cargo doc --no-deps --workspace
