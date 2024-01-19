@@ -65,7 +65,7 @@ jobs:
           platform: x86
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download metadata
       uses: actions/download-artifact@v4
@@ -87,7 +87,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Run cargo fmt
       run: cargo fmt --all -- --check
@@ -98,7 +98,7 @@ jobs:
     needs: metadata
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download metadata
       uses: actions/download-artifact@v4
@@ -115,7 +115,7 @@ jobs:
     needs: metadata
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Download metadata
       uses: actions/download-artifact@v4
