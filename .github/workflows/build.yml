@@ -9,9 +9,49 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
+  metadata:
+    name: Build metadata
+    runs-on: windows-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: |
+          8.x
+
+    - name: Setup Visual Studio
+      run: |
+        Start-Process -Wait "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe" -ArgumentList {`
+          modify `
+          --quiet `
+          --installPath "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" `
+          --add `
+          Microsoft.NetCore.Component.Runtime.8.0 `
+          Microsoft.NetCore.Component.SDK `
+          Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
+          Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
+          Microsoft.VisualStudio.Component.Windows11SDK.22000 `
+        }
+
+    - name: Build metadata
+      shell: cmd
+      run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        dotnet build .metadata
+
+    - name: Upload metadata
+      uses: actions/upload-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd/Microsoft.Dia.winmd
+
   test:
     name: Test
     runs-on: ${{ matrix.os }}
+    needs: metadata
     strategy:
       matrix:
         include:
@@ -25,7 +65,13 @@ jobs:
           platform: x86
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
 
     - name: Update toolchain
       run: rustup update --no-self-update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
@@ -41,7 +87,7 @@ jobs:
     runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Run cargo fmt
       run: cargo fmt --all -- --check
@@ -49,9 +95,16 @@ jobs:
   cargo_clippy:
     name: Check cargo clippy
     runs-on: windows-latest
+    needs: metadata
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
 
     - name: Run cargo clippy
       run: cargo clippy --all -- -D warnings
@@ -59,9 +112,16 @@ jobs:
   cargo_doc:
     name: Check cargo docs
     runs-on: windows-latest
+    needs: metadata
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+
+    - name: Download metadata
+      uses: actions/download-artifact@v4
+      with:
+        name: metadata
+        path: .windows/winmd
 
     - name: Run cargo doc
       run: cargo doc --no-deps --workspace

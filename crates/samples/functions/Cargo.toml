@@ -5,7 +5,15 @@ edition = "2021"
 publish = false
 
 [dependencies.windows]
-version = "0.48.0"
+version = "0.52"
+features = [
+    "implement",
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_LibraryLoader",
+    "Win32_System_Com_StructuredStorage",
+    "Win32_System_Ole"
+]
 
 [dependencies.microsoft-dia]
 path = "../../../"
