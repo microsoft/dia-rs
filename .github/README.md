@@ -10,13 +10,13 @@ Start by adding `windows` and `microsoft-dia` dependencies to Cargo.toml:
 
 ```toml
 [dependencies.windows]
-version = "0.52.0"
+version = "0.53.0"
 features = [
     "Win32_System_Com"
 ]
 
 [dependencies.microsoft-dia]
-version = "0.9.0"
+version = "0.10.0"
 ```
 
 Make use of any DIA SDK APIs as needed.
