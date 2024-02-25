@@ -6,7 +6,7 @@ use windows::{
 
 fn main() -> Result<()> {
     unsafe {
-        CoInitializeEx(None, COINIT_MULTITHREADED)?;
+        CoInitializeEx(None, COINIT_MULTITHREADED).ok()?;
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
             s!(
                 r#"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"#
