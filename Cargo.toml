@@ -1,6 +1,6 @@
 [package]
 name = "microsoft-dia"
-version = "0.9.0"
+version = "0.10.0"
 authors = ["Microsoft"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -15,7 +15,7 @@ members = [
 ]
 
 [dependencies.windows]
-version = "0.52"
+version = "0.53"
 features = [
     "implement",
     "Win32_Foundation",
@@ -27,10 +27,10 @@ features = [
 ]
 
 [dependencies.windows-core]
-version = "0.52"
+version = "0.53"
 features = [
     "implement"
 ]
 
 [build-dependencies.windows-bindgen]
-version = "0.52"
+version = "0.53"

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Project Sdk="Microsoft.Windows.WinmdGenerator/0.57.42-preview">
+<Project Sdk="Microsoft.Windows.WinmdGenerator/0.59.13-preview">
     <PropertyGroup Label="Globals">
         <OutputWinmd>../.windows/winmd/Microsoft.Dia.winmd</OutputWinmd>
         <WinmdVersion>255.255.255.255</WinmdVersion>
