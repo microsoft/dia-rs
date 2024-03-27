@@ -1,0 +1,11 @@
+[package]
+name = "sample_checksum"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[dependencies.windows]
+version = "0.53"
+
+[dependencies.microsoft-dia]
+path = "../../../"

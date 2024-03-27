@@ -4609,13 +4609,19 @@ pub mod Dia {
         pub unsafe fn get_checksum(
             &self,
             pcbdata: *mut u32,
-            pbdata: &mut [u8],
+            pbdata: ::core::option::Option<&mut [u8]>,
         ) -> ::windows_core::Result<()> {
             (::windows_core::Interface::vtable(self).get_checksum)(
                 ::windows_core::Interface::as_raw(self),
-                pbdata.len().try_into().unwrap(),
+                pbdata
+                    .as_deref()
+                    .map_or(0, |slice| slice.len().try_into().unwrap()),
                 pcbdata,
-                ::core::mem::transmute(pbdata.as_ptr()),
+                ::core::mem::transmute(
+                    pbdata
+                        .as_deref()
+                        .map_or(::core::ptr::null(), |slice| slice.as_ptr()),
+                ),
             )
             .ok()
         }

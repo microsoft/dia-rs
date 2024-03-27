@@ -7,3 +7,5 @@ __MIDL___MIDL_itf_dia2_0000_0000_0001
 __MIDL___MIDL_itf_dia2_0000_0033_0001
 __MIDL___MIDL_itf_dia2_0000_0034_0001
 PfnPDBDebugDirV
+--memberRemap
+IDiaSourceFile::get_checksum::pbData=[Optional]
