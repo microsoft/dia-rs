@@ -9,3 +9,4 @@ __MIDL___MIDL_itf_dia2_0000_0034_0001
 PfnPDBDebugDirV
 --memberRemap
 IDiaSourceFile::get_checksum::pbData=[Optional]
+IDiaSymbol10::get_sourceLink::pb=[Optional]
