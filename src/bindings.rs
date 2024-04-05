@@ -12973,13 +12973,17 @@ pub mod Dia {
         pub unsafe fn get_sourceLink(
             &self,
             pcb: *mut u32,
-            pb: &mut [u8],
+            pb: ::core::option::Option<&mut [u8]>,
         ) -> ::windows_core::Result<()> {
             (::windows_core::Interface::vtable(self).get_sourceLink)(
                 ::windows_core::Interface::as_raw(self),
-                pb.len().try_into().unwrap(),
+                pb.as_deref()
+                    .map_or(0, |slice| slice.len().try_into().unwrap()),
                 pcb,
-                ::core::mem::transmute(pb.as_ptr()),
+                ::core::mem::transmute(
+                    pb.as_deref()
+                        .map_or(::core::ptr::null(), |slice| slice.as_ptr()),
+                ),
             )
             .ok()
         }
@@ -17501,15 +17505,19 @@ pub mod Dia {
         pub unsafe fn get_sourceLink(
             &self,
             pcb: *mut u32,
-            pb: &mut [u8],
+            pb: ::core::option::Option<&mut [u8]>,
         ) -> ::windows_core::Result<()> {
             (::windows_core::Interface::vtable(self)
                 .base__
                 .get_sourceLink)(
                 ::windows_core::Interface::as_raw(self),
-                pb.len().try_into().unwrap(),
+                pb.as_deref()
+                    .map_or(0, |slice| slice.len().try_into().unwrap()),
                 pcb,
-                ::core::mem::transmute(pb.as_ptr()),
+                ::core::mem::transmute(
+                    pb.as_deref()
+                        .map_or(::core::ptr::null(), |slice| slice.as_ptr()),
+                ),
             )
             .ok()
         }
