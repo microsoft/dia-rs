@@ -341,6 +341,222 @@ pub mod Dia {
         ) -> windows_core::HRESULT,
     }
     windows_core::imp::define_interface!(
+        IDiaDataSourceEx,
+        IDiaDataSourceEx_Vtbl,
+        0x1a21eb69_962a_4bc4_8bd3_681797d38b23
+    );
+    impl core::ops::Deref for IDiaDataSourceEx {
+        type Target = IDiaDataSource;
+        fn deref(&self) -> &Self::Target {
+            unsafe { core::mem::transmute(self) }
+        }
+    }
+    windows_core::imp::interface_hierarchy!(
+        IDiaDataSourceEx,
+        windows_core::IUnknown,
+        IDiaDataSource
+    );
+    impl IDiaDataSourceEx {
+        pub unsafe fn loadDataFromPdbEx<P0, P1>(
+            &self,
+            pdbpath: P0,
+            fpdbprefetching: P1,
+        ) -> windows_core::Result<()>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+            P1: windows_core::Param<windows::Win32::Foundation::BOOL>,
+        {
+            (windows_core::Interface::vtable(self).loadDataFromPdbEx)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                fpdbprefetching.param().abi(),
+            )
+            .ok()
+        }
+        pub unsafe fn loadAndValidateDataFromPdbEx<P0, P1>(
+            &self,
+            pdbpath: P0,
+            pcsig70: *const windows_core::GUID,
+            sig: u32,
+            age: u32,
+            fpdbprefetching: P1,
+        ) -> windows_core::Result<()>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+            P1: windows_core::Param<windows::Win32::Foundation::BOOL>,
+        {
+            (windows_core::Interface::vtable(self).loadAndValidateDataFromPdbEx)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                pcsig70,
+                sig,
+                age,
+                fpdbprefetching.param().abi(),
+            )
+            .ok()
+        }
+        pub unsafe fn loadDataForExeEx<P0, P1, P2, P3>(
+            &self,
+            executable: P0,
+            searchpath: P1,
+            pcallback: P2,
+            fpdbprefetching: P3,
+        ) -> windows_core::Result<()>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+            P1: windows_core::Param<windows_core::PCWSTR>,
+            P2: windows_core::Param<windows_core::IUnknown>,
+            P3: windows_core::Param<windows::Win32::Foundation::BOOL>,
+        {
+            (windows_core::Interface::vtable(self).loadDataForExeEx)(
+                windows_core::Interface::as_raw(self),
+                executable.param().abi(),
+                searchpath.param().abi(),
+                pcallback.param().abi(),
+                fpdbprefetching.param().abi(),
+            )
+            .ok()
+        }
+        pub unsafe fn loadDataFromIStreamEx<P0, P1>(
+            &self,
+            pistream: P0,
+            fpdbprefetching: P1,
+        ) -> windows_core::Result<()>
+        where
+            P0: windows_core::Param<windows::Win32::System::Com::IStream>,
+            P1: windows_core::Param<windows::Win32::Foundation::BOOL>,
+        {
+            (windows_core::Interface::vtable(self).loadDataFromIStreamEx)(
+                windows_core::Interface::as_raw(self),
+                pistream.param().abi(),
+                fpdbprefetching.param().abi(),
+            )
+            .ok()
+        }
+        pub unsafe fn getStreamSize<P0>(&self, stream: P0) -> windows_core::Result<u64>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+        {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).getStreamSize)(
+                windows_core::Interface::as_raw(self),
+                stream.param().abi(),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn getStreamRawData<P0>(
+            &self,
+            stream: P0,
+            cboffset: u64,
+            pcbread: *mut u64,
+            pbdata: &mut [u8],
+        ) -> windows_core::Result<()>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+        {
+            (windows_core::Interface::vtable(self).getStreamRawData)(
+                windows_core::Interface::as_raw(self),
+                stream.param().abi(),
+                cboffset,
+                pbdata.len().try_into().unwrap(),
+                pcbread,
+                core::mem::transmute(pbdata.as_ptr()),
+            )
+            .ok()
+        }
+        pub unsafe fn setPfnMiniPDBErrorCallback2(
+            &self,
+            pvcontext: *const core::ffi::c_void,
+            pfn: PFNMINIPDBERRORCALLBACK2,
+        ) -> windows_core::Result<()> {
+            (windows_core::Interface::vtable(self).setPfnMiniPDBErrorCallback2)(
+                windows_core::Interface::as_raw(self),
+                pvcontext,
+                pfn,
+            )
+            .ok()
+        }
+        pub unsafe fn ValidatePdb<P0>(
+            &self,
+            pdbpath: P0,
+            pcsig70: *const windows_core::GUID,
+            sig: u32,
+            age: u32,
+        ) -> windows_core::Result<windows::Win32::Foundation::BOOL>
+        where
+            P0: windows_core::Param<windows_core::PCWSTR>,
+        {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).ValidatePdb)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                pcsig70,
+                sig,
+                age,
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    #[repr(C)]
+    pub struct IDiaDataSourceEx_Vtbl {
+        pub base__: IDiaDataSource_Vtbl,
+        pub loadDataFromPdbEx: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+        pub loadAndValidateDataFromPdbEx: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            *const windows_core::GUID,
+            u32,
+            u32,
+            windows::Win32::Foundation::BOOL,
+        )
+            -> windows_core::HRESULT,
+        pub loadDataForExeEx: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            windows_core::PCWSTR,
+            *mut core::ffi::c_void,
+            windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+        pub loadDataFromIStreamEx: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *mut core::ffi::c_void,
+            windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+        pub getStreamSize: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            *mut u64,
+        ) -> windows_core::HRESULT,
+        pub getStreamRawData: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            u64,
+            u64,
+            *mut u64,
+            *mut u8,
+        ) -> windows_core::HRESULT,
+        pub setPfnMiniPDBErrorCallback2: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *const core::ffi::c_void,
+            PFNMINIPDBERRORCALLBACK2,
+        )
+            -> windows_core::HRESULT,
+        pub ValidatePdb: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            windows_core::PCWSTR,
+            *const windows_core::GUID,
+            u32,
+            u32,
+            *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+    }
+    windows_core::imp::define_interface!(
         IDiaEnumDebugStreamData,
         IDiaEnumDebugStreamData_Vtbl,
         0x486943e8_d187_4a6b_a3c4_291259fff60d
@@ -1288,6 +1504,128 @@ pub mod Dia {
         pub Clone: unsafe extern "system" fn(
             *mut core::ffi::c_void,
             *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT,
+    }
+    windows_core::imp::define_interface!(
+        IDiaEnumSourceLink,
+        IDiaEnumSourceLink_Vtbl,
+        0x45cd1eb3_5c6c_43e3_b20a_a4d8035de4e2
+    );
+    impl core::ops::Deref for IDiaEnumSourceLink {
+        type Target = windows_core::IUnknown;
+        fn deref(&self) -> &Self::Target {
+            unsafe { core::mem::transmute(self) }
+        }
+    }
+    windows_core::imp::interface_hierarchy!(IDiaEnumSourceLink, windows_core::IUnknown);
+    impl IDiaEnumSourceLink {
+        pub unsafe fn Count(&self) -> windows_core::Result<u32> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).Count)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn SizeOfNext(&self) -> windows_core::Result<u32> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).SizeOfNext)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn Next(&self, pcb: *mut u32, pb: &mut [u8]) -> windows_core::Result<()> {
+            (windows_core::Interface::vtable(self).Next)(
+                windows_core::Interface::as_raw(self),
+                pb.len().try_into().unwrap(),
+                pcb,
+                core::mem::transmute(pb.as_ptr()),
+            )
+            .ok()
+        }
+        pub unsafe fn Skip(&self, cnt: u32) -> windows_core::Result<()> {
+            (windows_core::Interface::vtable(self).Skip)(windows_core::Interface::as_raw(self), cnt)
+                .ok()
+        }
+        pub unsafe fn Reset(&self) -> windows_core::Result<()> {
+            (windows_core::Interface::vtable(self).Reset)(windows_core::Interface::as_raw(self))
+                .ok()
+        }
+        pub unsafe fn Clone(&self) -> windows_core::Result<IDiaEnumSourceLink> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).Clone)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    #[repr(C)]
+    pub struct IDiaEnumSourceLink_Vtbl {
+        pub base__: windows_core::IUnknown_Vtbl,
+        pub Count:
+            unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
+        pub SizeOfNext:
+            unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
+        pub Next: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            u32,
+            *mut u32,
+            *mut u8,
+        ) -> windows_core::HRESULT,
+        pub Skip: unsafe extern "system" fn(*mut core::ffi::c_void, u32) -> windows_core::HRESULT,
+        pub Reset: unsafe extern "system" fn(*mut core::ffi::c_void) -> windows_core::HRESULT,
+        pub Clone: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT,
+    }
+    windows_core::imp::define_interface!(
+        IDiaEnumSourceLink2,
+        IDiaEnumSourceLink2_Vtbl,
+        0x136d8151_ade7_4704_af13_324080762e8f
+    );
+    impl core::ops::Deref for IDiaEnumSourceLink2 {
+        type Target = IDiaEnumSourceLink;
+        fn deref(&self) -> &Self::Target {
+            unsafe { core::mem::transmute(self) }
+        }
+    }
+    windows_core::imp::interface_hierarchy!(
+        IDiaEnumSourceLink2,
+        windows_core::IUnknown,
+        IDiaEnumSourceLink
+    );
+    impl IDiaEnumSourceLink2 {
+        pub unsafe fn SizeOfNext2(&self) -> windows_core::Result<u64> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).SizeOfNext2)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn Next2(&self, pcb: *mut u64, pb: &mut [u8]) -> windows_core::Result<()> {
+            (windows_core::Interface::vtable(self).Next2)(
+                windows_core::Interface::as_raw(self),
+                pb.len().try_into().unwrap(),
+                pcb,
+                core::mem::transmute(pb.as_ptr()),
+            )
+            .ok()
+        }
+    }
+    #[repr(C)]
+    pub struct IDiaEnumSourceLink2_Vtbl {
+        pub base__: IDiaEnumSourceLink_Vtbl,
+        pub SizeOfNext2:
+            unsafe extern "system" fn(*mut core::ffi::c_void, *mut u64) -> windows_core::HRESULT,
+        pub Next2: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            u64,
+            *mut u64,
+            *mut u8,
         ) -> windows_core::HRESULT,
     }
     windows_core::imp::define_interface!(
@@ -4454,6 +4792,72 @@ pub mod Dia {
             *mut *mut core::ffi::c_void,
         ) -> windows_core::HRESULT,
         pub findInputAssemblyFile: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *mut core::ffi::c_void,
+            *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT,
+    }
+    windows_core::imp::define_interface!(
+        IDiaSessionEx,
+        IDiaSessionEx_Vtbl,
+        0xcd24eed5_5fea_4742_a320_6254c920e78b
+    );
+    impl core::ops::Deref for IDiaSessionEx {
+        type Target = IDiaSession;
+        fn deref(&self) -> &Self::Target {
+            unsafe { core::mem::transmute(self) }
+        }
+    }
+    windows_core::imp::interface_hierarchy!(IDiaSessionEx, windows_core::IUnknown, IDiaSession);
+    impl IDiaSessionEx {
+        pub unsafe fn isFastLinkPDB(
+            &self,
+        ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isFastLinkPDB)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn isPortablePDB(
+            &self,
+        ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPortablePDB)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+        pub unsafe fn getSourceLinkInfo<P0>(
+            &self,
+            parent: P0,
+        ) -> windows_core::Result<IDiaEnumSourceLink>
+        where
+            P0: windows_core::Param<IDiaSymbol>,
+        {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).getSourceLinkInfo)(
+                windows_core::Interface::as_raw(self),
+                parent.param().abi(),
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    #[repr(C)]
+    pub struct IDiaSessionEx_Vtbl {
+        pub base__: IDiaSession_Vtbl,
+        pub isFastLinkPDB: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+        pub isPortablePDB: unsafe extern "system" fn(
+            *mut core::ffi::c_void,
+            *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT,
+        pub getSourceLinkInfo: unsafe extern "system" fn(
             *mut core::ffi::c_void,
             *mut core::ffi::c_void,
             *mut *mut core::ffi::c_void,
@@ -9804,6 +10208,22 @@ pub mod Dia {
     pub const CV_ARM64_LR: CV_HREG_e = CV_HREG_e(80i32);
     pub const CV_ARM64_NOREG: CV_HREG_e = CV_HREG_e(0i32);
     pub const CV_ARM64_NZCV: CV_HREG_e = CV_HREG_e(90i32);
+    pub const CV_ARM64_P0: CV_HREG_e = CV_HREG_e(414i32);
+    pub const CV_ARM64_P1: CV_HREG_e = CV_HREG_e(415i32);
+    pub const CV_ARM64_P10: CV_HREG_e = CV_HREG_e(424i32);
+    pub const CV_ARM64_P11: CV_HREG_e = CV_HREG_e(425i32);
+    pub const CV_ARM64_P12: CV_HREG_e = CV_HREG_e(426i32);
+    pub const CV_ARM64_P13: CV_HREG_e = CV_HREG_e(427i32);
+    pub const CV_ARM64_P14: CV_HREG_e = CV_HREG_e(428i32);
+    pub const CV_ARM64_P15: CV_HREG_e = CV_HREG_e(429i32);
+    pub const CV_ARM64_P2: CV_HREG_e = CV_HREG_e(416i32);
+    pub const CV_ARM64_P3: CV_HREG_e = CV_HREG_e(417i32);
+    pub const CV_ARM64_P4: CV_HREG_e = CV_HREG_e(418i32);
+    pub const CV_ARM64_P5: CV_HREG_e = CV_HREG_e(419i32);
+    pub const CV_ARM64_P6: CV_HREG_e = CV_HREG_e(420i32);
+    pub const CV_ARM64_P7: CV_HREG_e = CV_HREG_e(421i32);
+    pub const CV_ARM64_P8: CV_HREG_e = CV_HREG_e(422i32);
+    pub const CV_ARM64_P9: CV_HREG_e = CV_HREG_e(423i32);
     pub const CV_ARM64_PC: CV_HREG_e = CV_HREG_e(83i32);
     pub const CV_ARM64_Q0: CV_HREG_e = CV_HREG_e(180i32);
     pub const CV_ARM64_Q0H: CV_HREG_e = CV_HREG_e(350i32);
@@ -9993,6 +10413,38 @@ pub mod Dia {
     pub const CV_ARM64_X7: CV_HREG_e = CV_HREG_e(57i32);
     pub const CV_ARM64_X8: CV_HREG_e = CV_HREG_e(58i32);
     pub const CV_ARM64_X9: CV_HREG_e = CV_HREG_e(59i32);
+    pub const CV_ARM64_Z0: CV_HREG_e = CV_HREG_e(382i32);
+    pub const CV_ARM64_Z1: CV_HREG_e = CV_HREG_e(383i32);
+    pub const CV_ARM64_Z10: CV_HREG_e = CV_HREG_e(392i32);
+    pub const CV_ARM64_Z11: CV_HREG_e = CV_HREG_e(393i32);
+    pub const CV_ARM64_Z12: CV_HREG_e = CV_HREG_e(394i32);
+    pub const CV_ARM64_Z13: CV_HREG_e = CV_HREG_e(395i32);
+    pub const CV_ARM64_Z14: CV_HREG_e = CV_HREG_e(396i32);
+    pub const CV_ARM64_Z15: CV_HREG_e = CV_HREG_e(397i32);
+    pub const CV_ARM64_Z16: CV_HREG_e = CV_HREG_e(398i32);
+    pub const CV_ARM64_Z17: CV_HREG_e = CV_HREG_e(399i32);
+    pub const CV_ARM64_Z18: CV_HREG_e = CV_HREG_e(400i32);
+    pub const CV_ARM64_Z19: CV_HREG_e = CV_HREG_e(401i32);
+    pub const CV_ARM64_Z2: CV_HREG_e = CV_HREG_e(384i32);
+    pub const CV_ARM64_Z20: CV_HREG_e = CV_HREG_e(402i32);
+    pub const CV_ARM64_Z21: CV_HREG_e = CV_HREG_e(403i32);
+    pub const CV_ARM64_Z22: CV_HREG_e = CV_HREG_e(404i32);
+    pub const CV_ARM64_Z23: CV_HREG_e = CV_HREG_e(405i32);
+    pub const CV_ARM64_Z24: CV_HREG_e = CV_HREG_e(406i32);
+    pub const CV_ARM64_Z25: CV_HREG_e = CV_HREG_e(407i32);
+    pub const CV_ARM64_Z26: CV_HREG_e = CV_HREG_e(408i32);
+    pub const CV_ARM64_Z27: CV_HREG_e = CV_HREG_e(409i32);
+    pub const CV_ARM64_Z28: CV_HREG_e = CV_HREG_e(410i32);
+    pub const CV_ARM64_Z29: CV_HREG_e = CV_HREG_e(411i32);
+    pub const CV_ARM64_Z3: CV_HREG_e = CV_HREG_e(385i32);
+    pub const CV_ARM64_Z30: CV_HREG_e = CV_HREG_e(412i32);
+    pub const CV_ARM64_Z31: CV_HREG_e = CV_HREG_e(413i32);
+    pub const CV_ARM64_Z4: CV_HREG_e = CV_HREG_e(386i32);
+    pub const CV_ARM64_Z5: CV_HREG_e = CV_HREG_e(387i32);
+    pub const CV_ARM64_Z6: CV_HREG_e = CV_HREG_e(388i32);
+    pub const CV_ARM64_Z7: CV_HREG_e = CV_HREG_e(389i32);
+    pub const CV_ARM64_Z8: CV_HREG_e = CV_HREG_e(390i32);
+    pub const CV_ARM64_Z9: CV_HREG_e = CV_HREG_e(391i32);
     pub const CV_ARM64_ZR: CV_HREG_e = CV_HREG_e(82i32);
     pub const CV_ARM_ACC0: CV_HREG_e = CV_HREG_e(27i32);
     pub const CV_ARM_CPSR: CV_HREG_e = CV_HREG_e(26i32);
@@ -12237,14 +12689,11 @@ pub mod Dia {
     pub const DataIsStaticLocal: DataKind = DataKind(2i32);
     pub const DataIsStaticMember: DataKind = DataKind(8i32);
     pub const DataIsUnknown: DataKind = DataKind(0i32);
-    pub const E_DIA_FRAME_ACCESS: __MIDL___MIDL_itf_dia2_0000_0036_0001 =
-        __MIDL___MIDL_itf_dia2_0000_0036_0001(-2140340122i32);
-    pub const E_DIA_INPROLOG: __MIDL___MIDL_itf_dia2_0000_0036_0001 =
-        __MIDL___MIDL_itf_dia2_0000_0036_0001(-2140340124i32);
-    pub const E_DIA_SYNTAX: __MIDL___MIDL_itf_dia2_0000_0036_0001 =
-        __MIDL___MIDL_itf_dia2_0000_0036_0001(-2140340123i32);
-    pub const E_DIA_VALUE: __MIDL___MIDL_itf_dia2_0000_0036_0001 =
-        __MIDL___MIDL_itf_dia2_0000_0036_0001(-2140340121i32);
+    pub const E_DIA_FRAME_ACCESS: windows_core::HRESULT =
+        windows_core::HRESULT(0x806D0066_u32 as _);
+    pub const E_DIA_INPROLOG: windows_core::HRESULT = windows_core::HRESULT(0x806D0064_u32 as _);
+    pub const E_DIA_SYNTAX: windows_core::HRESULT = windows_core::HRESULT(0x806D0065_u32 as _);
+    pub const E_DIA_VALUE: windows_core::HRESULT = windows_core::HRESULT(0x806D0067_u32 as _);
     pub const E_PDB_ACCESS_DENIED: windows_core::HRESULT =
         windows_core::HRESULT(0x806D0010_u32 as _);
     pub const E_PDB_CORRUPT: windows_core::HRESULT = windows_core::HRESULT(0x806D000E_u32 as _);
@@ -12642,19 +13091,6 @@ pub mod Dia {
             f.debug_tuple("UdtKind").field(&self.0).finish()
         }
     }
-    #[repr(transparent)]
-    #[derive(PartialEq, Eq, Copy, Clone, Default)]
-    pub struct __MIDL___MIDL_itf_dia2_0000_0036_0001(pub i32);
-    impl windows_core::TypeKind for __MIDL___MIDL_itf_dia2_0000_0036_0001 {
-        type TypeKind = windows_core::CopyType;
-    }
-    impl core::fmt::Debug for __MIDL___MIDL_itf_dia2_0000_0036_0001 {
-        fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
-            f.debug_tuple("__MIDL___MIDL_itf_dia2_0000_0036_0001")
-                .field(&self.0)
-                .finish()
-        }
-    }
     #[repr(C)]
     #[derive(Clone, Copy, Debug, Eq, PartialEq)]
     pub struct DiaAddressMapEntry {
@@ -12691,19 +13127,27 @@ pub mod Dia {
     }
     #[repr(C)]
     #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-    pub struct __MIDL___MIDL_itf_dia2_0000_0045_0001 {
+    pub struct __MIDL___MIDL_itf_dia2_0000_0049_0001 {
         pub ulOffStart: u32,
         pub cbProcSize: u32,
         pub cdwLocals: u32,
         pub cdwParams: u16,
         pub cdwFlags: u16,
     }
-    impl windows_core::TypeKind for __MIDL___MIDL_itf_dia2_0000_0045_0001 {
+    impl windows_core::TypeKind for __MIDL___MIDL_itf_dia2_0000_0049_0001 {
         type TypeKind = windows_core::CopyType;
     }
-    impl Default for __MIDL___MIDL_itf_dia2_0000_0045_0001 {
+    impl Default for __MIDL___MIDL_itf_dia2_0000_0049_0001 {
         fn default() -> Self {
             unsafe { core::mem::zeroed() }
         }
     }
+    pub type PFNMINIPDBERRORCALLBACK2 = Option<
+        unsafe extern "system" fn(
+            pvcontext: *mut core::ffi::c_void,
+            dwerrorcode: u32,
+            szobjorpdb: windows_core::PCWSTR,
+            szlib: windows_core::PCWSTR,
+        ) -> windows_core::HRESULT,
+    >;
 }
