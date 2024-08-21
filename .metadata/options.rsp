@@ -10,3 +10,5 @@ PfnPDBDebugDirV
 --memberRemap
 IDiaSourceFile::get_checksum::pbData=[Optional]
 IDiaSymbol10::get_sourceLink::pb=[Optional]
+IDiaSession::findChildren::parent=[Optional]
+IDiaSession::findFile::pCompiland=[Optional]

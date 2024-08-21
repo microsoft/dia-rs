@@ -27,9 +27,8 @@ fn main() -> Result<()> {
                 .findChildren(SymTagCompiland, None, nsNone.0 as u32)?;
 
         // Get source files
-        for i in 0..symbols.Count()? {
-            let symbol = symbols.Item(i as u32)?;
-            let files = session.findFile(&symbol, PCWSTR::null(), nsNone.0 as u32)?;
+        for _i in 0..symbols.Count()? {
+            let files = session.findFile(None, PCWSTR::null(), nsNone.0 as u32)?;
 
             // Find files with a checksum and print out details
             for j in 0..files.Count()? {
