@@ -13,9 +13,9 @@ exclude = [".github", ".metadata", "docs", "tests"]
 members = ["crates/samples/*"]
 
 [dependencies.windows]
-version = "0.58"
+branch = "bindgen-vnext"
+git = "https://github.com/microsoft/windows-rs"
 features = [
-    "implement",
     "Win32_System_Variant",
     "Win32_System_LibraryLoader",
     "Win32_System_Com_StructuredStorage",
@@ -23,7 +23,9 @@ features = [
 ]
 
 [dependencies.windows-core]
-version = "0.58"
+branch = "bindgen-vnext"
+git = "https://github.com/microsoft/windows-rs"
 
 [build-dependencies.windows-bindgen]
-version = "0.58"
+branch = "bindgen-vnext"
+git = "https://github.com/microsoft/windows-rs"

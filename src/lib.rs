@@ -4,4 +4,4 @@ extern crate windows;
 
 pub mod bindings;
 pub mod helpers;
-pub use bindings::Dia::*;
+pub use bindings::Microsoft::Dia::*;
