@@ -13,9 +13,8 @@ exclude = [".github", ".metadata", "docs", "tests"]
 members = ["crates/samples/*"]
 
 [dependencies.windows]
-version = "0.58"
+path = "/git/master-rs/crates/libs/windows"
 features = [
-    "implement",
     "Win32_System_Variant",
     "Win32_System_LibraryLoader",
     "Win32_System_Com_StructuredStorage",
@@ -23,7 +22,7 @@ features = [
 ]
 
 [dependencies.windows-core]
-version = "0.58"
+path = "/git/master-rs/crates/libs/core"
 
 [build-dependencies.windows-bindgen]
-version = "0.58"
+path = "/git/master-rs/crates/libs/bindgen"
