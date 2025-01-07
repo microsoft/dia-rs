@@ -4,11 +4,11 @@ fn main() {
 
     windows_bindgen::bindgen([
         "--in",
+        "default",
         ".windows/winmd/Microsoft.Dia.winmd",
         "--out",
         "src/bindings.rs",
         "--filter",
         "Microsoft.Dia",
-    ])
-    .unwrap();
+    ]);
 }

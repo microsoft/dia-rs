@@ -2,9 +2,8 @@
 
 use windows::core::*;
 use windows::Win32::System::Com::IClassFactory;
-use windows::Win32::{
-    Foundation::HANDLE,
-    System::LibraryLoader::{GetProcAddress, LoadLibraryExA, LOAD_WITH_ALTERED_SEARCH_PATH},
+use windows::Win32::System::LibraryLoader::{
+    GetProcAddress, LoadLibraryExA, LOAD_WITH_ALTERED_SEARCH_PATH,
 };
 
 type DllGetClassObject =
@@ -18,7 +17,7 @@ type DllGetClassObject =
 /// prior to use.
 ///
 pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Result<T> {
-    let instance = LoadLibraryExA(lib, HANDLE::default(), LOAD_WITH_ALTERED_SEARCH_PATH)?;
+    let instance = LoadLibraryExA(lib, None, LOAD_WITH_ALTERED_SEARCH_PATH)?;
     if !instance.is_invalid() {
         if let Some(farproc) = GetProcAddress(instance, s!("DllGetClassObject")) {
             let get_class_object: DllGetClassObject = std::mem::transmute(farproc);
