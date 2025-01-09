@@ -10,7 +10,7 @@ readme = ".github/README.md"
 exclude = [".github", ".metadata", "docs", "tests"]
 
 [workspace]
-members = ["crates/samples/*"]
+members = ["crates/samples/*", "crates/tests/*"]
 
 [dependencies.windows]
 version = "0.59"

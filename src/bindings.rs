@@ -7363,18 +7363,16 @@ pub mod Microsoft {
             }
             pub unsafe fn Next(
                 &self,
-                celt: u32,
-                rgelt: *mut Option<IDiaSymbol>,
+                rgelt: &mut [Option<IDiaSymbol>],
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()> {
+            ) -> windows_core::HRESULT {
                 unsafe {
                     (windows_core::Interface::vtable(self).Next)(
                         windows_core::Interface::as_raw(self),
-                        celt,
-                        core::mem::transmute(rgelt),
+                        rgelt.len().try_into().unwrap(),
+                        core::mem::transmute(rgelt.as_ptr()),
                         pceltfetched as _,
                     )
-                    .ok()
                 }
             }
             pub unsafe fn Skip(&self, celt: u32) -> windows_core::Result<()> {
@@ -7444,7 +7442,7 @@ pub mod Microsoft {
                 celt: u32,
                 rgelt: windows_core::OutRef<'_, IDiaSymbol>,
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()>;
+            ) -> windows_core::HRESULT;
             fn Skip(&self, celt: u32) -> windows_core::Result<()>;
             fn Reset(&self) -> windows_core::Result<()>;
             fn Clone(&self) -> windows_core::Result<IDiaEnumSymbols>;
@@ -7527,7 +7525,6 @@ pub mod Microsoft {
                             core::mem::transmute_copy(&rgelt),
                             core::mem::transmute_copy(&pceltfetched),
                         )
-                        .into()
                     }
                 }
                 unsafe extern "system" fn Skip<
@@ -7643,34 +7640,30 @@ pub mod Microsoft {
             }
             pub unsafe fn Next(
                 &self,
-                celt: u32,
-                rgelt: *mut Option<IDiaSymbol>,
+                rgelt: &mut [Option<IDiaSymbol>],
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()> {
+            ) -> windows_core::HRESULT {
                 unsafe {
                     (windows_core::Interface::vtable(self).Next)(
                         windows_core::Interface::as_raw(self),
-                        celt,
-                        core::mem::transmute(rgelt),
+                        rgelt.len().try_into().unwrap(),
+                        core::mem::transmute(rgelt.as_ptr()),
                         pceltfetched as _,
                     )
-                    .ok()
                 }
             }
             pub unsafe fn Prev(
                 &self,
-                celt: u32,
-                rgelt: *mut Option<IDiaSymbol>,
+                rgelt: &mut [Option<IDiaSymbol>],
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()> {
+            ) -> windows_core::HRESULT {
                 unsafe {
                     (windows_core::Interface::vtable(self).Prev)(
                         windows_core::Interface::as_raw(self),
-                        celt,
-                        core::mem::transmute(rgelt),
+                        rgelt.len().try_into().unwrap(),
+                        core::mem::transmute(rgelt.as_ptr()),
                         pceltfetched as _,
                     )
-                    .ok()
                 }
             }
             pub unsafe fn Clone(&self) -> windows_core::Result<IDiaEnumSymbolsByAddr> {
@@ -7729,13 +7722,13 @@ pub mod Microsoft {
                 celt: u32,
                 rgelt: windows_core::OutRef<'_, IDiaSymbol>,
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()>;
+            ) -> windows_core::HRESULT;
             fn Prev(
                 &self,
                 celt: u32,
                 rgelt: windows_core::OutRef<'_, IDiaSymbol>,
                 pceltfetched: *mut u32,
-            ) -> windows_core::Result<()>;
+            ) -> windows_core::HRESULT;
             fn Clone(&self) -> windows_core::Result<IDiaEnumSymbolsByAddr>;
         }
         impl IDiaEnumSymbolsByAddr_Vtbl {
@@ -7829,7 +7822,6 @@ pub mod Microsoft {
                             core::mem::transmute_copy(&rgelt),
                             core::mem::transmute_copy(&pceltfetched),
                         )
-                        .into()
                     }
                 }
                 unsafe extern "system" fn Prev<
@@ -7850,7 +7842,6 @@ pub mod Microsoft {
                             core::mem::transmute_copy(&rgelt),
                             core::mem::transmute_copy(&pceltfetched),
                         )
-                        .into()
                     }
                 }
                 unsafe extern "system" fn Clone<
