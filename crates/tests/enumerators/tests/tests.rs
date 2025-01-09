@@ -1,10 +1,10 @@
-use microsoft_dia::{DiaSource, IDiaDataSource, IDiaSession, SymTagNull, nsfRegularExpression};
+use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, IDiaSession, SymTagNull};
 use windows::{
+    core::*,
     Win32::{
         Foundation::S_OK,
-        System::Com::{COINIT_MULTITHREADED, CoInitializeEx},
+        System::Com::{CoInitializeEx, COINIT_MULTITHREADED},
     },
-    core::*,
 };
 
 fn get_test_session() -> Result<IDiaSession> {
@@ -43,11 +43,14 @@ fn simple_enumeration() -> Result<()> {
         for i in 0..symbols.Count()? {
             found.push(symbols.Item(i as u32)?.name()?);
         }
-        assert_eq!(found, [
-            "tests::TEST_VALUE_01",
-            "tests::TEST_VALUE_02",
-            "tests::TEST_VALUE_03",
-        ]);
+        assert_eq!(
+            found,
+            [
+                "tests::TEST_VALUE_01",
+                "tests::TEST_VALUE_02",
+                "tests::TEST_VALUE_03",
+            ]
+        );
 
         Ok(())
     }
@@ -73,11 +76,14 @@ fn batch_enumeration() -> Result<()> {
                     .filter_map(|s| s.as_ref()?.name().ok()),
             );
         }
-        assert_eq!(found, [
-            "tests::TEST_VALUE_01",
-            "tests::TEST_VALUE_02",
-            "tests::TEST_VALUE_03",
-        ]);
+        assert_eq!(
+            found,
+            [
+                "tests::TEST_VALUE_01",
+                "tests::TEST_VALUE_02",
+                "tests::TEST_VALUE_03",
+            ]
+        );
 
         Ok(())
     }
