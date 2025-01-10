@@ -1,0 +1,11 @@
+[package]
+name = "test_enumerators"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies.windows]
+version = "0.59"
+
+[dependencies.microsoft-dia]
+path = "../../../"
