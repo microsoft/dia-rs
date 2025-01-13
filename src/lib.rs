@@ -1,7 +1,7 @@
 #![doc(html_no_source)]
 
-extern crate windows;
+mod helper_bindings;
+mod public_bindings;
 
-pub mod bindings;
 pub mod helpers;
-pub use bindings::Microsoft::Dia::*;
+pub use public_bindings::*;

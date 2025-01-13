@@ -12,17 +12,11 @@ exclude = [".github", ".metadata", "docs", "tests"]
 [workspace]
 members = ["crates/samples/*", "crates/tests/*"]
 
-[dependencies.windows]
-version = "0.59"
-features = [
-    "Win32_System_Variant",
-    "Win32_System_LibraryLoader",
-    "Win32_System_Com_StructuredStorage",
-    "Win32_System_Ole",
-]
-
 [dependencies.windows-core]
 version = "0.59"
+
+[dependencies.windows-targets]
+version = "0.53"
 
 [build-dependencies.windows-bindgen]
 version = "0.59"

@@ -4,7 +4,7 @@ version = "0.0.0"
 edition = "2021"
 publish = false
 
-[dependencies.windows]
+[dependencies.windows-core]
 version = "0.59"
 
 [dependencies.microsoft-dia]

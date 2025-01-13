@@ -1,15 +1,9 @@
 use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, IDiaSession, SymTagNull};
-use windows::{
-    core::*,
-    Win32::{
-        Foundation::S_OK,
-        System::Com::{CoInitializeEx, COINIT_MULTITHREADED},
-    },
-};
+use windows_core::*;
+const S_OK: HRESULT = HRESULT(0);
 
 fn get_test_session() -> Result<IDiaSession> {
     unsafe {
-        CoInitializeEx(None, COINIT_MULTITHREADED).ok()?;
         let path = if cfg!(target_arch = "x86_64") {
             s!(
                 r"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"

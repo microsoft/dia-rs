@@ -1,10 +1,7 @@
 #![allow(non_snake_case, clippy::missing_safety_doc)]
 
-use windows::core::*;
-use windows::Win32::System::Com::IClassFactory;
-use windows::Win32::System::LibraryLoader::{
-    GetProcAddress, LoadLibraryExA, LOAD_WITH_ALTERED_SEARCH_PATH,
-};
+use crate::helper_bindings::*;
+use windows_core::*;
 
 type DllGetClassObject =
     unsafe extern "system" fn(*const GUID, *const GUID, *mut *mut std::ffi::c_void) -> HRESULT;

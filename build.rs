@@ -7,8 +7,22 @@ fn main() {
         "default",
         ".windows/winmd/Microsoft.Dia.winmd",
         "--out",
-        "src/bindings.rs",
+        "src/public_bindings.rs",
+        "--flat",
         "--filter",
         "Microsoft.Dia",
+    ]);
+
+    windows_bindgen::bindgen([
+        "--in",
+        "default",
+        "--out",
+        "src/helper_bindings.rs",
+        "--flat",
+        "--filter",
+        "IClassFactory",
+        "LoadLibraryExA",
+        "GetProcAddress",
+        "LOAD_WITH_ALTERED_SEARCH_PATH",
     ]);
 }
