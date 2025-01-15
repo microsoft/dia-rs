@@ -59,7 +59,7 @@ fn batch_enumeration() -> Result<()> {
                     .filter_map(|s| s.as_ref()?.name().ok()),
             );
         }
-        
+
         found.sort_by(|a, b| a.cmp(b));
         assert_eq!(
             found,

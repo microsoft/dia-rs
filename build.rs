@@ -12,7 +12,7 @@ fn main() {
         "--filter",
         "Microsoft.Dia",
         "--reference",
-        "windows,skip-root,Windows"
+        "windows,skip-root,Windows",
     ]);
 
     windows_bindgen::bindgen([
