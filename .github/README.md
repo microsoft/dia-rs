@@ -13,7 +13,7 @@ Start by adding `windows-core` and `microsoft-dia` dependencies to Cargo.toml:
 version = "0.59"
 
 [dependencies.microsoft-dia]
-version = "0.12"
+version = "0.13"
 ```
 
 Make use of any DIA SDK APIs as needed.
@@ -22,16 +22,16 @@ Make use of any DIA SDK APIs as needed.
 use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
 use windows_core::*;
 
-fn main() -> windows::core::Result<()> {
+fn main() -> Result<()> {
     unsafe {
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource)?;
         let executable = std::env::current_exe().unwrap();
         source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
 
         let session = source.openSession()?;
-        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("sample_functions::*"), nsfRegularExpression.0 as u32)?;
+        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("*"), nsfRegularExpression.0 as u32)?;
 
-        println!("Function symbols found in sample_functions::* ({}):", &executable.to_string_lossy());
+        println!("Function symbols found in self: ({}):", &executable.to_string_lossy());
 
         for i in 0..symbols.Count()? {
             println!("\t{}", symbols.Item(i as u32)?.name()?);
@@ -40,5 +40,4 @@ fn main() -> windows::core::Result<()> {
         Ok(())
     }
 }
-
 ```
