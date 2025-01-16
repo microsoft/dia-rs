@@ -10,7 +10,17 @@ readme = ".github/README.md"
 exclude = [".github", ".metadata", "docs", "tests"]
 
 [workspace]
-members = ["crates/samples/*", "crates/tests/*"]
+members = ["crates/samples/*"]
+
+[dependencies.windows]
+version = "0.59"
+features = [
+    "Win32_Foundation",
+    "Win32_System_Com",
+    "Win32_System_Variant",
+    "Win32_System_Ole",
+    "Win32_System_Com_StructuredStorage",
+]
 
 [dependencies.windows-core]
 version = "0.59"

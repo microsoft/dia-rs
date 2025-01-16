@@ -3641,6 +3641,51 @@ windows_core::imp::define_interface!(
 );
 windows_core::imp::interface_hierarchy!(IDiaAddressMap, windows_core::IUnknown);
 impl IDiaAddressMap {
+    pub unsafe fn addressMapEnabled(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).addressMapEnabled)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn SetaddressMapEnabled(&self, newval: bool) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).SetaddressMapEnabled)(
+                windows_core::Interface::as_raw(self),
+                newval.into(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn relativeVirtualAddressEnabled(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).relativeVirtualAddressEnabled)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn SetrelativeVirtualAddressEnabled(
+        &self,
+        newval: bool,
+    ) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).SetrelativeVirtualAddressEnabled)(
+                windows_core::Interface::as_raw(self),
+                newval.into(),
+            )
+            .ok()
+        }
+    }
     pub unsafe fn imageAlign(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -3660,27 +3705,172 @@ impl IDiaAddressMap {
             .ok()
         }
     }
+    pub unsafe fn set_imageHeaders(
+        &self,
+        pbdata: &[u8],
+        originalheaders: bool,
+    ) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).set_imageHeaders)(
+                windows_core::Interface::as_raw(self),
+                pbdata.len().try_into().unwrap(),
+                core::mem::transmute(pbdata.as_ptr()),
+                originalheaders.into(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn set_addressMap(
+        &self,
+        pdata: &[DiaAddressMapEntry],
+        imagetosymbols: bool,
+    ) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).set_addressMap)(
+                windows_core::Interface::as_raw(self),
+                pdata.len().try_into().unwrap(),
+                core::mem::transmute(pdata.as_ptr()),
+                imagetosymbols.into(),
+            )
+            .ok()
+        }
+    }
 }
 #[repr(C)]
 pub struct IDiaAddressMap_Vtbl {
     pub base__: windows_core::IUnknown_Vtbl,
-    get_addressMapEnabled: usize,
-    put_addressMapEnabled: usize,
-    get_relativeVirtualAddressEnabled: usize,
-    put_relativeVirtualAddressEnabled: usize,
+    pub addressMapEnabled: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub SetaddressMapEnabled: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub relativeVirtualAddressEnabled: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub SetrelativeVirtualAddressEnabled: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub imageAlign:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub SetimageAlign:
         unsafe extern "system" fn(*mut core::ffi::c_void, u32) -> windows_core::HRESULT,
-    set_imageHeaders: usize,
-    set_addressMap: usize,
+    pub set_imageHeaders: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        u32,
+        *const u8,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub set_addressMap: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        u32,
+        *const DiaAddressMapEntry,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
 pub trait IDiaAddressMap_Impl: windows_core::IUnknownImpl {
+    fn addressMapEnabled(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn SetaddressMapEnabled(
+        &self,
+        newval: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
+    fn relativeVirtualAddressEnabled(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn SetrelativeVirtualAddressEnabled(
+        &self,
+        newval: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
     fn imageAlign(&self) -> windows_core::Result<u32>;
     fn SetimageAlign(&self, newval: u32) -> windows_core::Result<()>;
+    fn set_imageHeaders(
+        &self,
+        cbdata: u32,
+        pbdata: *const u8,
+        originalheaders: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
+    fn set_addressMap(
+        &self,
+        cdata: u32,
+        pdata: *const DiaAddressMapEntry,
+        imagetosymbols: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
 }
 impl IDiaAddressMap_Vtbl {
     pub const fn new<Identity: IDiaAddressMap_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn addressMapEnabled<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaAddressMap_Impl::addressMapEnabled(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn SetaddressMapEnabled<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            newval: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaAddressMap_Impl::SetaddressMapEnabled(this, core::mem::transmute_copy(&newval))
+                    .into()
+            }
+        }
+        unsafe extern "system" fn relativeVirtualAddressEnabled<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaAddressMap_Impl::relativeVirtualAddressEnabled(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn SetrelativeVirtualAddressEnabled<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            newval: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaAddressMap_Impl::SetrelativeVirtualAddressEnabled(
+                    this,
+                    core::mem::transmute_copy(&newval),
+                )
+                .into()
+            }
+        }
         unsafe extern "system" fn imageAlign<Identity: IDiaAddressMap_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -3710,16 +3900,58 @@ impl IDiaAddressMap_Vtbl {
                 IDiaAddressMap_Impl::SetimageAlign(this, core::mem::transmute_copy(&newval)).into()
             }
         }
+        unsafe extern "system" fn set_imageHeaders<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            cbdata: u32,
+            pbdata: *const u8,
+            originalheaders: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaAddressMap_Impl::set_imageHeaders(
+                    this,
+                    core::mem::transmute_copy(&cbdata),
+                    core::mem::transmute_copy(&pbdata),
+                    core::mem::transmute_copy(&originalheaders),
+                )
+                .into()
+            }
+        }
+        unsafe extern "system" fn set_addressMap<
+            Identity: IDiaAddressMap_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            cdata: u32,
+            pdata: *const DiaAddressMapEntry,
+            imagetosymbols: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaAddressMap_Impl::set_addressMap(
+                    this,
+                    core::mem::transmute_copy(&cdata),
+                    core::mem::transmute_copy(&pdata),
+                    core::mem::transmute_copy(&imagetosymbols),
+                )
+                .into()
+            }
+        }
         Self {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
-            get_addressMapEnabled: 0,
-            put_addressMapEnabled: 0,
-            get_relativeVirtualAddressEnabled: 0,
-            put_relativeVirtualAddressEnabled: 0,
+            addressMapEnabled: addressMapEnabled::<Identity, OFFSET>,
+            SetaddressMapEnabled: SetaddressMapEnabled::<Identity, OFFSET>,
+            relativeVirtualAddressEnabled: relativeVirtualAddressEnabled::<Identity, OFFSET>,
+            SetrelativeVirtualAddressEnabled: SetrelativeVirtualAddressEnabled::<Identity, OFFSET>,
             imageAlign: imageAlign::<Identity, OFFSET>,
             SetimageAlign: SetimageAlign::<Identity, OFFSET>,
-            set_imageHeaders: 0,
-            set_addressMap: 0,
+            set_imageHeaders: set_imageHeaders::<Identity, OFFSET>,
+            set_addressMap: set_addressMap::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -3794,6 +4026,18 @@ impl IDiaDataSource {
                 executable.param().abi(),
                 searchpath.param().abi(),
                 pcallback.param().abi(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn loadDataFromIStream<P0>(&self, pistream: P0) -> windows_core::Result<()>
+    where
+        P0: windows_core::Param<windows::Win32::System::Com::IStream>,
+    {
+        unsafe {
+            (windows_core::Interface::vtable(self).loadDataFromIStream)(
+                windows_core::Interface::as_raw(self),
+                pistream.param().abi(),
             )
             .ok()
         }
@@ -3887,7 +4131,10 @@ pub struct IDiaDataSource_Vtbl {
         windows_core::PCWSTR,
         *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    loadDataFromIStream: usize,
+    pub loadDataFromIStream: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
     pub openSession: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
@@ -3927,6 +4174,10 @@ pub trait IDiaDataSource_Impl: windows_core::IUnknownImpl {
         executable: &windows_core::PCWSTR,
         searchpath: &windows_core::PCWSTR,
         pcallback: windows_core::Ref<'_, windows_core::IUnknown>,
+    ) -> windows_core::Result<()>;
+    fn loadDataFromIStream(
+        &self,
+        pistream: windows_core::Ref<'_, windows::Win32::System::Com::IStream>,
     ) -> windows_core::Result<()>;
     fn openSession(&self) -> windows_core::Result<IDiaSession>;
     fn loadDataFromCodeViewInfo(
@@ -4024,6 +4275,20 @@ impl IDiaDataSource_Vtbl {
                 .into()
             }
         }
+        unsafe extern "system" fn loadDataFromIStream<
+            Identity: IDiaDataSource_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pistream: *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaDataSource_Impl::loadDataFromIStream(this, core::mem::transmute_copy(&pistream))
+                    .into()
+            }
+        }
         unsafe extern "system" fn openSession<
             Identity: IDiaDataSource_Impl,
             const OFFSET: isize,
@@ -4105,7 +4370,7 @@ impl IDiaDataSource_Vtbl {
             loadDataFromPdb: loadDataFromPdb::<Identity, OFFSET>,
             loadAndValidateDataFromPdb: loadAndValidateDataFromPdb::<Identity, OFFSET>,
             loadDataForExe: loadDataForExe::<Identity, OFFSET>,
-            loadDataFromIStream: 0,
+            loadDataFromIStream: loadDataFromIStream::<Identity, OFFSET>,
             openSession: openSession::<Identity, OFFSET>,
             loadDataFromCodeViewInfo: loadDataFromCodeViewInfo::<Identity, OFFSET>,
             loadDataFromMiscInfo: loadDataFromMiscInfo::<Identity, OFFSET>,
@@ -4129,6 +4394,86 @@ impl core::ops::Deref for IDiaDataSourceEx {
 }
 windows_core::imp::interface_hierarchy!(IDiaDataSourceEx, windows_core::IUnknown, IDiaDataSource);
 impl IDiaDataSourceEx {
+    pub unsafe fn loadDataFromPdbEx<P0>(
+        &self,
+        pdbpath: P0,
+        fpdbprefetching: bool,
+    ) -> windows_core::Result<()>
+    where
+        P0: windows_core::Param<windows_core::PCWSTR>,
+    {
+        unsafe {
+            (windows_core::Interface::vtable(self).loadDataFromPdbEx)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                fpdbprefetching.into(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn loadAndValidateDataFromPdbEx<P0>(
+        &self,
+        pdbpath: P0,
+        pcsig70: *const windows_core::GUID,
+        sig: u32,
+        age: u32,
+        fpdbprefetching: bool,
+    ) -> windows_core::Result<()>
+    where
+        P0: windows_core::Param<windows_core::PCWSTR>,
+    {
+        unsafe {
+            (windows_core::Interface::vtable(self).loadAndValidateDataFromPdbEx)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                pcsig70,
+                sig,
+                age,
+                fpdbprefetching.into(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn loadDataForExeEx<P0, P1, P2>(
+        &self,
+        executable: P0,
+        searchpath: P1,
+        pcallback: P2,
+        fpdbprefetching: bool,
+    ) -> windows_core::Result<()>
+    where
+        P0: windows_core::Param<windows_core::PCWSTR>,
+        P1: windows_core::Param<windows_core::PCWSTR>,
+        P2: windows_core::Param<windows_core::IUnknown>,
+    {
+        unsafe {
+            (windows_core::Interface::vtable(self).loadDataForExeEx)(
+                windows_core::Interface::as_raw(self),
+                executable.param().abi(),
+                searchpath.param().abi(),
+                pcallback.param().abi(),
+                fpdbprefetching.into(),
+            )
+            .ok()
+        }
+    }
+    pub unsafe fn loadDataFromIStreamEx<P0>(
+        &self,
+        pistream: P0,
+        fpdbprefetching: bool,
+    ) -> windows_core::Result<()>
+    where
+        P0: windows_core::Param<windows::Win32::System::Com::IStream>,
+    {
+        unsafe {
+            (windows_core::Interface::vtable(self).loadDataFromIStreamEx)(
+                windows_core::Interface::as_raw(self),
+                pistream.param().abi(),
+                fpdbprefetching.into(),
+            )
+            .ok()
+        }
+    }
     pub unsafe fn getStreamSize<P0>(&self, stream: P0) -> windows_core::Result<u64>
     where
         P0: windows_core::Param<windows_core::PCWSTR>,
@@ -4179,14 +4524,58 @@ impl IDiaDataSourceEx {
             .ok()
         }
     }
+    pub unsafe fn ValidatePdb<P0>(
+        &self,
+        pdbpath: P0,
+        pcsig70: *const windows_core::GUID,
+        sig: u32,
+        age: u32,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>
+    where
+        P0: windows_core::Param<windows_core::PCWSTR>,
+    {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).ValidatePdb)(
+                windows_core::Interface::as_raw(self),
+                pdbpath.param().abi(),
+                pcsig70,
+                sig,
+                age,
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
 }
 #[repr(C)]
 pub struct IDiaDataSourceEx_Vtbl {
     pub base__: IDiaDataSource_Vtbl,
-    loadDataFromPdbEx: usize,
-    loadAndValidateDataFromPdbEx: usize,
-    loadDataForExeEx: usize,
-    loadDataFromIStreamEx: usize,
+    pub loadDataFromPdbEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows_core::PCWSTR,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub loadAndValidateDataFromPdbEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows_core::PCWSTR,
+        *const windows_core::GUID,
+        u32,
+        u32,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub loadDataForExeEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows_core::PCWSTR,
+        windows_core::PCWSTR,
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub loadDataFromIStreamEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub getStreamSize: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         windows_core::PCWSTR,
@@ -4205,9 +4594,41 @@ pub struct IDiaDataSourceEx_Vtbl {
         *const core::ffi::c_void,
         PFNMINIPDBERRORCALLBACK2,
     ) -> windows_core::HRESULT,
-    ValidatePdb: usize,
+    pub ValidatePdb: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows_core::PCWSTR,
+        *const windows_core::GUID,
+        u32,
+        u32,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
 pub trait IDiaDataSourceEx_Impl: IDiaDataSource_Impl {
+    fn loadDataFromPdbEx(
+        &self,
+        pdbpath: &windows_core::PCWSTR,
+        fpdbprefetching: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
+    fn loadAndValidateDataFromPdbEx(
+        &self,
+        pdbpath: &windows_core::PCWSTR,
+        pcsig70: *const windows_core::GUID,
+        sig: u32,
+        age: u32,
+        fpdbprefetching: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
+    fn loadDataForExeEx(
+        &self,
+        executable: &windows_core::PCWSTR,
+        searchpath: &windows_core::PCWSTR,
+        pcallback: windows_core::Ref<'_, windows_core::IUnknown>,
+        fpdbprefetching: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
+    fn loadDataFromIStreamEx(
+        &self,
+        pistream: windows_core::Ref<'_, windows::Win32::System::Com::IStream>,
+        fpdbprefetching: windows::Win32::Foundation::BOOL,
+    ) -> windows_core::Result<()>;
     fn getStreamSize(&self, stream: &windows_core::PCWSTR) -> windows_core::Result<u64>;
     fn getStreamRawData(
         &self,
@@ -4222,9 +4643,102 @@ pub trait IDiaDataSourceEx_Impl: IDiaDataSource_Impl {
         pvcontext: *const core::ffi::c_void,
         pfn: PFNMINIPDBERRORCALLBACK2,
     ) -> windows_core::Result<()>;
+    fn ValidatePdb(
+        &self,
+        pdbpath: &windows_core::PCWSTR,
+        pcsig70: *const windows_core::GUID,
+        sig: u32,
+        age: u32,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
 }
 impl IDiaDataSourceEx_Vtbl {
     pub const fn new<Identity: IDiaDataSourceEx_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn loadDataFromPdbEx<
+            Identity: IDiaDataSourceEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pdbpath: windows_core::PCWSTR,
+            fpdbprefetching: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaDataSourceEx_Impl::loadDataFromPdbEx(
+                    this,
+                    core::mem::transmute(&pdbpath),
+                    core::mem::transmute_copy(&fpdbprefetching),
+                )
+                .into()
+            }
+        }
+        unsafe extern "system" fn loadAndValidateDataFromPdbEx<
+            Identity: IDiaDataSourceEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pdbpath: windows_core::PCWSTR,
+            pcsig70: *const windows_core::GUID,
+            sig: u32,
+            age: u32,
+            fpdbprefetching: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaDataSourceEx_Impl::loadAndValidateDataFromPdbEx(
+                    this,
+                    core::mem::transmute(&pdbpath),
+                    core::mem::transmute_copy(&pcsig70),
+                    core::mem::transmute_copy(&sig),
+                    core::mem::transmute_copy(&age),
+                    core::mem::transmute_copy(&fpdbprefetching),
+                )
+                .into()
+            }
+        }
+        unsafe extern "system" fn loadDataForExeEx<
+            Identity: IDiaDataSourceEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            executable: windows_core::PCWSTR,
+            searchpath: windows_core::PCWSTR,
+            pcallback: *mut core::ffi::c_void,
+            fpdbprefetching: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaDataSourceEx_Impl::loadDataForExeEx(
+                    this,
+                    core::mem::transmute(&executable),
+                    core::mem::transmute(&searchpath),
+                    core::mem::transmute_copy(&pcallback),
+                    core::mem::transmute_copy(&fpdbprefetching),
+                )
+                .into()
+            }
+        }
+        unsafe extern "system" fn loadDataFromIStreamEx<
+            Identity: IDiaDataSourceEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pistream: *mut core::ffi::c_void,
+            fpdbprefetching: windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaDataSourceEx_Impl::loadDataFromIStreamEx(
+                    this,
+                    core::mem::transmute_copy(&pistream),
+                    core::mem::transmute_copy(&fpdbprefetching),
+                )
+                .into()
+            }
+        }
         unsafe extern "system" fn getStreamSize<
             Identity: IDiaDataSourceEx_Impl,
             const OFFSET: isize,
@@ -4289,16 +4803,45 @@ impl IDiaDataSourceEx_Vtbl {
                 .into()
             }
         }
+        unsafe extern "system" fn ValidatePdb<
+            Identity: IDiaDataSourceEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pdbpath: windows_core::PCWSTR,
+            pcsig70: *const windows_core::GUID,
+            sig: u32,
+            age: u32,
+            pfstripped: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaDataSourceEx_Impl::ValidatePdb(
+                    this,
+                    core::mem::transmute(&pdbpath),
+                    core::mem::transmute_copy(&pcsig70),
+                    core::mem::transmute_copy(&sig),
+                    core::mem::transmute_copy(&age),
+                ) {
+                    Ok(ok__) => {
+                        pfstripped.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaDataSource_Vtbl::new::<Identity, OFFSET>(),
-            loadDataFromPdbEx: 0,
-            loadAndValidateDataFromPdbEx: 0,
-            loadDataForExeEx: 0,
-            loadDataFromIStreamEx: 0,
+            loadDataFromPdbEx: loadDataFromPdbEx::<Identity, OFFSET>,
+            loadAndValidateDataFromPdbEx: loadAndValidateDataFromPdbEx::<Identity, OFFSET>,
+            loadDataForExeEx: loadDataForExeEx::<Identity, OFFSET>,
+            loadDataFromIStreamEx: loadDataFromIStreamEx::<Identity, OFFSET>,
             getStreamSize: getStreamSize::<Identity, OFFSET>,
             getStreamRawData: getStreamRawData::<Identity, OFFSET>,
             setPfnMiniPDBErrorCallback2: setPfnMiniPDBErrorCallback2::<Identity, OFFSET>,
-            ValidatePdb: 0,
+            ValidatePdb: ValidatePdb::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -4658,6 +5201,20 @@ impl IDiaEnumDebugStreams {
             .map(|| result__)
         }
     }
+    pub unsafe fn Item(
+        &self,
+        index: &windows::Win32::System::Variant::VARIANT,
+    ) -> windows_core::Result<IDiaEnumDebugStreamData> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).Item)(
+                windows_core::Interface::as_raw(self),
+                core::mem::transmute_copy(index),
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
     pub unsafe fn Next(
         &self,
         celt: u32,
@@ -4708,7 +5265,11 @@ pub struct IDiaEnumDebugStreams_Vtbl {
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
     pub Count: unsafe extern "system" fn(*mut core::ffi::c_void, *mut i32) -> windows_core::HRESULT,
-    Item: usize,
+    pub Item: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::System::Variant::VARIANT,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
     pub Next: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         u32,
@@ -4725,6 +5286,10 @@ pub struct IDiaEnumDebugStreams_Vtbl {
 pub trait IDiaEnumDebugStreams_Impl: windows_core::IUnknownImpl {
     fn _NewEnum(&self) -> windows_core::Result<windows_core::IUnknown>;
     fn Count(&self) -> windows_core::Result<i32>;
+    fn Item(
+        &self,
+        index: &windows::Win32::System::Variant::VARIANT,
+    ) -> windows_core::Result<IDiaEnumDebugStreamData>;
     fn Next(
         &self,
         celt: u32,
@@ -4769,6 +5334,23 @@ impl IDiaEnumDebugStreams_Vtbl {
                 match IDiaEnumDebugStreams_Impl::Count(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn Item<Identity: IDiaEnumDebugStreams_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            index: windows::Win32::System::Variant::VARIANT,
+            stream: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaEnumDebugStreams_Impl::Item(this, core::mem::transmute(&index)) {
+                    Ok(ok__) => {
+                        stream.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
                     }
                     Err(err) => err.into(),
@@ -4838,7 +5420,7 @@ impl IDiaEnumDebugStreams_Vtbl {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, OFFSET>,
             Count: Count::<Identity, OFFSET>,
-            Item: 0,
+            Item: Item::<Identity, OFFSET>,
             Next: Next::<Identity, OFFSET>,
             Skip: Skip::<Identity, OFFSET>,
             Reset: Reset::<Identity, OFFSET>,
@@ -7614,25 +8196,289 @@ windows_core::imp::interface_hierarchy!(
     windows_core::IUnknown,
     IDiaEnumSymbolsByAddr
 );
+impl IDiaEnumSymbolsByAddr2 {
+    pub unsafe fn symbolByAddrEx(
+        &self,
+        fpromoteblocksym: bool,
+        isect: u32,
+        offset: u32,
+    ) -> windows_core::Result<IDiaSymbol> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).symbolByAddrEx)(
+                windows_core::Interface::as_raw(self),
+                fpromoteblocksym.into(),
+                isect,
+                offset,
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn symbolByRVAEx(
+        &self,
+        fpromoteblocksym: bool,
+        relativevirtualaddress: u32,
+    ) -> windows_core::Result<IDiaSymbol> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).symbolByRVAEx)(
+                windows_core::Interface::as_raw(self),
+                fpromoteblocksym.into(),
+                relativevirtualaddress,
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn symbolByVAEx(
+        &self,
+        fpromoteblocksym: bool,
+        virtualaddress: u64,
+    ) -> windows_core::Result<IDiaSymbol> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).symbolByVAEx)(
+                windows_core::Interface::as_raw(self),
+                fpromoteblocksym.into(),
+                virtualaddress,
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn NextEx(
+        &self,
+        fpromoteblocksym: bool,
+        rgelt: &mut [Option<IDiaSymbol>],
+        pceltfetched: *mut u32,
+    ) -> windows_core::HRESULT {
+        unsafe {
+            (windows_core::Interface::vtable(self).NextEx)(
+                windows_core::Interface::as_raw(self),
+                fpromoteblocksym.into(),
+                rgelt.len().try_into().unwrap(),
+                core::mem::transmute(rgelt.as_ptr()),
+                pceltfetched as _,
+            )
+        }
+    }
+    pub unsafe fn PrevEx(
+        &self,
+        fpromoteblocksym: bool,
+        rgelt: &mut [Option<IDiaSymbol>],
+        pceltfetched: *mut u32,
+    ) -> windows_core::HRESULT {
+        unsafe {
+            (windows_core::Interface::vtable(self).PrevEx)(
+                windows_core::Interface::as_raw(self),
+                fpromoteblocksym.into(),
+                rgelt.len().try_into().unwrap(),
+                core::mem::transmute(rgelt.as_ptr()),
+                pceltfetched as _,
+            )
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaEnumSymbolsByAddr2_Vtbl {
     pub base__: IDiaEnumSymbolsByAddr_Vtbl,
-    symbolByAddrEx: usize,
-    symbolByRVAEx: usize,
-    symbolByVAEx: usize,
-    NextEx: usize,
-    PrevEx: usize,
+    pub symbolByAddrEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u32,
+        u32,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
+    pub symbolByRVAEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u32,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
+    pub symbolByVAEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u64,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
+    pub NextEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u32,
+        *mut *mut core::ffi::c_void,
+        *mut u32,
+    ) -> windows_core::HRESULT,
+    pub PrevEx: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u32,
+        *mut *mut core::ffi::c_void,
+        *mut u32,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaEnumSymbolsByAddr2_Impl: IDiaEnumSymbolsByAddr_Impl {}
+pub trait IDiaEnumSymbolsByAddr2_Impl: IDiaEnumSymbolsByAddr_Impl {
+    fn symbolByAddrEx(
+        &self,
+        fpromoteblocksym: windows::Win32::Foundation::BOOL,
+        isect: u32,
+        offset: u32,
+    ) -> windows_core::Result<IDiaSymbol>;
+    fn symbolByRVAEx(
+        &self,
+        fpromoteblocksym: windows::Win32::Foundation::BOOL,
+        relativevirtualaddress: u32,
+    ) -> windows_core::Result<IDiaSymbol>;
+    fn symbolByVAEx(
+        &self,
+        fpromoteblocksym: windows::Win32::Foundation::BOOL,
+        virtualaddress: u64,
+    ) -> windows_core::Result<IDiaSymbol>;
+    fn NextEx(
+        &self,
+        fpromoteblocksym: windows::Win32::Foundation::BOOL,
+        celt: u32,
+        rgelt: windows_core::OutRef<'_, IDiaSymbol>,
+        pceltfetched: *mut u32,
+    ) -> windows_core::HRESULT;
+    fn PrevEx(
+        &self,
+        fpromoteblocksym: windows::Win32::Foundation::BOOL,
+        celt: u32,
+        rgelt: windows_core::OutRef<'_, IDiaSymbol>,
+        pceltfetched: *mut u32,
+    ) -> windows_core::HRESULT;
+}
 impl IDiaEnumSymbolsByAddr2_Vtbl {
     pub const fn new<Identity: IDiaEnumSymbolsByAddr2_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn symbolByAddrEx<
+            Identity: IDiaEnumSymbolsByAddr2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fpromoteblocksym: windows::Win32::Foundation::BOOL,
+            isect: u32,
+            offset: u32,
+            ppsymbol: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaEnumSymbolsByAddr2_Impl::symbolByAddrEx(
+                    this,
+                    core::mem::transmute_copy(&fpromoteblocksym),
+                    core::mem::transmute_copy(&isect),
+                    core::mem::transmute_copy(&offset),
+                ) {
+                    Ok(ok__) => {
+                        ppsymbol.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn symbolByRVAEx<
+            Identity: IDiaEnumSymbolsByAddr2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fpromoteblocksym: windows::Win32::Foundation::BOOL,
+            relativevirtualaddress: u32,
+            ppsymbol: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaEnumSymbolsByAddr2_Impl::symbolByRVAEx(
+                    this,
+                    core::mem::transmute_copy(&fpromoteblocksym),
+                    core::mem::transmute_copy(&relativevirtualaddress),
+                ) {
+                    Ok(ok__) => {
+                        ppsymbol.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn symbolByVAEx<
+            Identity: IDiaEnumSymbolsByAddr2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fpromoteblocksym: windows::Win32::Foundation::BOOL,
+            virtualaddress: u64,
+            ppsymbol: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaEnumSymbolsByAddr2_Impl::symbolByVAEx(
+                    this,
+                    core::mem::transmute_copy(&fpromoteblocksym),
+                    core::mem::transmute_copy(&virtualaddress),
+                ) {
+                    Ok(ok__) => {
+                        ppsymbol.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn NextEx<
+            Identity: IDiaEnumSymbolsByAddr2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fpromoteblocksym: windows::Win32::Foundation::BOOL,
+            celt: u32,
+            rgelt: *mut *mut core::ffi::c_void,
+            pceltfetched: *mut u32,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaEnumSymbolsByAddr2_Impl::NextEx(
+                    this,
+                    core::mem::transmute_copy(&fpromoteblocksym),
+                    core::mem::transmute_copy(&celt),
+                    core::mem::transmute_copy(&rgelt),
+                    core::mem::transmute_copy(&pceltfetched),
+                )
+            }
+        }
+        unsafe extern "system" fn PrevEx<
+            Identity: IDiaEnumSymbolsByAddr2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fpromoteblocksym: windows::Win32::Foundation::BOOL,
+            celt: u32,
+            rgelt: *mut *mut core::ffi::c_void,
+            pceltfetched: *mut u32,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaEnumSymbolsByAddr2_Impl::PrevEx(
+                    this,
+                    core::mem::transmute_copy(&fpromoteblocksym),
+                    core::mem::transmute_copy(&celt),
+                    core::mem::transmute_copy(&rgelt),
+                    core::mem::transmute_copy(&pceltfetched),
+                )
+            }
+        }
         Self {
             base__: IDiaEnumSymbolsByAddr_Vtbl::new::<Identity, OFFSET>(),
-            symbolByAddrEx: 0,
-            symbolByRVAEx: 0,
-            symbolByVAEx: 0,
-            NextEx: 0,
-            PrevEx: 0,
+            symbolByAddrEx: symbolByAddrEx::<Identity, OFFSET>,
+            symbolByRVAEx: symbolByRVAEx::<Identity, OFFSET>,
+            symbolByVAEx: symbolByVAEx::<Identity, OFFSET>,
+            NextEx: NextEx::<Identity, OFFSET>,
+            PrevEx: PrevEx::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -7666,6 +8512,20 @@ impl IDiaEnumTables {
                 &mut result__,
             )
             .map(|| result__)
+        }
+    }
+    pub unsafe fn Item(
+        &self,
+        index: &windows::Win32::System::Variant::VARIANT,
+    ) -> windows_core::Result<IDiaTable> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).Item)(
+                windows_core::Interface::as_raw(self),
+                core::mem::transmute_copy(index),
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
         }
     }
     pub unsafe fn Next(
@@ -7718,7 +8578,11 @@ pub struct IDiaEnumTables_Vtbl {
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
     pub Count: unsafe extern "system" fn(*mut core::ffi::c_void, *mut i32) -> windows_core::HRESULT,
-    Item: usize,
+    pub Item: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::System::Variant::VARIANT,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
     pub Next: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         u32,
@@ -7735,6 +8599,10 @@ pub struct IDiaEnumTables_Vtbl {
 pub trait IDiaEnumTables_Impl: windows_core::IUnknownImpl {
     fn _NewEnum(&self) -> windows_core::Result<windows_core::IUnknown>;
     fn Count(&self) -> windows_core::Result<i32>;
+    fn Item(
+        &self,
+        index: &windows::Win32::System::Variant::VARIANT,
+    ) -> windows_core::Result<IDiaTable>;
     fn Next(
         &self,
         celt: u32,
@@ -7773,6 +8641,23 @@ impl IDiaEnumTables_Vtbl {
                 match IDiaEnumTables_Impl::Count(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn Item<Identity: IDiaEnumTables_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            index: windows::Win32::System::Variant::VARIANT,
+            table: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaEnumTables_Impl::Item(this, core::mem::transmute(&index)) {
+                    Ok(ok__) => {
+                        table.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
                     }
                     Err(err) => err.into(),
@@ -7836,7 +8721,7 @@ impl IDiaEnumTables_Vtbl {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, OFFSET>,
             Count: Count::<Identity, OFFSET>,
-            Item: 0,
+            Item: Item::<Identity, OFFSET>,
             Next: Next::<Identity, OFFSET>,
             Skip: Skip::<Identity, OFFSET>,
             Reset: Reset::<Identity, OFFSET>,
@@ -7965,6 +8850,52 @@ impl IDiaFrameData {
             .map(|| core::mem::transmute(result__))
         }
     }
+    pub unsafe fn systemExceptionHandling(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).systemExceptionHandling)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn cplusplusExceptionHandling(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).cplusplusExceptionHandling)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn functionStart(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).functionStart)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn allocatesBasePointer(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).allocatesBasePointer)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn r#type(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -8025,10 +8956,22 @@ pub struct IDiaFrameData_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_systemExceptionHandling: usize,
-    get_cplusplusExceptionHandling: usize,
-    get_functionStart: usize,
-    get_allocatesBasePointer: usize,
+    pub systemExceptionHandling: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub cplusplusExceptionHandling: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub functionStart: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub allocatesBasePointer: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub r#type:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub functionParent: unsafe extern "system" fn(
@@ -8052,6 +8995,10 @@ pub trait IDiaFrameData_Impl: windows_core::IUnknownImpl {
     fn lengthProlog(&self) -> windows_core::Result<u32>;
     fn lengthSavedRegisters(&self) -> windows_core::Result<u32>;
     fn program(&self) -> windows_core::Result<windows_core::BSTR>;
+    fn systemExceptionHandling(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn cplusplusExceptionHandling(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn functionStart(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn allocatesBasePointer(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn r#type(&self) -> windows_core::Result<u32>;
     fn functionParent(&self) -> windows_core::Result<IDiaFrameData>;
     fn execute(&self, frame: windows_core::Ref<'_, IDiaStackWalkFrame>)
@@ -8259,6 +9206,82 @@ impl IDiaFrameData_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn systemExceptionHandling<
+            Identity: IDiaFrameData_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaFrameData_Impl::systemExceptionHandling(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn cplusplusExceptionHandling<
+            Identity: IDiaFrameData_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaFrameData_Impl::cplusplusExceptionHandling(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn functionStart<
+            Identity: IDiaFrameData_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaFrameData_Impl::functionStart(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn allocatesBasePointer<
+            Identity: IDiaFrameData_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaFrameData_Impl::allocatesBasePointer(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn r#type<Identity: IDiaFrameData_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -8317,10 +9340,10 @@ impl IDiaFrameData_Vtbl {
             lengthProlog: lengthProlog::<Identity, OFFSET>,
             lengthSavedRegisters: lengthSavedRegisters::<Identity, OFFSET>,
             program: program::<Identity, OFFSET>,
-            get_systemExceptionHandling: 0,
-            get_cplusplusExceptionHandling: 0,
-            get_functionStart: 0,
-            get_allocatesBasePointer: 0,
+            systemExceptionHandling: systemExceptionHandling::<Identity, OFFSET>,
+            cplusplusExceptionHandling: cplusplusExceptionHandling::<Identity, OFFSET>,
+            functionStart: functionStart::<Identity, OFFSET>,
+            allocatesBasePointer: allocatesBasePointer::<Identity, OFFSET>,
             r#type: r#type::<Identity, OFFSET>,
             functionParent: functionParent::<Identity, OFFSET>,
             execute: execute::<Identity, OFFSET>,
@@ -8760,6 +9783,18 @@ impl IDiaInputAssemblyFile {
             .map(|| result__)
         }
     }
+    pub unsafe fn pdbAvailableAtILMerge(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).pdbAvailableAtILMerge)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn fileName(&self) -> windows_core::Result<windows_core::BSTR> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -8794,7 +9829,10 @@ pub struct IDiaInputAssemblyFile_Vtbl {
     pub index: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub timestamp:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_pdbAvailableAtILMerge: usize,
+    pub pdbAvailableAtILMerge: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub fileName: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
@@ -8810,6 +9848,7 @@ pub trait IDiaInputAssemblyFile_Impl: windows_core::IUnknownImpl {
     fn uniqueId(&self) -> windows_core::Result<u32>;
     fn index(&self) -> windows_core::Result<u32>;
     fn timestamp(&self) -> windows_core::Result<u32>;
+    fn pdbAvailableAtILMerge(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn fileName(&self) -> windows_core::Result<windows_core::BSTR>;
     fn get_version(
         &self,
@@ -8877,6 +9916,25 @@ impl IDiaInputAssemblyFile_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn pdbAvailableAtILMerge<
+            Identity: IDiaInputAssemblyFile_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaInputAssemblyFile_Impl::pdbAvailableAtILMerge(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn fileName<
             Identity: IDiaInputAssemblyFile_Impl,
             const OFFSET: isize,
@@ -8922,7 +9980,7 @@ impl IDiaInputAssemblyFile_Vtbl {
             uniqueId: uniqueId::<Identity, OFFSET>,
             index: index::<Identity, OFFSET>,
             timestamp: timestamp::<Identity, OFFSET>,
-            get_pdbAvailableAtILMerge: 0,
+            pdbAvailableAtILMerge: pdbAvailableAtILMerge::<Identity, OFFSET>,
             fileName: fileName::<Identity, OFFSET>,
             get_version: get_version::<Identity, OFFSET>,
         }
@@ -9059,6 +10117,16 @@ impl IDiaLineNumber {
             .map(|| result__)
         }
     }
+    pub unsafe fn statement(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).statement)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn compilandId(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -9101,7 +10169,10 @@ pub struct IDiaLineNumber_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub sourceFileId:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_statement: usize,
+    pub statement: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub compilandId:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
 }
@@ -9118,6 +10189,7 @@ pub trait IDiaLineNumber_Impl: windows_core::IUnknownImpl {
     fn virtualAddress(&self) -> windows_core::Result<u64>;
     fn length(&self) -> windows_core::Result<u32>;
     fn sourceFileId(&self) -> windows_core::Result<u32>;
+    fn statement(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn compilandId(&self) -> windows_core::Result<u32>;
 }
 impl IDiaLineNumber_Vtbl {
@@ -9338,6 +10410,22 @@ impl IDiaLineNumber_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn statement<Identity: IDiaLineNumber_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaLineNumber_Impl::statement(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn compilandId<
             Identity: IDiaLineNumber_Impl,
             const OFFSET: isize,
@@ -9371,7 +10459,7 @@ impl IDiaLineNumber_Vtbl {
             virtualAddress: virtualAddress::<Identity, OFFSET>,
             length: length::<Identity, OFFSET>,
             sourceFileId: sourceFileId::<Identity, OFFSET>,
-            get_statement: 0,
+            statement: statement::<Identity, OFFSET>,
             compilandId: compilandId::<Identity, OFFSET>,
         }
     }
@@ -9387,6 +10475,21 @@ windows_core::imp::define_interface!(
 );
 windows_core::imp::interface_hierarchy!(IDiaLoadCallback, windows_core::IUnknown);
 impl IDiaLoadCallback {
+    pub unsafe fn NotifyDebugDir(
+        &self,
+        fexecutable: bool,
+        pbdata: &[u8],
+    ) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).NotifyDebugDir)(
+                windows_core::Interface::as_raw(self),
+                fexecutable.into(),
+                pbdata.len().try_into().unwrap(),
+                core::mem::transmute(pbdata.as_ptr()),
+            )
+            .ok()
+        }
+    }
     pub unsafe fn NotifyOpenDBG<P0>(
         &self,
         dbgpath: P0,
@@ -9441,7 +10544,12 @@ impl IDiaLoadCallback {
 #[repr(C)]
 pub struct IDiaLoadCallback_Vtbl {
     pub base__: windows_core::IUnknown_Vtbl,
-    NotifyDebugDir: usize,
+    pub NotifyDebugDir: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        windows::Win32::Foundation::BOOL,
+        u32,
+        *const u8,
+    ) -> windows_core::HRESULT,
     pub NotifyOpenDBG: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         windows_core::PCWSTR,
@@ -9458,6 +10566,12 @@ pub struct IDiaLoadCallback_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void) -> windows_core::HRESULT,
 }
 pub trait IDiaLoadCallback_Impl: windows_core::IUnknownImpl {
+    fn NotifyDebugDir(
+        &self,
+        fexecutable: windows::Win32::Foundation::BOOL,
+        cbdata: u32,
+        pbdata: *const u8,
+    ) -> windows_core::Result<()>;
     fn NotifyOpenDBG(
         &self,
         dbgpath: &windows_core::PCWSTR,
@@ -9473,6 +10587,27 @@ pub trait IDiaLoadCallback_Impl: windows_core::IUnknownImpl {
 }
 impl IDiaLoadCallback_Vtbl {
     pub const fn new<Identity: IDiaLoadCallback_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn NotifyDebugDir<
+            Identity: IDiaLoadCallback_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            fexecutable: windows::Win32::Foundation::BOOL,
+            cbdata: u32,
+            pbdata: *const u8,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaLoadCallback_Impl::NotifyDebugDir(
+                    this,
+                    core::mem::transmute_copy(&fexecutable),
+                    core::mem::transmute_copy(&cbdata),
+                    core::mem::transmute_copy(&pbdata),
+                )
+                .into()
+            }
+        }
         unsafe extern "system" fn NotifyOpenDBG<
             Identity: IDiaLoadCallback_Impl,
             const OFFSET: isize,
@@ -9537,7 +10672,7 @@ impl IDiaLoadCallback_Vtbl {
         }
         Self {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
-            NotifyDebugDir: 0,
+            NotifyDebugDir: NotifyDebugDir::<Identity, OFFSET>,
             NotifyOpenDBG: NotifyOpenDBG::<Identity, OFFSET>,
             NotifyOpenPDB: NotifyOpenPDB::<Identity, OFFSET>,
             RestrictRegistryAccess: RestrictRegistryAccess::<Identity, OFFSET>,
@@ -9688,6 +10823,22 @@ windows_core::imp::define_interface!(
 );
 windows_core::imp::interface_hierarchy!(IDiaPropertyStorage, windows_core::IUnknown);
 impl IDiaPropertyStorage {
+    pub unsafe fn ReadMultiple(
+        &self,
+        cpspec: u32,
+        rgpspec: *const windows::Win32::System::Com::StructuredStorage::PROPSPEC,
+        rgvar: *mut windows::Win32::System::Com::StructuredStorage::PROPVARIANT,
+    ) -> windows_core::Result<()> {
+        unsafe {
+            (windows_core::Interface::vtable(self).ReadMultiple)(
+                windows_core::Interface::as_raw(self),
+                cpspec,
+                rgpspec,
+                core::mem::transmute(rgvar),
+            )
+            .ok()
+        }
+    }
     pub unsafe fn ReadPropertyNames(
         &self,
         cpropid: u32,
@@ -9702,6 +10853,19 @@ impl IDiaPropertyStorage {
                 core::mem::transmute(rglpwstrname),
             )
             .ok()
+        }
+    }
+    pub unsafe fn Enum(
+        &self,
+    ) -> windows_core::Result<windows::Win32::System::Com::StructuredStorage::IEnumSTATPROPSTG>
+    {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).Enum)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .and_then(|| windows_core::Type::from_abi(result__))
         }
     }
     pub unsafe fn ReadDWORD(&self, id: u32) -> windows_core::Result<u32> {
@@ -9719,6 +10883,20 @@ impl IDiaPropertyStorage {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).ReadLONG)(
+                windows_core::Interface::as_raw(self),
+                id,
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn ReadBOOL(
+        &self,
+        id: u32,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).ReadBOOL)(
                 windows_core::Interface::as_raw(self),
                 id,
                 &mut result__,
@@ -9752,19 +10930,31 @@ impl IDiaPropertyStorage {
 #[repr(C)]
 pub struct IDiaPropertyStorage_Vtbl {
     pub base__: windows_core::IUnknown_Vtbl,
-    ReadMultiple: usize,
+    pub ReadMultiple: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        u32,
+        *const windows::Win32::System::Com::StructuredStorage::PROPSPEC,
+        *mut windows::Win32::System::Com::StructuredStorage::PROPVARIANT,
+    ) -> windows_core::HRESULT,
     pub ReadPropertyNames: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         u32,
         *const u32,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    Enum: usize,
+    pub Enum: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut *mut core::ffi::c_void,
+    ) -> windows_core::HRESULT,
     pub ReadDWORD:
         unsafe extern "system" fn(*mut core::ffi::c_void, u32, *mut u32) -> windows_core::HRESULT,
     pub ReadLONG:
         unsafe extern "system" fn(*mut core::ffi::c_void, u32, *mut i32) -> windows_core::HRESULT,
-    ReadBOOL: usize,
+    pub ReadBOOL: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        u32,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub ReadULONGLONG:
         unsafe extern "system" fn(*mut core::ffi::c_void, u32, *mut u64) -> windows_core::HRESULT,
     pub ReadBSTR: unsafe extern "system" fn(
@@ -9774,19 +10964,50 @@ pub struct IDiaPropertyStorage_Vtbl {
     ) -> windows_core::HRESULT,
 }
 pub trait IDiaPropertyStorage_Impl: windows_core::IUnknownImpl {
+    fn ReadMultiple(
+        &self,
+        cpspec: u32,
+        rgpspec: *const windows::Win32::System::Com::StructuredStorage::PROPSPEC,
+        rgvar: *mut windows::Win32::System::Com::StructuredStorage::PROPVARIANT,
+    ) -> windows_core::Result<()>;
     fn ReadPropertyNames(
         &self,
         cpropid: u32,
         rgpropid: *const u32,
         rglpwstrname: *mut windows_core::BSTR,
     ) -> windows_core::Result<()>;
+    fn Enum(
+        &self,
+    ) -> windows_core::Result<windows::Win32::System::Com::StructuredStorage::IEnumSTATPROPSTG>;
     fn ReadDWORD(&self, id: u32) -> windows_core::Result<u32>;
     fn ReadLONG(&self, id: u32) -> windows_core::Result<i32>;
+    fn ReadBOOL(&self, id: u32) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn ReadULONGLONG(&self, id: u32) -> windows_core::Result<u64>;
     fn ReadBSTR(&self, id: u32) -> windows_core::Result<windows_core::BSTR>;
 }
 impl IDiaPropertyStorage_Vtbl {
     pub const fn new<Identity: IDiaPropertyStorage_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn ReadMultiple<
+            Identity: IDiaPropertyStorage_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            cpspec: u32,
+            rgpspec: *const windows::Win32::System::Com::StructuredStorage::PROPSPEC,
+            rgvar: *mut windows::Win32::System::Com::StructuredStorage::PROPVARIANT,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                IDiaPropertyStorage_Impl::ReadMultiple(
+                    this,
+                    core::mem::transmute_copy(&cpspec),
+                    core::mem::transmute_copy(&rgpspec),
+                    core::mem::transmute_copy(&rgvar),
+                )
+                .into()
+            }
+        }
         unsafe extern "system" fn ReadPropertyNames<
             Identity: IDiaPropertyStorage_Impl,
             const OFFSET: isize,
@@ -9806,6 +11027,22 @@ impl IDiaPropertyStorage_Vtbl {
                     core::mem::transmute_copy(&rglpwstrname),
                 )
                 .into()
+            }
+        }
+        unsafe extern "system" fn Enum<Identity: IDiaPropertyStorage_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            ppenum: *mut *mut core::ffi::c_void,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaPropertyStorage_Impl::Enum(this) {
+                    Ok(ok__) => {
+                        ppenum.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
             }
         }
         unsafe extern "system" fn ReadDWORD<
@@ -9840,6 +11077,26 @@ impl IDiaPropertyStorage_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaPropertyStorage_Impl::ReadLONG(this, core::mem::transmute_copy(&id)) {
+                    Ok(ok__) => {
+                        pvalue.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn ReadBOOL<
+            Identity: IDiaPropertyStorage_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            id: u32,
+            pvalue: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaPropertyStorage_Impl::ReadBOOL(this, core::mem::transmute_copy(&id)) {
                     Ok(ok__) => {
                         pvalue.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -9891,12 +11148,12 @@ impl IDiaPropertyStorage_Vtbl {
         }
         Self {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
-            ReadMultiple: 0,
+            ReadMultiple: ReadMultiple::<Identity, OFFSET>,
             ReadPropertyNames: ReadPropertyNames::<Identity, OFFSET>,
-            Enum: 0,
+            Enum: Enum::<Identity, OFFSET>,
             ReadDWORD: ReadDWORD::<Identity, OFFSET>,
             ReadLONG: ReadLONG::<Identity, OFFSET>,
-            ReadBOOL: 0,
+            ReadBOOL: ReadBOOL::<Identity, OFFSET>,
             ReadULONGLONG: ReadULONGLONG::<Identity, OFFSET>,
             ReadBSTR: ReadBSTR::<Identity, OFFSET>,
         }
@@ -10133,6 +11390,128 @@ impl IDiaSectionContrib {
             .map(|| result__)
         }
     }
+    pub unsafe fn notPaged(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).notPaged)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn code(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).code)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn initializedData(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).initializedData)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn uninitializedData(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).uninitializedData)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn remove(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).remove)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn comdat(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).comdat)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn discardable(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).discardable)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn notCached(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).notCached)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn share(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).share)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn execute(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).execute)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn read(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).read)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn write(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).write)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn dataCrc(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -10163,6 +11542,16 @@ impl IDiaSectionContrib {
             .map(|| result__)
         }
     }
+    pub unsafe fn code16bit(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).code16bit)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
 }
 #[repr(C)]
 pub struct IDiaSectionContrib_Vtbl {
@@ -10181,25 +11570,64 @@ pub struct IDiaSectionContrib_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u64) -> windows_core::HRESULT,
     pub length:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_notPaged: usize,
-    get_code: usize,
-    get_initializedData: usize,
-    get_uninitializedData: usize,
-    get_remove: usize,
-    get_comdat: usize,
-    get_discardable: usize,
-    get_notCached: usize,
-    get_share: usize,
-    get_execute: usize,
-    get_read: usize,
-    get_write: usize,
+    pub notPaged: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub code: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub initializedData: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub uninitializedData: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub remove: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub comdat: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub discardable: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub notCached: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub share: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub execute: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub read: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub write: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub dataCrc:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub relocationsCrc:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub compilandId:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_code16bit: usize,
+    pub code16bit: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
 pub trait IDiaSectionContrib_Impl: windows_core::IUnknownImpl {
     fn compiland(&self) -> windows_core::Result<IDiaSymbol>;
@@ -10208,9 +11636,22 @@ pub trait IDiaSectionContrib_Impl: windows_core::IUnknownImpl {
     fn relativeVirtualAddress(&self) -> windows_core::Result<u32>;
     fn virtualAddress(&self) -> windows_core::Result<u64>;
     fn length(&self) -> windows_core::Result<u32>;
+    fn notPaged(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn code(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn initializedData(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn uninitializedData(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn remove(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn comdat(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn discardable(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn notCached(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn share(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn execute(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn read(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn write(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn dataCrc(&self) -> windows_core::Result<u32>;
     fn relocationsCrc(&self) -> windows_core::Result<u32>;
     fn compilandId(&self) -> windows_core::Result<u32>;
+    fn code16bit(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
 }
 impl IDiaSectionContrib_Vtbl {
     pub const fn new<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>() -> Self {
@@ -10325,6 +11766,216 @@ impl IDiaSectionContrib_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn notPaged<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::notPaged(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn code<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::code(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn initializedData<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::initializedData(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn uninitializedData<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::uninitializedData(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn remove<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::remove(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn comdat<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::comdat(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn discardable<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::discardable(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn notCached<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::notCached(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn share<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::share(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn execute<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::execute(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn read<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::read(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn write<Identity: IDiaSectionContrib_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::write(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn dataCrc<
             Identity: IDiaSectionContrib_Impl,
             const OFFSET: isize,
@@ -10382,6 +12033,25 @@ impl IDiaSectionContrib_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn code16bit<
+            Identity: IDiaSectionContrib_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSectionContrib_Impl::code16bit(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
             compiland: compiland::<Identity, OFFSET>,
@@ -10390,22 +12060,22 @@ impl IDiaSectionContrib_Vtbl {
             relativeVirtualAddress: relativeVirtualAddress::<Identity, OFFSET>,
             virtualAddress: virtualAddress::<Identity, OFFSET>,
             length: length::<Identity, OFFSET>,
-            get_notPaged: 0,
-            get_code: 0,
-            get_initializedData: 0,
-            get_uninitializedData: 0,
-            get_remove: 0,
-            get_comdat: 0,
-            get_discardable: 0,
-            get_notCached: 0,
-            get_share: 0,
-            get_execute: 0,
-            get_read: 0,
-            get_write: 0,
+            notPaged: notPaged::<Identity, OFFSET>,
+            code: code::<Identity, OFFSET>,
+            initializedData: initializedData::<Identity, OFFSET>,
+            uninitializedData: uninitializedData::<Identity, OFFSET>,
+            remove: remove::<Identity, OFFSET>,
+            comdat: comdat::<Identity, OFFSET>,
+            discardable: discardable::<Identity, OFFSET>,
+            notCached: notCached::<Identity, OFFSET>,
+            share: share::<Identity, OFFSET>,
+            execute: execute::<Identity, OFFSET>,
+            read: read::<Identity, OFFSET>,
+            write: write::<Identity, OFFSET>,
             dataCrc: dataCrc::<Identity, OFFSET>,
             relocationsCrc: relocationsCrc::<Identity, OFFSET>,
             compilandId: compilandId::<Identity, OFFSET>,
-            get_code16bit: 0,
+            code16bit: code16bit::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -10444,6 +12114,36 @@ impl IDiaSegment {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).length)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn read(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).read)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn write(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).write)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn execute(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).execute)(
                 windows_core::Interface::as_raw(self),
                 &mut result__,
             )
@@ -10489,9 +12189,18 @@ pub struct IDiaSegment_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub length:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_read: usize,
-    get_write: usize,
-    get_execute: usize,
+    pub read: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub write: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub execute: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub addressSection:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub relativeVirtualAddress:
@@ -10503,6 +12212,9 @@ pub trait IDiaSegment_Impl: windows_core::IUnknownImpl {
     fn frame(&self) -> windows_core::Result<u32>;
     fn offset(&self) -> windows_core::Result<u32>;
     fn length(&self) -> windows_core::Result<u32>;
+    fn read(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn write(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn execute(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn addressSection(&self) -> windows_core::Result<u32>;
     fn relativeVirtualAddress(&self) -> windows_core::Result<u32>;
     fn virtualAddress(&self) -> windows_core::Result<u64>;
@@ -10549,6 +12261,54 @@ impl IDiaSegment_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSegment_Impl::length(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn read<Identity: IDiaSegment_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSegment_Impl::read(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn write<Identity: IDiaSegment_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSegment_Impl::write(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn execute<Identity: IDiaSegment_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSegment_Impl::execute(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -10619,9 +12379,9 @@ impl IDiaSegment_Vtbl {
             frame: frame::<Identity, OFFSET>,
             offset: offset::<Identity, OFFSET>,
             length: length::<Identity, OFFSET>,
-            get_read: 0,
-            get_write: 0,
-            get_execute: 0,
+            read: read::<Identity, OFFSET>,
+            write: write::<Identity, OFFSET>,
+            execute: execute::<Identity, OFFSET>,
             addressSection: addressSection::<Identity, OFFSET>,
             relativeVirtualAddress: relativeVirtualAddress::<Identity, OFFSET>,
             virtualAddress: virtualAddress::<Identity, OFFSET>,
@@ -13710,6 +15470,26 @@ impl core::ops::Deref for IDiaSessionEx {
 }
 windows_core::imp::interface_hierarchy!(IDiaSessionEx, windows_core::IUnknown, IDiaSession);
 impl IDiaSessionEx {
+    pub unsafe fn isFastLinkPDB(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isFastLinkPDB)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isPortablePDB(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPortablePDB)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn getSourceLinkInfo<P0>(
         &self,
         parent: P0,
@@ -13731,8 +15511,14 @@ impl IDiaSessionEx {
 #[repr(C)]
 pub struct IDiaSessionEx_Vtbl {
     pub base__: IDiaSession_Vtbl,
-    isFastLinkPDB: usize,
-    isPortablePDB: usize,
+    pub isFastLinkPDB: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isPortablePDB: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub getSourceLinkInfo: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut core::ffi::c_void,
@@ -13740,6 +15526,8 @@ pub struct IDiaSessionEx_Vtbl {
     ) -> windows_core::HRESULT,
 }
 pub trait IDiaSessionEx_Impl: IDiaSession_Impl {
+    fn isFastLinkPDB(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isPortablePDB(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn getSourceLinkInfo(
         &self,
         parent: windows_core::Ref<'_, IDiaSymbol>,
@@ -13747,6 +15535,44 @@ pub trait IDiaSessionEx_Impl: IDiaSession_Impl {
 }
 impl IDiaSessionEx_Vtbl {
     pub const fn new<Identity: IDiaSessionEx_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn isFastLinkPDB<
+            Identity: IDiaSessionEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pffastlinkpdb: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSessionEx_Impl::isFastLinkPDB(this) {
+                    Ok(ok__) => {
+                        pffastlinkpdb.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isPortablePDB<
+            Identity: IDiaSessionEx_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pfportablepdb: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSessionEx_Impl::isPortablePDB(this) {
+                    Ok(ok__) => {
+                        pfportablepdb.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn getSourceLinkInfo<
             Identity: IDiaSessionEx_Impl,
             const OFFSET: isize,
@@ -13772,8 +15598,8 @@ impl IDiaSessionEx_Vtbl {
         }
         Self {
             base__: IDiaSession_Vtbl::new::<Identity, OFFSET>(),
-            isFastLinkPDB: 0,
-            isPortablePDB: 0,
+            isFastLinkPDB: isFastLinkPDB::<Identity, OFFSET>,
+            isPortablePDB: isPortablePDB::<Identity, OFFSET>,
             getSourceLinkInfo: getSourceLinkInfo::<Identity, OFFSET>,
         }
     }
@@ -14087,6 +15913,52 @@ impl IDiaStackFrame {
             .map(|| result__)
         }
     }
+    pub unsafe fn systemExceptionHandling(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).systemExceptionHandling)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn cplusplusExceptionHandling(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).cplusplusExceptionHandling)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn functionStart(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).functionStart)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn allocatesBasePointer(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).allocatesBasePointer)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn maxStack(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -14128,10 +16000,22 @@ pub struct IDiaStackFrame_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub lengthSavedRegisters:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_systemExceptionHandling: usize,
-    get_cplusplusExceptionHandling: usize,
-    get_functionStart: usize,
-    get_allocatesBasePointer: usize,
+    pub systemExceptionHandling: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub cplusplusExceptionHandling: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub functionStart: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub allocatesBasePointer: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub maxStack:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub get_registerValue:
@@ -14147,6 +16031,10 @@ pub trait IDiaStackFrame_Impl: windows_core::IUnknownImpl {
     fn lengthParams(&self) -> windows_core::Result<u32>;
     fn lengthProlog(&self) -> windows_core::Result<u32>;
     fn lengthSavedRegisters(&self) -> windows_core::Result<u32>;
+    fn systemExceptionHandling(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn cplusplusExceptionHandling(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn functionStart(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn allocatesBasePointer(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn maxStack(&self) -> windows_core::Result<u32>;
     fn get_registerValue(&self, index: u32) -> windows_core::Result<u64>;
 }
@@ -14311,6 +16199,82 @@ impl IDiaStackFrame_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn systemExceptionHandling<
+            Identity: IDiaStackFrame_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaStackFrame_Impl::systemExceptionHandling(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn cplusplusExceptionHandling<
+            Identity: IDiaStackFrame_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaStackFrame_Impl::cplusplusExceptionHandling(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn functionStart<
+            Identity: IDiaStackFrame_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaStackFrame_Impl::functionStart(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn allocatesBasePointer<
+            Identity: IDiaStackFrame_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaStackFrame_Impl::allocatesBasePointer(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn maxStack<Identity: IDiaStackFrame_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -14361,10 +16325,10 @@ impl IDiaStackFrame_Vtbl {
             lengthParams: lengthParams::<Identity, OFFSET>,
             lengthProlog: lengthProlog::<Identity, OFFSET>,
             lengthSavedRegisters: lengthSavedRegisters::<Identity, OFFSET>,
-            get_systemExceptionHandling: 0,
-            get_cplusplusExceptionHandling: 0,
-            get_functionStart: 0,
-            get_allocatesBasePointer: 0,
+            systemExceptionHandling: systemExceptionHandling::<Identity, OFFSET>,
+            cplusplusExceptionHandling: cplusplusExceptionHandling::<Identity, OFFSET>,
+            functionStart: functionStart::<Identity, OFFSET>,
+            allocatesBasePointer: allocatesBasePointer::<Identity, OFFSET>,
             maxStack: maxStack::<Identity, OFFSET>,
             get_registerValue: get_registerValue::<Identity, OFFSET>,
         }
@@ -15621,6 +17585,36 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn volatileType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).volatileType)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn constType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).constType)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn unalignedType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).unalignedType)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn access(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -15655,6 +17649,18 @@ impl IDiaSymbol {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).language)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn editAndContinueEnabled(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).editAndContinueEnabled)(
                 windows_core::Interface::as_raw(self),
                 &mut result__,
             )
@@ -15771,6 +17777,36 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn r#virtual(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).r#virtual)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn intro(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).intro)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn pure(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).pure)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn callingConvention(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -15779,6 +17815,16 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .map(|| result__)
+        }
+    }
+    pub unsafe fn value(&self) -> windows_core::Result<windows::Win32::System::Variant::VARIANT> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).value)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| core::mem::transmute(result__))
         }
     }
     pub unsafe fn baseType(&self) -> windows_core::Result<u32> {
@@ -15831,6 +17877,16 @@ impl IDiaSymbol {
             .map(|| core::mem::transmute(result__))
         }
     }
+    pub unsafe fn reference(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).reference)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn count(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -15859,6 +17915,114 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn packed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).packed)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn constructor(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).constructor)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn overloadedOperator(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).overloadedOperator)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn nested(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).nested)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasNestedTypes(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasNestedTypes)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasAssignmentOperator(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasAssignmentOperator)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasCastOperator(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasCastOperator)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn scoped(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).scoped)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn virtualBaseClass(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).virtualBaseClass)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn indirectVirtualBaseClass(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).indirectVirtualBaseClass)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn virtualBasePointerOffset(&self) -> windows_core::Result<i32> {
@@ -15931,6 +18095,46 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn code(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).code)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn function(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).function)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn managed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).managed)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn msil(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).msil)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn virtualBaseDispIndex(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -15965,6 +18169,28 @@ impl IDiaSymbol {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).signature)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn compilerGenerated(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).compilerGenerated)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn addressTaken(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).addressTaken)(
                 windows_core::Interface::as_raw(self),
                 &mut result__,
             )
@@ -16283,6 +18509,132 @@ impl IDiaSymbol {
             .map(|| core::mem::transmute(result__))
         }
     }
+    pub unsafe fn noReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).noReturn)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn customCallingConvention(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).customCallingConvention)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn noInline(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).noInline)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn optimizedCodeDebugInfo(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).optimizedCodeDebugInfo)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn notReached(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).notReached)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn interruptReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).interruptReturn)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn farReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).farReturn)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isStatic(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isStatic)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasDebugInfo(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasDebugInfo)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isLTCG(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isLTCG)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isDataAligned(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isDataAligned)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasSecurityChecks(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasSecurityChecks)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn compilerName(&self) -> windows_core::Result<windows_core::BSTR> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16291,6 +18643,106 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .map(|| core::mem::transmute(result__))
+        }
+    }
+    pub unsafe fn hasAlloca(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasAlloca)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasSetJump(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasSetJump)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasLongJump(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasLongJump)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasInlAsm(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasInlAsm)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasEH(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasEH)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasSEH(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasSEH)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasEHa(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasEHa)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isNaked(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isNaked)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isAggregated(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isAggregated)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isSplitted(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isSplitted)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn container(&self) -> windows_core::Result<IDiaSymbol> {
@@ -16303,6 +18755,26 @@ impl IDiaSymbol {
             .and_then(|| windows_core::Type::from_abi(result__))
         }
     }
+    pub unsafe fn inlSpec(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).inlSpec)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn noStackOrdering(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).noStackOrdering)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn virtualBaseTableType(&self) -> windows_core::Result<IDiaSymbol> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16311,6 +18783,66 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn hasManagedCode(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasManagedCode)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isHotpatchable(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isHotpatchable)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isCVTCIL(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isCVTCIL)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isMSILNetmodule(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isMSILNetmodule)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isCTypes(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isCTypes)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isStripped(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isStripped)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn frontEndQFE(&self) -> windows_core::Result<u32> {
@@ -16333,6 +18865,58 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn wasInlined(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).wasInlined)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn strictGSCheck(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).strictGSCheck)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isCxxReturnUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isCxxReturnUdt)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isConstructorVirtualBase(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isConstructorVirtualBase)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn RValueReference(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).RValueReference)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn unmodifiedType(&self) -> windows_core::Result<IDiaSymbol> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16341,6 +18925,68 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .and_then(|| windows_core::Type::from_abi(result__))
+        }
+    }
+    pub unsafe fn framePointerPresent(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).framePointerPresent)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isSafeBuffers(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isSafeBuffers)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn intrinsic(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).intrinsic)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn sealed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).sealed)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hfaFloat(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hfaFloat)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hfaDouble(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hfaDouble)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn liveRangeStartAddressSection(&self) -> windows_core::Result<u32> {
@@ -16423,6 +19069,18 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn isLocationControlFlowDependent(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isLocationControlFlowDependent)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn stride(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16447,6 +19105,18 @@ impl IDiaSymbol {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).numberOfColumns)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isMatrixRowMajor(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isMatrixRowMajor)(
                 windows_core::Interface::as_raw(self),
                 &mut result__,
             )
@@ -16481,6 +19151,26 @@ impl IDiaSymbol {
                 core::mem::transmute(pmodifiers.as_ptr()),
             )
             .ok()
+        }
+    }
+    pub unsafe fn isReturnValue(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isReturnValue)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isOptimizedAway(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isOptimizedAway)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn builtInKind(&self) -> windows_core::Result<u32> {
@@ -16623,6 +19313,98 @@ impl IDiaSymbol {
             .map(|| result__)
         }
     }
+    pub unsafe fn isHLSLData(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isHLSLData)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isPointerToDataMember(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPointerToDataMember)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isPointerToMemberFunction(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPointerToMemberFunction)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isSingleInheritance(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isSingleInheritance)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isMultipleInheritance(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isMultipleInheritance)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isVirtualInheritance(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isVirtualInheritance)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn restrictedType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).restrictedType)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isPointerBasedOnSymbolValue(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPointerBasedOnSymbolValue)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn baseSymbol(&self) -> windows_core::Result<IDiaSymbol> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16653,10 +19435,96 @@ impl IDiaSymbol {
             .map(|| core::mem::transmute(result__))
         }
     }
+    pub unsafe fn isAcceleratorGroupSharedLocal(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isAcceleratorGroupSharedLocal)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isAcceleratorPointerTagLiveRange(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isAcceleratorPointerTagLiveRange)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isAcceleratorStubFunction(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isAcceleratorStubFunction)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn numberOfAcceleratorPointerTags(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).numberOfAcceleratorPointerTags)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isSdl(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isSdl)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isWinRTPointer(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isWinRTPointer)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isRefUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isRefUdt)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isValueUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isValueUdt)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isInterfaceUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isInterfaceUdt)(
                 windows_core::Interface::as_raw(self),
                 &mut result__,
             )
@@ -16816,6 +19684,40 @@ impl IDiaSymbol {
             .and_then(|| windows_core::Type::from_abi(result__))
         }
     }
+    pub unsafe fn isPGO(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isPGO)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn hasValidPGOCounts(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasValidPGOCounts)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isOptimizedForSpeed(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isOptimizedForSpeed)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
     pub unsafe fn PGOEntryCount(&self) -> windows_core::Result<u32> {
         unsafe {
             let mut result__ = core::mem::zeroed();
@@ -16874,6 +19776,82 @@ impl IDiaSymbol {
                 &mut result__,
             )
             .map(|| core::mem::transmute(result__))
+        }
+    }
+    pub unsafe fn hasControlFlowCheck(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasControlFlowCheck)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn constantExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).constantExport)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn dataExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).dataExport)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn privateExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).privateExport)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn noNameExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).noNameExport)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn exportHasExplicitlyAssignedOrdinal(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).exportHasExplicitlyAssignedOrdinal)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn exportIsForwarder(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).exportIsForwarder)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
         }
     }
     pub unsafe fn ordinal(&self) -> windows_core::Result<u32> {
@@ -17039,9 +20017,18 @@ pub struct IDiaSymbol_Vtbl {
     pub length:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u64) -> windows_core::HRESULT,
     pub slot: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_volatileType: usize,
-    get_constType: usize,
-    get_unalignedType: usize,
+    pub volatileType: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub constType: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub unalignedType: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub access:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub libraryName: unsafe extern "system" fn(
@@ -17052,7 +20039,10 @@ pub struct IDiaSymbol_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub language:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_editAndContinueEnabled: usize,
+    pub editAndContinueEnabled: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub frontEndMajor:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub frontEndMinor:
@@ -17079,12 +20069,24 @@ pub struct IDiaSymbol_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut i32) -> windows_core::HRESULT,
     pub virtualBaseOffset:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_virtual: usize,
-    get_intro: usize,
-    get_pure: usize,
+    pub r#virtual: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub intro: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub pure: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub callingConvention:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_value: usize,
+    pub value: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::System::Variant::VARIANT,
+    ) -> windows_core::HRESULT,
     pub baseType:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub token: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
@@ -17098,7 +20100,10 @@ pub struct IDiaSymbol_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_reference: usize,
+    pub reference: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub count: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub bitPosition:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
@@ -17106,16 +20111,46 @@ pub struct IDiaSymbol_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_packed: usize,
-    get_constructor: usize,
-    get_overloadedOperator: usize,
-    get_nested: usize,
-    get_hasNestedTypes: usize,
-    get_hasAssignmentOperator: usize,
-    get_hasCastOperator: usize,
-    get_scoped: usize,
-    get_virtualBaseClass: usize,
-    get_indirectVirtualBaseClass: usize,
+    pub packed: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub constructor: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub overloadedOperator: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub nested: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasNestedTypes: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasAssignmentOperator: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasCastOperator: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub scoped: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub virtualBaseClass: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub indirectVirtualBaseClass: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub virtualBasePointerOffset:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut i32) -> windows_core::HRESULT,
     pub virtualTableShape: unsafe extern "system" fn(
@@ -17132,10 +20167,22 @@ pub struct IDiaSymbol_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub virtualTableShapeId:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_code: usize,
-    get_function: usize,
-    get_managed: usize,
-    get_msil: usize,
+    pub code: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub function: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub managed: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub msil: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub virtualBaseDispIndex:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub undecoratedName: unsafe extern "system" fn(
@@ -17145,8 +20192,14 @@ pub struct IDiaSymbol_Vtbl {
     pub age: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub signature:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_compilerGenerated: usize,
-    get_addressTaken: usize,
+    pub compilerGenerated: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub addressTaken: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub rank: unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub lowerBound: unsafe extern "system" fn(
         *mut core::ffi::c_void,
@@ -17241,67 +20294,190 @@ pub struct IDiaSymbol_Vtbl {
         u32,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_noReturn: usize,
-    get_customCallingConvention: usize,
-    get_noInline: usize,
-    get_optimizedCodeDebugInfo: usize,
-    get_notReached: usize,
-    get_interruptReturn: usize,
-    get_farReturn: usize,
-    get_isStatic: usize,
-    get_hasDebugInfo: usize,
-    get_isLTCG: usize,
-    get_isDataAligned: usize,
-    get_hasSecurityChecks: usize,
+    pub noReturn: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub customCallingConvention: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub noInline: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub optimizedCodeDebugInfo: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub notReached: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub interruptReturn: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub farReturn: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isStatic: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasDebugInfo: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isLTCG: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isDataAligned: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasSecurityChecks: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub compilerName: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_hasAlloca: usize,
-    get_hasSetJump: usize,
-    get_hasLongJump: usize,
-    get_hasInlAsm: usize,
-    get_hasEH: usize,
-    get_hasSEH: usize,
-    get_hasEHa: usize,
-    get_isNaked: usize,
-    get_isAggregated: usize,
-    get_isSplitted: usize,
+    pub hasAlloca: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasSetJump: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasLongJump: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasInlAsm: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasEH: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasSEH: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasEHa: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isNaked: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isAggregated: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isSplitted: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub container: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_inlSpec: usize,
-    get_noStackOrdering: usize,
+    pub inlSpec: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub noStackOrdering: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub virtualBaseTableType: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_hasManagedCode: usize,
-    get_isHotpatchable: usize,
-    get_isCVTCIL: usize,
-    get_isMSILNetmodule: usize,
-    get_isCTypes: usize,
-    get_isStripped: usize,
+    pub hasManagedCode: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isHotpatchable: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isCVTCIL: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isMSILNetmodule: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isCTypes: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isStripped: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub frontEndQFE:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub backEndQFE:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_wasInlined: usize,
-    get_strictGSCheck: usize,
-    get_isCxxReturnUdt: usize,
-    get_isConstructorVirtualBase: usize,
-    get_RValueReference: usize,
+    pub wasInlined: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub strictGSCheck: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isCxxReturnUdt: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isConstructorVirtualBase: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub RValueReference: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub unmodifiedType: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_framePointerPresent: usize,
-    get_isSafeBuffers: usize,
-    get_intrinsic: usize,
-    get_sealed: usize,
-    get_hfaFloat: usize,
-    get_hfaDouble: usize,
+    pub framePointerPresent: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isSafeBuffers: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub intrinsic: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub sealed: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hfaFloat: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hfaDouble: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub liveRangeStartAddressSection:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub liveRangeStartAddressOffset:
@@ -17318,14 +20494,20 @@ pub struct IDiaSymbol_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub localBasePointerRegisterId:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_isLocationControlFlowDependent: usize,
+    pub isLocationControlFlowDependent: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub stride:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub numberOfRows:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub numberOfColumns:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_isMatrixRowMajor: usize,
+    pub isMatrixRowMajor: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub get_numericProperties: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         u32,
@@ -17338,8 +20520,14 @@ pub struct IDiaSymbol_Vtbl {
         *mut u32,
         *mut u16,
     ) -> windows_core::HRESULT,
-    get_isReturnValue: usize,
-    get_isOptimizedAway: usize,
+    pub isReturnValue: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isOptimizedAway: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub builtInKind:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub registerType:
@@ -17370,14 +20558,38 @@ pub struct IDiaSymbol_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub numberOfRegisterIndices:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_isHLSLData: usize,
-    get_isPointerToDataMember: usize,
-    get_isPointerToMemberFunction: usize,
-    get_isSingleInheritance: usize,
-    get_isMultipleInheritance: usize,
-    get_isVirtualInheritance: usize,
-    get_restrictedType: usize,
-    get_isPointerBasedOnSymbolValue: usize,
+    pub isHLSLData: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isPointerToDataMember: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isPointerToMemberFunction: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isSingleInheritance: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isMultipleInheritance: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isVirtualInheritance: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub restrictedType: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isPointerBasedOnSymbolValue: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub baseSymbol: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
@@ -17388,16 +20600,40 @@ pub struct IDiaSymbol_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_isAcceleratorGroupSharedLocal: usize,
-    get_isAcceleratorPointerTagLiveRange: usize,
-    get_isAcceleratorStubFunction: usize,
+    pub isAcceleratorGroupSharedLocal: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isAcceleratorPointerTagLiveRange: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isAcceleratorStubFunction: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub numberOfAcceleratorPointerTags:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_isSdl: usize,
-    get_isWinRTPointer: usize,
-    get_isRefUdt: usize,
-    get_isValueUdt: usize,
-    get_isInterfaceUdt: usize,
+    pub isSdl: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isWinRTPointer: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isRefUdt: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isValueUdt: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isInterfaceUdt: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub findInlineFramesByAddr: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         u32,
@@ -17460,9 +20696,18 @@ pub struct IDiaSymbol_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_isPGO: usize,
-    get_hasValidPGOCounts: usize,
-    get_isOptimizedForSpeed: usize,
+    pub isPGO: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub hasValidPGOCounts: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isOptimizedForSpeed: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub PGOEntryCount:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub PGOEdgeCount:
@@ -17477,13 +20722,34 @@ pub struct IDiaSymbol_Vtbl {
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
-    get_hasControlFlowCheck: usize,
-    get_constantExport: usize,
-    get_dataExport: usize,
-    get_privateExport: usize,
-    get_noNameExport: usize,
-    get_exportHasExplicitlyAssignedOrdinal: usize,
-    get_exportIsForwarder: usize,
+    pub hasControlFlowCheck: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub constantExport: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub dataExport: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub privateExport: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub noNameExport: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub exportHasExplicitlyAssignedOrdinal: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub exportIsForwarder: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
     pub ordinal:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub frameSize:
@@ -17530,10 +20796,14 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
     fn offset(&self) -> windows_core::Result<i32>;
     fn length(&self) -> windows_core::Result<u64>;
     fn slot(&self) -> windows_core::Result<u32>;
+    fn volatileType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn constType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn unalignedType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn access(&self) -> windows_core::Result<u32>;
     fn libraryName(&self) -> windows_core::Result<windows_core::BSTR>;
     fn platform(&self) -> windows_core::Result<u32>;
     fn language(&self) -> windows_core::Result<u32>;
+    fn editAndContinueEnabled(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn frontEndMajor(&self) -> windows_core::Result<u32>;
     fn frontEndMinor(&self) -> windows_core::Result<u32>;
     fn frontEndBuild(&self) -> windows_core::Result<u32>;
@@ -17545,15 +20815,30 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
     fn thunkOrdinal(&self) -> windows_core::Result<u32>;
     fn thisAdjust(&self) -> windows_core::Result<i32>;
     fn virtualBaseOffset(&self) -> windows_core::Result<u32>;
+    fn r#virtual(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn intro(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn pure(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn callingConvention(&self) -> windows_core::Result<u32>;
+    fn value(&self) -> windows_core::Result<windows::Win32::System::Variant::VARIANT>;
     fn baseType(&self) -> windows_core::Result<u32>;
     fn token(&self) -> windows_core::Result<u32>;
     fn timeStamp(&self) -> windows_core::Result<u32>;
     fn guid(&self) -> windows_core::Result<windows_core::GUID>;
     fn symbolsFileName(&self) -> windows_core::Result<windows_core::BSTR>;
+    fn reference(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn count(&self) -> windows_core::Result<u32>;
     fn bitPosition(&self) -> windows_core::Result<u32>;
     fn arrayIndexType(&self) -> windows_core::Result<IDiaSymbol>;
+    fn packed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn constructor(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn overloadedOperator(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn nested(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasNestedTypes(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasAssignmentOperator(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasCastOperator(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn scoped(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn virtualBaseClass(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn indirectVirtualBaseClass(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn virtualBasePointerOffset(&self) -> windows_core::Result<i32>;
     fn virtualTableShape(&self) -> windows_core::Result<IDiaSymbol>;
     fn lexicalParentId(&self) -> windows_core::Result<u32>;
@@ -17561,10 +20846,16 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
     fn typeId(&self) -> windows_core::Result<u32>;
     fn arrayIndexTypeId(&self) -> windows_core::Result<u32>;
     fn virtualTableShapeId(&self) -> windows_core::Result<u32>;
+    fn code(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn function(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn managed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn msil(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn virtualBaseDispIndex(&self) -> windows_core::Result<u32>;
     fn undecoratedName(&self) -> windows_core::Result<windows_core::BSTR>;
     fn age(&self) -> windows_core::Result<u32>;
     fn signature(&self) -> windows_core::Result<u32>;
+    fn compilerGenerated(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn addressTaken(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn rank(&self) -> windows_core::Result<u32>;
     fn lowerBound(&self) -> windows_core::Result<IDiaSymbol>;
     fn upperBound(&self) -> windows_core::Result<IDiaSymbol>;
@@ -17635,12 +20926,53 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
         &self,
         undecorateoptions: u32,
     ) -> windows_core::Result<windows_core::BSTR>;
+    fn noReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn customCallingConvention(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn noInline(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn optimizedCodeDebugInfo(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn notReached(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn interruptReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn farReturn(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isStatic(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasDebugInfo(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isLTCG(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isDataAligned(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasSecurityChecks(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn compilerName(&self) -> windows_core::Result<windows_core::BSTR>;
+    fn hasAlloca(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasSetJump(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasLongJump(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasInlAsm(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasEH(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasSEH(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasEHa(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isNaked(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isAggregated(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isSplitted(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn container(&self) -> windows_core::Result<IDiaSymbol>;
+    fn inlSpec(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn noStackOrdering(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn virtualBaseTableType(&self) -> windows_core::Result<IDiaSymbol>;
+    fn hasManagedCode(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isHotpatchable(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isCVTCIL(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isMSILNetmodule(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isCTypes(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isStripped(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn frontEndQFE(&self) -> windows_core::Result<u32>;
     fn backEndQFE(&self) -> windows_core::Result<u32>;
+    fn wasInlined(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn strictGSCheck(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isCxxReturnUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isConstructorVirtualBase(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn RValueReference(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn unmodifiedType(&self) -> windows_core::Result<IDiaSymbol>;
+    fn framePointerPresent(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isSafeBuffers(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn intrinsic(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn sealed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hfaFloat(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hfaDouble(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn liveRangeStartAddressSection(&self) -> windows_core::Result<u32>;
     fn liveRangeStartAddressOffset(&self) -> windows_core::Result<u32>;
     fn liveRangeStartRelativeVirtualAddress(&self) -> windows_core::Result<u32>;
@@ -17649,9 +20981,13 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
     fn offsetInUdt(&self) -> windows_core::Result<u32>;
     fn paramBasePointerRegisterId(&self) -> windows_core::Result<u32>;
     fn localBasePointerRegisterId(&self) -> windows_core::Result<u32>;
+    fn isLocationControlFlowDependent(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn stride(&self) -> windows_core::Result<u32>;
     fn numberOfRows(&self) -> windows_core::Result<u32>;
     fn numberOfColumns(&self) -> windows_core::Result<u32>;
+    fn isMatrixRowMajor(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn get_numericProperties(
         &self,
         cnt: u32,
@@ -17664,6 +21000,8 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
         pcnt: *mut u32,
         pmodifiers: *mut u16,
     ) -> windows_core::Result<()>;
+    fn isReturnValue(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isOptimizedAway(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn builtInKind(&self) -> windows_core::Result<u32>;
     fn registerType(&self) -> windows_core::Result<u32>;
     fn baseDataSlot(&self) -> windows_core::Result<u32>;
@@ -17678,10 +21016,31 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
     fn subType(&self) -> windows_core::Result<IDiaSymbol>;
     fn numberOfModifiers(&self) -> windows_core::Result<u32>;
     fn numberOfRegisterIndices(&self) -> windows_core::Result<u32>;
+    fn isHLSLData(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isPointerToDataMember(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isPointerToMemberFunction(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isSingleInheritance(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isMultipleInheritance(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isVirtualInheritance(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn restrictedType(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isPointerBasedOnSymbolValue(&self)
+        -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn baseSymbol(&self) -> windows_core::Result<IDiaSymbol>;
     fn baseSymbolId(&self) -> windows_core::Result<u32>;
     fn objectFileName(&self) -> windows_core::Result<windows_core::BSTR>;
+    fn isAcceleratorGroupSharedLocal(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isAcceleratorPointerTagLiveRange(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isAcceleratorStubFunction(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn numberOfAcceleratorPointerTags(&self) -> windows_core::Result<u32>;
+    fn isSdl(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isWinRTPointer(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isRefUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isValueUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isInterfaceUdt(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn findInlineFramesByAddr(
         &self,
         isect: u32,
@@ -17722,12 +21081,24 @@ pub trait IDiaSymbol_Impl: windows_core::IUnknownImpl {
         ppointertags: *mut u32,
     ) -> windows_core::Result<()>;
     fn getSrcLineOnTypeDefn(&self) -> windows_core::Result<IDiaLineNumber>;
+    fn isPGO(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn hasValidPGOCounts(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isOptimizedForSpeed(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn PGOEntryCount(&self) -> windows_core::Result<u32>;
     fn PGOEdgeCount(&self) -> windows_core::Result<u32>;
     fn PGODynamicInstructionCount(&self) -> windows_core::Result<u64>;
     fn staticSize(&self) -> windows_core::Result<u32>;
     fn finalLiveStaticSize(&self) -> windows_core::Result<u32>;
     fn phaseName(&self) -> windows_core::Result<windows_core::BSTR>;
+    fn hasControlFlowCheck(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn constantExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn dataExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn privateExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn noNameExport(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn exportHasExplicitlyAssignedOrdinal(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn exportIsForwarder(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
     fn ordinal(&self) -> windows_core::Result<u32>;
     fn frameSize(&self) -> windows_core::Result<u32>;
     fn exceptionHandlerAddressSection(&self) -> windows_core::Result<u32>;
@@ -18002,6 +21373,54 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn volatileType<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::volatileType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn constType<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::constType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn unalignedType<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::unalignedType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn access<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -18058,6 +21477,25 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::language(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn editAndContinueEnabled<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::editAndContinueEnabled(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -18245,6 +21683,54 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn r#virtual<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::r#virtual(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn intro<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::intro(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn pure<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::pure(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn callingConvention<
             Identity: IDiaSymbol_Impl,
             const OFFSET: isize,
@@ -18256,6 +21742,22 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::callingConvention(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn value<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::System::Variant::VARIANT,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::value(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -18347,6 +21849,22 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn reference<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::reference(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn count<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -18387,6 +21905,181 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::arrayIndexType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn packed<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::packed(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn constructor<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::constructor(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn overloadedOperator<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::overloadedOperator(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn nested<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::nested(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasNestedTypes<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasNestedTypes(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasAssignmentOperator<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasAssignmentOperator(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasCastOperator<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasCastOperator(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn scoped<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::scoped(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn virtualBaseClass<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::virtualBaseClass(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn indirectVirtualBaseClass<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::indirectVirtualBaseClass(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -18522,6 +22215,70 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn code<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::code(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn function<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::function(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn managed<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::managed(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn msil<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::msil(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn virtualBaseDispIndex<
             Identity: IDiaSymbol_Impl,
             const OFFSET: isize,
@@ -18584,6 +22341,41 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::signature(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn compilerGenerated<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::compilerGenerated(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn addressTaken<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::addressTaken(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -19039,6 +22831,210 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn noReturn<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::noReturn(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn customCallingConvention<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::customCallingConvention(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn noInline<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::noInline(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn optimizedCodeDebugInfo<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::optimizedCodeDebugInfo(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn notReached<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::notReached(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn interruptReturn<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::interruptReturn(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn farReturn<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::farReturn(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isStatic<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isStatic(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasDebugInfo<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasDebugInfo(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isLTCG<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isLTCG(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isDataAligned<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isDataAligned(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasSecurityChecks<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasSecurityChecks(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn compilerName<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut *mut core::ffi::c_void,
@@ -19047,6 +23043,166 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::compilerName(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasAlloca<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasAlloca(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasSetJump<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasSetJump(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasLongJump<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasLongJump(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasInlAsm<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasInlAsm(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasEH<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasEH(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasSEH<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasSEH(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasEHa<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasEHa(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isNaked<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isNaked(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isAggregated<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isAggregated(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isSplitted<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isSplitted(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -19071,6 +23227,41 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn inlSpec<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::inlSpec(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn noStackOrdering<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::noStackOrdering(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn virtualBaseTableType<
             Identity: IDiaSymbol_Impl,
             const OFFSET: isize,
@@ -19082,6 +23273,105 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::virtualBaseTableType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasManagedCode<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasManagedCode(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isHotpatchable<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isHotpatchable(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isCVTCIL<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isCVTCIL(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isMSILNetmodule<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isMSILNetmodule(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isCTypes<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isCTypes(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isStripped<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isStripped(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -19122,6 +23412,92 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn wasInlined<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::wasInlined(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn strictGSCheck<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::strictGSCheck(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isCxxReturnUdt<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isCxxReturnUdt(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isConstructorVirtualBase<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isConstructorVirtualBase(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn RValueReference<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::RValueReference(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn unmodifiedType<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut *mut core::ffi::c_void,
@@ -19130,6 +23506,105 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::unmodifiedType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn framePointerPresent<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::framePointerPresent(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isSafeBuffers<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isSafeBuffers(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn intrinsic<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::intrinsic(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn sealed<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::sealed(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hfaFloat<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hfaFloat(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hfaDouble<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hfaDouble(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -19287,6 +23762,25 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isLocationControlFlowDependent<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isLocationControlFlowDependent(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn stride<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -19338,6 +23832,25 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isMatrixRowMajor<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isMatrixRowMajor(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn get_numericProperties<
             Identity: IDiaSymbol_Impl,
             const OFFSET: isize,
@@ -19378,6 +23891,41 @@ impl IDiaSymbol_Vtbl {
                     core::mem::transmute_copy(&pmodifiers),
                 )
                 .into()
+            }
+        }
+        unsafe extern "system" fn isReturnValue<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isReturnValue(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isOptimizedAway<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isOptimizedAway(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
             }
         }
         unsafe extern "system" fn builtInKind<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
@@ -19616,6 +24164,152 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isHLSLData<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isHLSLData(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isPointerToDataMember<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isPointerToDataMember(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isPointerToMemberFunction<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isPointerToMemberFunction(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isSingleInheritance<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isSingleInheritance(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isMultipleInheritance<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isMultipleInheritance(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isVirtualInheritance<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isVirtualInheritance(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn restrictedType<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::restrictedType(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isPointerBasedOnSymbolValue<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isPointerBasedOnSymbolValue(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn baseSymbol<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut *mut core::ffi::c_void,
@@ -19664,6 +24358,63 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isAcceleratorGroupSharedLocal<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isAcceleratorGroupSharedLocal(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isAcceleratorPointerTagLiveRange<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isAcceleratorPointerTagLiveRange(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isAcceleratorStubFunction<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isAcceleratorStubFunction(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn numberOfAcceleratorPointerTags<
             Identity: IDiaSymbol_Impl,
             const OFFSET: isize,
@@ -19675,6 +24426,86 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::numberOfAcceleratorPointerTags(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isSdl<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isSdl(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isWinRTPointer<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isWinRTPointer(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isRefUdt<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isRefUdt(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isValueUdt<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isValueUdt(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isInterfaceUdt<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isInterfaceUdt(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -19933,6 +24764,60 @@ impl IDiaSymbol_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isPGO<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isPGO(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasValidPGOCounts<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasValidPGOCounts(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isOptimizedForSpeed<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::isOptimizedForSpeed(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         unsafe extern "system" fn PGOEntryCount<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
             this: *mut core::ffi::c_void,
             pretval: *mut u32,
@@ -20027,6 +24912,127 @@ impl IDiaSymbol_Vtbl {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
                 match IDiaSymbol_Impl::phaseName(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn hasControlFlowCheck<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::hasControlFlowCheck(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn constantExport<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::constantExport(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn dataExport<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::dataExport(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn privateExport<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::privateExport(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn noNameExport<Identity: IDiaSymbol_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::noNameExport(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn exportHasExplicitlyAssignedOrdinal<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::exportHasExplicitlyAssignedOrdinal(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn exportIsForwarder<
+            Identity: IDiaSymbol_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol_Impl::exportIsForwarder(this) {
                     Ok(ok__) => {
                         pretval.write(core::mem::transmute(ok__));
                         windows_core::HRESULT(0)
@@ -20263,14 +25269,14 @@ impl IDiaSymbol_Vtbl {
             offset: offset::<Identity, OFFSET>,
             length: length::<Identity, OFFSET>,
             slot: slot::<Identity, OFFSET>,
-            get_volatileType: 0,
-            get_constType: 0,
-            get_unalignedType: 0,
+            volatileType: volatileType::<Identity, OFFSET>,
+            constType: constType::<Identity, OFFSET>,
+            unalignedType: unalignedType::<Identity, OFFSET>,
             access: access::<Identity, OFFSET>,
             libraryName: libraryName::<Identity, OFFSET>,
             platform: platform::<Identity, OFFSET>,
             language: language::<Identity, OFFSET>,
-            get_editAndContinueEnabled: 0,
+            editAndContinueEnabled: editAndContinueEnabled::<Identity, OFFSET>,
             frontEndMajor: frontEndMajor::<Identity, OFFSET>,
             frontEndMinor: frontEndMinor::<Identity, OFFSET>,
             frontEndBuild: frontEndBuild::<Identity, OFFSET>,
@@ -20282,30 +25288,30 @@ impl IDiaSymbol_Vtbl {
             thunkOrdinal: thunkOrdinal::<Identity, OFFSET>,
             thisAdjust: thisAdjust::<Identity, OFFSET>,
             virtualBaseOffset: virtualBaseOffset::<Identity, OFFSET>,
-            get_virtual: 0,
-            get_intro: 0,
-            get_pure: 0,
+            r#virtual: r#virtual::<Identity, OFFSET>,
+            intro: intro::<Identity, OFFSET>,
+            pure: pure::<Identity, OFFSET>,
             callingConvention: callingConvention::<Identity, OFFSET>,
-            get_value: 0,
+            value: value::<Identity, OFFSET>,
             baseType: baseType::<Identity, OFFSET>,
             token: token::<Identity, OFFSET>,
             timeStamp: timeStamp::<Identity, OFFSET>,
             guid: guid::<Identity, OFFSET>,
             symbolsFileName: symbolsFileName::<Identity, OFFSET>,
-            get_reference: 0,
+            reference: reference::<Identity, OFFSET>,
             count: count::<Identity, OFFSET>,
             bitPosition: bitPosition::<Identity, OFFSET>,
             arrayIndexType: arrayIndexType::<Identity, OFFSET>,
-            get_packed: 0,
-            get_constructor: 0,
-            get_overloadedOperator: 0,
-            get_nested: 0,
-            get_hasNestedTypes: 0,
-            get_hasAssignmentOperator: 0,
-            get_hasCastOperator: 0,
-            get_scoped: 0,
-            get_virtualBaseClass: 0,
-            get_indirectVirtualBaseClass: 0,
+            packed: packed::<Identity, OFFSET>,
+            constructor: constructor::<Identity, OFFSET>,
+            overloadedOperator: overloadedOperator::<Identity, OFFSET>,
+            nested: nested::<Identity, OFFSET>,
+            hasNestedTypes: hasNestedTypes::<Identity, OFFSET>,
+            hasAssignmentOperator: hasAssignmentOperator::<Identity, OFFSET>,
+            hasCastOperator: hasCastOperator::<Identity, OFFSET>,
+            scoped: scoped::<Identity, OFFSET>,
+            virtualBaseClass: virtualBaseClass::<Identity, OFFSET>,
+            indirectVirtualBaseClass: indirectVirtualBaseClass::<Identity, OFFSET>,
             virtualBasePointerOffset: virtualBasePointerOffset::<Identity, OFFSET>,
             virtualTableShape: virtualTableShape::<Identity, OFFSET>,
             lexicalParentId: lexicalParentId::<Identity, OFFSET>,
@@ -20313,16 +25319,16 @@ impl IDiaSymbol_Vtbl {
             typeId: typeId::<Identity, OFFSET>,
             arrayIndexTypeId: arrayIndexTypeId::<Identity, OFFSET>,
             virtualTableShapeId: virtualTableShapeId::<Identity, OFFSET>,
-            get_code: 0,
-            get_function: 0,
-            get_managed: 0,
-            get_msil: 0,
+            code: code::<Identity, OFFSET>,
+            function: function::<Identity, OFFSET>,
+            managed: managed::<Identity, OFFSET>,
+            msil: msil::<Identity, OFFSET>,
             virtualBaseDispIndex: virtualBaseDispIndex::<Identity, OFFSET>,
             undecoratedName: undecoratedName::<Identity, OFFSET>,
             age: age::<Identity, OFFSET>,
             signature: signature::<Identity, OFFSET>,
-            get_compilerGenerated: 0,
-            get_addressTaken: 0,
+            compilerGenerated: compilerGenerated::<Identity, OFFSET>,
+            addressTaken: addressTaken::<Identity, OFFSET>,
             rank: rank::<Identity, OFFSET>,
             lowerBound: lowerBound::<Identity, OFFSET>,
             upperBound: upperBound::<Identity, OFFSET>,
@@ -20346,53 +25352,53 @@ impl IDiaSymbol_Vtbl {
             objectPointerType: objectPointerType::<Identity, OFFSET>,
             udtKind: udtKind::<Identity, OFFSET>,
             get_undecoratedNameEx: get_undecoratedNameEx::<Identity, OFFSET>,
-            get_noReturn: 0,
-            get_customCallingConvention: 0,
-            get_noInline: 0,
-            get_optimizedCodeDebugInfo: 0,
-            get_notReached: 0,
-            get_interruptReturn: 0,
-            get_farReturn: 0,
-            get_isStatic: 0,
-            get_hasDebugInfo: 0,
-            get_isLTCG: 0,
-            get_isDataAligned: 0,
-            get_hasSecurityChecks: 0,
+            noReturn: noReturn::<Identity, OFFSET>,
+            customCallingConvention: customCallingConvention::<Identity, OFFSET>,
+            noInline: noInline::<Identity, OFFSET>,
+            optimizedCodeDebugInfo: optimizedCodeDebugInfo::<Identity, OFFSET>,
+            notReached: notReached::<Identity, OFFSET>,
+            interruptReturn: interruptReturn::<Identity, OFFSET>,
+            farReturn: farReturn::<Identity, OFFSET>,
+            isStatic: isStatic::<Identity, OFFSET>,
+            hasDebugInfo: hasDebugInfo::<Identity, OFFSET>,
+            isLTCG: isLTCG::<Identity, OFFSET>,
+            isDataAligned: isDataAligned::<Identity, OFFSET>,
+            hasSecurityChecks: hasSecurityChecks::<Identity, OFFSET>,
             compilerName: compilerName::<Identity, OFFSET>,
-            get_hasAlloca: 0,
-            get_hasSetJump: 0,
-            get_hasLongJump: 0,
-            get_hasInlAsm: 0,
-            get_hasEH: 0,
-            get_hasSEH: 0,
-            get_hasEHa: 0,
-            get_isNaked: 0,
-            get_isAggregated: 0,
-            get_isSplitted: 0,
+            hasAlloca: hasAlloca::<Identity, OFFSET>,
+            hasSetJump: hasSetJump::<Identity, OFFSET>,
+            hasLongJump: hasLongJump::<Identity, OFFSET>,
+            hasInlAsm: hasInlAsm::<Identity, OFFSET>,
+            hasEH: hasEH::<Identity, OFFSET>,
+            hasSEH: hasSEH::<Identity, OFFSET>,
+            hasEHa: hasEHa::<Identity, OFFSET>,
+            isNaked: isNaked::<Identity, OFFSET>,
+            isAggregated: isAggregated::<Identity, OFFSET>,
+            isSplitted: isSplitted::<Identity, OFFSET>,
             container: container::<Identity, OFFSET>,
-            get_inlSpec: 0,
-            get_noStackOrdering: 0,
+            inlSpec: inlSpec::<Identity, OFFSET>,
+            noStackOrdering: noStackOrdering::<Identity, OFFSET>,
             virtualBaseTableType: virtualBaseTableType::<Identity, OFFSET>,
-            get_hasManagedCode: 0,
-            get_isHotpatchable: 0,
-            get_isCVTCIL: 0,
-            get_isMSILNetmodule: 0,
-            get_isCTypes: 0,
-            get_isStripped: 0,
+            hasManagedCode: hasManagedCode::<Identity, OFFSET>,
+            isHotpatchable: isHotpatchable::<Identity, OFFSET>,
+            isCVTCIL: isCVTCIL::<Identity, OFFSET>,
+            isMSILNetmodule: isMSILNetmodule::<Identity, OFFSET>,
+            isCTypes: isCTypes::<Identity, OFFSET>,
+            isStripped: isStripped::<Identity, OFFSET>,
             frontEndQFE: frontEndQFE::<Identity, OFFSET>,
             backEndQFE: backEndQFE::<Identity, OFFSET>,
-            get_wasInlined: 0,
-            get_strictGSCheck: 0,
-            get_isCxxReturnUdt: 0,
-            get_isConstructorVirtualBase: 0,
-            get_RValueReference: 0,
+            wasInlined: wasInlined::<Identity, OFFSET>,
+            strictGSCheck: strictGSCheck::<Identity, OFFSET>,
+            isCxxReturnUdt: isCxxReturnUdt::<Identity, OFFSET>,
+            isConstructorVirtualBase: isConstructorVirtualBase::<Identity, OFFSET>,
+            RValueReference: RValueReference::<Identity, OFFSET>,
             unmodifiedType: unmodifiedType::<Identity, OFFSET>,
-            get_framePointerPresent: 0,
-            get_isSafeBuffers: 0,
-            get_intrinsic: 0,
-            get_sealed: 0,
-            get_hfaFloat: 0,
-            get_hfaDouble: 0,
+            framePointerPresent: framePointerPresent::<Identity, OFFSET>,
+            isSafeBuffers: isSafeBuffers::<Identity, OFFSET>,
+            intrinsic: intrinsic::<Identity, OFFSET>,
+            sealed: sealed::<Identity, OFFSET>,
+            hfaFloat: hfaFloat::<Identity, OFFSET>,
+            hfaDouble: hfaDouble::<Identity, OFFSET>,
             liveRangeStartAddressSection: liveRangeStartAddressSection::<Identity, OFFSET>,
             liveRangeStartAddressOffset: liveRangeStartAddressOffset::<Identity, OFFSET>,
             liveRangeStartRelativeVirtualAddress: liveRangeStartRelativeVirtualAddress::<
@@ -20404,15 +25410,15 @@ impl IDiaSymbol_Vtbl {
             offsetInUdt: offsetInUdt::<Identity, OFFSET>,
             paramBasePointerRegisterId: paramBasePointerRegisterId::<Identity, OFFSET>,
             localBasePointerRegisterId: localBasePointerRegisterId::<Identity, OFFSET>,
-            get_isLocationControlFlowDependent: 0,
+            isLocationControlFlowDependent: isLocationControlFlowDependent::<Identity, OFFSET>,
             stride: stride::<Identity, OFFSET>,
             numberOfRows: numberOfRows::<Identity, OFFSET>,
             numberOfColumns: numberOfColumns::<Identity, OFFSET>,
-            get_isMatrixRowMajor: 0,
+            isMatrixRowMajor: isMatrixRowMajor::<Identity, OFFSET>,
             get_numericProperties: get_numericProperties::<Identity, OFFSET>,
             get_modifierValues: get_modifierValues::<Identity, OFFSET>,
-            get_isReturnValue: 0,
-            get_isOptimizedAway: 0,
+            isReturnValue: isReturnValue::<Identity, OFFSET>,
+            isOptimizedAway: isOptimizedAway::<Identity, OFFSET>,
             builtInKind: builtInKind::<Identity, OFFSET>,
             registerType: registerType::<Identity, OFFSET>,
             baseDataSlot: baseDataSlot::<Identity, OFFSET>,
@@ -20427,26 +25433,26 @@ impl IDiaSymbol_Vtbl {
             subType: subType::<Identity, OFFSET>,
             numberOfModifiers: numberOfModifiers::<Identity, OFFSET>,
             numberOfRegisterIndices: numberOfRegisterIndices::<Identity, OFFSET>,
-            get_isHLSLData: 0,
-            get_isPointerToDataMember: 0,
-            get_isPointerToMemberFunction: 0,
-            get_isSingleInheritance: 0,
-            get_isMultipleInheritance: 0,
-            get_isVirtualInheritance: 0,
-            get_restrictedType: 0,
-            get_isPointerBasedOnSymbolValue: 0,
+            isHLSLData: isHLSLData::<Identity, OFFSET>,
+            isPointerToDataMember: isPointerToDataMember::<Identity, OFFSET>,
+            isPointerToMemberFunction: isPointerToMemberFunction::<Identity, OFFSET>,
+            isSingleInheritance: isSingleInheritance::<Identity, OFFSET>,
+            isMultipleInheritance: isMultipleInheritance::<Identity, OFFSET>,
+            isVirtualInheritance: isVirtualInheritance::<Identity, OFFSET>,
+            restrictedType: restrictedType::<Identity, OFFSET>,
+            isPointerBasedOnSymbolValue: isPointerBasedOnSymbolValue::<Identity, OFFSET>,
             baseSymbol: baseSymbol::<Identity, OFFSET>,
             baseSymbolId: baseSymbolId::<Identity, OFFSET>,
             objectFileName: objectFileName::<Identity, OFFSET>,
-            get_isAcceleratorGroupSharedLocal: 0,
-            get_isAcceleratorPointerTagLiveRange: 0,
-            get_isAcceleratorStubFunction: 0,
+            isAcceleratorGroupSharedLocal: isAcceleratorGroupSharedLocal::<Identity, OFFSET>,
+            isAcceleratorPointerTagLiveRange: isAcceleratorPointerTagLiveRange::<Identity, OFFSET>,
+            isAcceleratorStubFunction: isAcceleratorStubFunction::<Identity, OFFSET>,
             numberOfAcceleratorPointerTags: numberOfAcceleratorPointerTags::<Identity, OFFSET>,
-            get_isSdl: 0,
-            get_isWinRTPointer: 0,
-            get_isRefUdt: 0,
-            get_isValueUdt: 0,
-            get_isInterfaceUdt: 0,
+            isSdl: isSdl::<Identity, OFFSET>,
+            isWinRTPointer: isWinRTPointer::<Identity, OFFSET>,
+            isRefUdt: isRefUdt::<Identity, OFFSET>,
+            isValueUdt: isValueUdt::<Identity, OFFSET>,
+            isInterfaceUdt: isInterfaceUdt::<Identity, OFFSET>,
             findInlineFramesByAddr: findInlineFramesByAddr::<Identity, OFFSET>,
             findInlineFramesByRVA: findInlineFramesByRVA::<Identity, OFFSET>,
             findInlineFramesByVA: findInlineFramesByVA::<Identity, OFFSET>,
@@ -20464,22 +25470,25 @@ impl IDiaSymbol_Vtbl {
             >,
             get_acceleratorPointerTags: get_acceleratorPointerTags::<Identity, OFFSET>,
             getSrcLineOnTypeDefn: getSrcLineOnTypeDefn::<Identity, OFFSET>,
-            get_isPGO: 0,
-            get_hasValidPGOCounts: 0,
-            get_isOptimizedForSpeed: 0,
+            isPGO: isPGO::<Identity, OFFSET>,
+            hasValidPGOCounts: hasValidPGOCounts::<Identity, OFFSET>,
+            isOptimizedForSpeed: isOptimizedForSpeed::<Identity, OFFSET>,
             PGOEntryCount: PGOEntryCount::<Identity, OFFSET>,
             PGOEdgeCount: PGOEdgeCount::<Identity, OFFSET>,
             PGODynamicInstructionCount: PGODynamicInstructionCount::<Identity, OFFSET>,
             staticSize: staticSize::<Identity, OFFSET>,
             finalLiveStaticSize: finalLiveStaticSize::<Identity, OFFSET>,
             phaseName: phaseName::<Identity, OFFSET>,
-            get_hasControlFlowCheck: 0,
-            get_constantExport: 0,
-            get_dataExport: 0,
-            get_privateExport: 0,
-            get_noNameExport: 0,
-            get_exportHasExplicitlyAssignedOrdinal: 0,
-            get_exportIsForwarder: 0,
+            hasControlFlowCheck: hasControlFlowCheck::<Identity, OFFSET>,
+            constantExport: constantExport::<Identity, OFFSET>,
+            dataExport: dataExport::<Identity, OFFSET>,
+            privateExport: privateExport::<Identity, OFFSET>,
+            noNameExport: noNameExport::<Identity, OFFSET>,
+            exportHasExplicitlyAssignedOrdinal: exportHasExplicitlyAssignedOrdinal::<
+                Identity,
+                OFFSET,
+            >,
+            exportIsForwarder: exportIsForwarder::<Identity, OFFSET>,
             ordinal: ordinal::<Identity, OFFSET>,
             frameSize: frameSize::<Identity, OFFSET>,
             exceptionHandlerAddressSection: exceptionHandlerAddressSection::<Identity, OFFSET>,
@@ -20767,21 +25776,120 @@ impl core::ops::Deref for IDiaSymbol2 {
     }
 }
 windows_core::imp::interface_hierarchy!(IDiaSymbol2, windows_core::IUnknown, IDiaSymbol);
+impl IDiaSymbol2 {
+    pub unsafe fn isObjCClass(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isObjCClass)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isObjCCategory(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isObjCCategory)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+    pub unsafe fn isObjCProtocol(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isObjCProtocol)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaSymbol2_Vtbl {
     pub base__: IDiaSymbol_Vtbl,
-    get_isObjCClass: usize,
-    get_isObjCCategory: usize,
-    get_isObjCProtocol: usize,
+    pub isObjCClass: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isObjCCategory: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
+    pub isObjCProtocol: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaSymbol2_Impl: IDiaSymbol_Impl {}
+pub trait IDiaSymbol2_Impl: IDiaSymbol_Impl {
+    fn isObjCClass(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isObjCCategory(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+    fn isObjCProtocol(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+}
 impl IDiaSymbol2_Vtbl {
     pub const fn new<Identity: IDiaSymbol2_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn isObjCClass<Identity: IDiaSymbol2_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol2_Impl::isObjCClass(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isObjCCategory<
+            Identity: IDiaSymbol2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol2_Impl::isObjCCategory(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
+        unsafe extern "system" fn isObjCProtocol<
+            Identity: IDiaSymbol2_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol2_Impl::isObjCProtocol(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol_Vtbl::new::<Identity, OFFSET>(),
-            get_isObjCClass: 0,
-            get_isObjCCategory: 0,
-            get_isObjCProtocol: 0,
+            isObjCClass: isObjCClass::<Identity, OFFSET>,
+            isObjCCategory: isObjCCategory::<Identity, OFFSET>,
+            isObjCProtocol: isObjCProtocol::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -20908,17 +26016,50 @@ windows_core::imp::interface_hierarchy!(
     IDiaSymbol2,
     IDiaSymbol3
 );
+impl IDiaSymbol4 {
+    pub unsafe fn noexcept(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).noexcept)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaSymbol4_Vtbl {
     pub base__: IDiaSymbol3_Vtbl,
-    get_noexcept: usize,
+    pub noexcept: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaSymbol4_Impl: IDiaSymbol3_Impl {}
+pub trait IDiaSymbol4_Impl: IDiaSymbol3_Impl {
+    fn noexcept(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+}
 impl IDiaSymbol4_Vtbl {
     pub const fn new<Identity: IDiaSymbol4_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn noexcept<Identity: IDiaSymbol4_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol4_Impl::noexcept(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol3_Vtbl::new::<Identity, OFFSET>(),
-            get_noexcept: 0,
+            noexcept: noexcept::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -20948,17 +26089,55 @@ windows_core::imp::interface_hierarchy!(
     IDiaSymbol3,
     IDiaSymbol4
 );
+impl IDiaSymbol5 {
+    pub unsafe fn hasAbsoluteAddress(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).hasAbsoluteAddress)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaSymbol5_Vtbl {
     pub base__: IDiaSymbol4_Vtbl,
-    get_hasAbsoluteAddress: usize,
+    pub hasAbsoluteAddress: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaSymbol5_Impl: IDiaSymbol4_Impl {}
+pub trait IDiaSymbol5_Impl: IDiaSymbol4_Impl {
+    fn hasAbsoluteAddress(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+}
 impl IDiaSymbol5_Vtbl {
     pub const fn new<Identity: IDiaSymbol5_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn hasAbsoluteAddress<
+            Identity: IDiaSymbol5_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol5_Impl::hasAbsoluteAddress(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol4_Vtbl::new::<Identity, OFFSET>(),
-            get_hasAbsoluteAddress: 0,
+            hasAbsoluteAddress: hasAbsoluteAddress::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -20990,17 +26169,55 @@ windows_core::imp::interface_hierarchy!(
     IDiaSymbol4,
     IDiaSymbol5
 );
+impl IDiaSymbol6 {
+    pub unsafe fn isStaticMemberFunc(
+        &self,
+    ) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isStaticMemberFunc)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaSymbol6_Vtbl {
     pub base__: IDiaSymbol5_Vtbl,
-    get_isStaticMemberFunc: usize,
+    pub isStaticMemberFunc: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaSymbol6_Impl: IDiaSymbol5_Impl {}
+pub trait IDiaSymbol6_Impl: IDiaSymbol5_Impl {
+    fn isStaticMemberFunc(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+}
 impl IDiaSymbol6_Vtbl {
     pub const fn new<Identity: IDiaSymbol6_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn isStaticMemberFunc<
+            Identity: IDiaSymbol6_Impl,
+            const OFFSET: isize,
+        >(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol6_Impl::isStaticMemberFunc(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol5_Vtbl::new::<Identity, OFFSET>(),
-            get_isStaticMemberFunc: 0,
+            isStaticMemberFunc: isStaticMemberFunc::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -21034,17 +26251,50 @@ windows_core::imp::interface_hierarchy!(
     IDiaSymbol5,
     IDiaSymbol6
 );
+impl IDiaSymbol7 {
+    pub unsafe fn isSignRet(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isSignRet)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
+}
 #[repr(C)]
 pub struct IDiaSymbol7_Vtbl {
     pub base__: IDiaSymbol6_Vtbl,
-    get_isSignRet: usize,
+    pub isSignRet: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
-pub trait IDiaSymbol7_Impl: IDiaSymbol6_Impl {}
+pub trait IDiaSymbol7_Impl: IDiaSymbol6_Impl {
+    fn isSignRet(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
+}
 impl IDiaSymbol7_Vtbl {
     pub const fn new<Identity: IDiaSymbol7_Impl, const OFFSET: isize>() -> Self {
+        unsafe extern "system" fn isSignRet<Identity: IDiaSymbol7_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol7_Impl::isSignRet(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol6_Vtbl::new::<Identity, OFFSET>(),
-            get_isSignRet: 0,
+            isSignRet: isSignRet::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -21345,6 +26595,16 @@ impl IDiaSymbol9 {
             .map(|| result__)
         }
     }
+    pub unsafe fn isRTCs(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL> {
+        unsafe {
+            let mut result__ = core::mem::zeroed();
+            (windows_core::Interface::vtable(self).isRTCs)(
+                windows_core::Interface::as_raw(self),
+                &mut result__,
+            )
+            .map(|| result__)
+        }
+    }
 }
 #[repr(C)]
 pub struct IDiaSymbol9_Vtbl {
@@ -21353,11 +26613,15 @@ pub struct IDiaSymbol9_Vtbl {
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
     pub framePadOffset:
         unsafe extern "system" fn(*mut core::ffi::c_void, *mut u32) -> windows_core::HRESULT,
-    get_isRTCs: usize,
+    pub isRTCs: unsafe extern "system" fn(
+        *mut core::ffi::c_void,
+        *mut windows::Win32::Foundation::BOOL,
+    ) -> windows_core::HRESULT,
 }
 pub trait IDiaSymbol9_Impl: IDiaSymbol8_Impl {
     fn framePadSize(&self) -> windows_core::Result<u32>;
     fn framePadOffset(&self) -> windows_core::Result<u32>;
+    fn isRTCs(&self) -> windows_core::Result<windows::Win32::Foundation::BOOL>;
 }
 impl IDiaSymbol9_Vtbl {
     pub const fn new<Identity: IDiaSymbol9_Impl, const OFFSET: isize>() -> Self {
@@ -21396,11 +26660,27 @@ impl IDiaSymbol9_Vtbl {
                 }
             }
         }
+        unsafe extern "system" fn isRTCs<Identity: IDiaSymbol9_Impl, const OFFSET: isize>(
+            this: *mut core::ffi::c_void,
+            pretval: *mut windows::Win32::Foundation::BOOL,
+        ) -> windows_core::HRESULT {
+            unsafe {
+                let this: &Identity =
+                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
+                match IDiaSymbol9_Impl::isRTCs(this) {
+                    Ok(ok__) => {
+                        pretval.write(core::mem::transmute(ok__));
+                        windows_core::HRESULT(0)
+                    }
+                    Err(err) => err.into(),
+                }
+            }
+        }
         Self {
             base__: IDiaSymbol8_Vtbl::new::<Identity, OFFSET>(),
             framePadSize: framePadSize::<Identity, OFFSET>,
             framePadOffset: framePadOffset::<Identity, OFFSET>,
-            get_isRTCs: 0,
+            isRTCs: isRTCs::<Identity, OFFSET>,
         }
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
@@ -21422,12 +26702,16 @@ windows_core::imp::define_interface!(
     0x4a59fb77_abac_469b_a30b_9ecc85bfef14
 );
 impl core::ops::Deref for IDiaTable {
-    type Target = IEnumUnknown;
+    type Target = windows::Win32::System::Com::IEnumUnknown;
     fn deref(&self) -> &Self::Target {
         unsafe { core::mem::transmute(self) }
     }
 }
-windows_core::imp::interface_hierarchy!(IDiaTable, windows_core::IUnknown, IEnumUnknown);
+windows_core::imp::interface_hierarchy!(
+    IDiaTable,
+    windows_core::IUnknown,
+    windows::Win32::System::Com::IEnumUnknown
+);
 impl IDiaTable {
     pub unsafe fn _NewEnum(&self) -> windows_core::Result<windows_core::IUnknown> {
         unsafe {
@@ -21473,7 +26757,7 @@ impl IDiaTable {
 }
 #[repr(C)]
 pub struct IDiaTable_Vtbl {
-    pub base__: IEnumUnknown_Vtbl,
+    pub base__: windows::Win32::System::Com::IEnumUnknown_Vtbl,
     pub _NewEnum: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         *mut *mut core::ffi::c_void,
@@ -21489,7 +26773,7 @@ pub struct IDiaTable_Vtbl {
         *mut *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
 }
-pub trait IDiaTable_Impl: IEnumUnknown_Impl {
+pub trait IDiaTable_Impl: windows::Win32::System::Com::IEnumUnknown_Impl {
     fn _NewEnum(&self) -> windows_core::Result<windows_core::IUnknown>;
     fn name(&self) -> windows_core::Result<windows_core::BSTR>;
     fn Count(&self) -> windows_core::Result<i32>;
@@ -21563,7 +26847,7 @@ impl IDiaTable_Vtbl {
             }
         }
         Self {
-            base__: IEnumUnknown_Vtbl::new::<Identity, OFFSET>(),
+            base__: windows::Win32::System::Com::IEnumUnknown_Vtbl::new::<Identity, OFFSET>(),
             _NewEnum: _NewEnum::<Identity, OFFSET>,
             name: name::<Identity, OFFSET>,
             Count: Count::<Identity, OFFSET>,
@@ -21572,151 +26856,10 @@ impl IDiaTable_Vtbl {
     }
     pub fn matches(iid: &windows_core::GUID) -> bool {
         iid == &<IDiaTable as windows_core::Interface>::IID
-            || iid == &<IEnumUnknown as windows_core::Interface>::IID
+            || iid == &<windows::Win32::System::Com::IEnumUnknown as windows_core::Interface>::IID
     }
 }
 impl windows_core::RuntimeName for IDiaTable {}
-windows_core::imp::define_interface!(
-    IEnumUnknown,
-    IEnumUnknown_Vtbl,
-    0x00000100_0000_0000_c000_000000000046
-);
-windows_core::imp::interface_hierarchy!(IEnumUnknown, windows_core::IUnknown);
-impl IEnumUnknown {
-    pub unsafe fn Next(
-        &self,
-        rgelt: &mut [Option<windows_core::IUnknown>],
-        pceltfetched: Option<*mut u32>,
-    ) -> windows_core::HRESULT {
-        unsafe {
-            (windows_core::Interface::vtable(self).Next)(
-                windows_core::Interface::as_raw(self),
-                rgelt.len().try_into().unwrap(),
-                core::mem::transmute(rgelt.as_ptr()),
-                pceltfetched.unwrap_or(core::mem::zeroed()) as _,
-            )
-        }
-    }
-    pub unsafe fn Skip(&self, celt: u32) -> windows_core::Result<()> {
-        unsafe {
-            (windows_core::Interface::vtable(self).Skip)(
-                windows_core::Interface::as_raw(self),
-                celt,
-            )
-            .ok()
-        }
-    }
-    pub unsafe fn Reset(&self) -> windows_core::Result<()> {
-        unsafe {
-            (windows_core::Interface::vtable(self).Reset)(windows_core::Interface::as_raw(self))
-                .ok()
-        }
-    }
-    pub unsafe fn Clone(&self) -> windows_core::Result<IEnumUnknown> {
-        unsafe {
-            let mut result__ = core::mem::zeroed();
-            (windows_core::Interface::vtable(self).Clone)(
-                windows_core::Interface::as_raw(self),
-                &mut result__,
-            )
-            .and_then(|| windows_core::Type::from_abi(result__))
-        }
-    }
-}
-#[repr(C)]
-pub struct IEnumUnknown_Vtbl {
-    pub base__: windows_core::IUnknown_Vtbl,
-    pub Next: unsafe extern "system" fn(
-        *mut core::ffi::c_void,
-        u32,
-        *mut *mut core::ffi::c_void,
-        *mut u32,
-    ) -> windows_core::HRESULT,
-    pub Skip: unsafe extern "system" fn(*mut core::ffi::c_void, u32) -> windows_core::HRESULT,
-    pub Reset: unsafe extern "system" fn(*mut core::ffi::c_void) -> windows_core::HRESULT,
-    pub Clone: unsafe extern "system" fn(
-        *mut core::ffi::c_void,
-        *mut *mut core::ffi::c_void,
-    ) -> windows_core::HRESULT,
-}
-pub trait IEnumUnknown_Impl: windows_core::IUnknownImpl {
-    fn Next(
-        &self,
-        celt: u32,
-        rgelt: windows_core::OutRef<'_, windows_core::IUnknown>,
-        pceltfetched: *mut u32,
-    ) -> windows_core::HRESULT;
-    fn Skip(&self, celt: u32) -> windows_core::Result<()>;
-    fn Reset(&self) -> windows_core::Result<()>;
-    fn Clone(&self) -> windows_core::Result<IEnumUnknown>;
-}
-impl IEnumUnknown_Vtbl {
-    pub const fn new<Identity: IEnumUnknown_Impl, const OFFSET: isize>() -> Self {
-        unsafe extern "system" fn Next<Identity: IEnumUnknown_Impl, const OFFSET: isize>(
-            this: *mut core::ffi::c_void,
-            celt: u32,
-            rgelt: *mut *mut core::ffi::c_void,
-            pceltfetched: *mut u32,
-        ) -> windows_core::HRESULT {
-            unsafe {
-                let this: &Identity =
-                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                IEnumUnknown_Impl::Next(
-                    this,
-                    core::mem::transmute_copy(&celt),
-                    core::mem::transmute_copy(&rgelt),
-                    core::mem::transmute_copy(&pceltfetched),
-                )
-            }
-        }
-        unsafe extern "system" fn Skip<Identity: IEnumUnknown_Impl, const OFFSET: isize>(
-            this: *mut core::ffi::c_void,
-            celt: u32,
-        ) -> windows_core::HRESULT {
-            unsafe {
-                let this: &Identity =
-                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                IEnumUnknown_Impl::Skip(this, core::mem::transmute_copy(&celt)).into()
-            }
-        }
-        unsafe extern "system" fn Reset<Identity: IEnumUnknown_Impl, const OFFSET: isize>(
-            this: *mut core::ffi::c_void,
-        ) -> windows_core::HRESULT {
-            unsafe {
-                let this: &Identity =
-                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                IEnumUnknown_Impl::Reset(this).into()
-            }
-        }
-        unsafe extern "system" fn Clone<Identity: IEnumUnknown_Impl, const OFFSET: isize>(
-            this: *mut core::ffi::c_void,
-            ppenum: *mut *mut core::ffi::c_void,
-        ) -> windows_core::HRESULT {
-            unsafe {
-                let this: &Identity =
-                    &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                match IEnumUnknown_Impl::Clone(this) {
-                    Ok(ok__) => {
-                        ppenum.write(core::mem::transmute(ok__));
-                        windows_core::HRESULT(0)
-                    }
-                    Err(err) => err.into(),
-                }
-            }
-        }
-        Self {
-            base__: windows_core::IUnknown_Vtbl::new::<Identity, OFFSET>(),
-            Next: Next::<Identity, OFFSET>,
-            Skip: Skip::<Identity, OFFSET>,
-            Reset: Reset::<Identity, OFFSET>,
-            Clone: Clone::<Identity, OFFSET>,
-        }
-    }
-    pub fn matches(iid: &windows_core::GUID) -> bool {
-        iid == &<IEnumUnknown as windows_core::Interface>::IID
-    }
-}
-impl windows_core::RuntimeName for IEnumUnknown {}
 pub const LocInMetaData: LocationType = LocationType(9i32);
 pub const LocIsBitField: LocationType = LocationType(6i32);
 pub const LocIsConstant: LocationType = LocationType(10i32);
