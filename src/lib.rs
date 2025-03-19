@@ -1,3 +1,4 @@
+#![doc = include_str!("../.github/readme.md")]
 #![doc(html_no_source)]
 
 mod helper_bindings;
