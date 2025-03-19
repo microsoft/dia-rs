@@ -8,4 +8,4 @@ publish = false
 path = "../../../"
 
 [dependencies.windows-core]
-version = "0.59"
+version = "0.61"
