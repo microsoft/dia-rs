@@ -13,7 +13,8 @@ fn main() {
         "Microsoft.Dia",
         "--reference",
         "windows,skip-root,Windows",
-    ]);
+    ])
+    .unwrap();
 
     windows_bindgen::bindgen([
         "--in",
@@ -26,5 +27,6 @@ fn main() {
         "LoadLibraryExA",
         "GetProcAddress",
         "LOAD_WITH_ALTERED_SEARCH_PATH",
-    ]);
+    ])
+    .unwrap();
 }

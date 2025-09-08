@@ -12,7 +12,6 @@ type DllGetClassObject =
 /// This function is used as an alternative to `CoCreateInstance` which
 /// requires the server implementing the specified class to be registered
 /// prior to use.
-///
 pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Result<T> {
     let instance = LoadLibraryExA(lib, None, LOAD_WITH_ALTERED_SEARCH_PATH)?;
     if !instance.is_invalid() {
@@ -31,5 +30,5 @@ pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Re
         }
     }
 
-    Err(Error::from_win32())
+    Err(Error::from_thread())
 }

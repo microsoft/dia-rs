@@ -1,6 +1,6 @@
 [package]
 name = "microsoft-dia"
-version = "0.14.0"
+version = "0.15.0"
 authors = ["Microsoft"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -12,21 +12,13 @@ exclude = [".github", ".metadata", "docs", "tests"]
 [workspace]
 members = ["crates/samples/*"]
 
+[dependencies]
+windows-core = "0.62"
+windows-link = "0.2"
+
 [dependencies.windows]
-version = "0.61"
-features = [
-    "Win32_Foundation",
-    "Win32_System_Com",
-    "Win32_System_Variant",
-    "Win32_System_Ole",
-    "Win32_System_Com_StructuredStorage",
-]
+version = "0.62"
+features = ["Win32_System_Com", "Win32_System_Variant", "Win32_System_Ole", "Win32_System_Com_StructuredStorage"]
 
-[dependencies.windows-core]
-version = "0.61"
-
-[dependencies.windows-link]
-version = "0.1"
-
-[build-dependencies.windows-bindgen]
-version = "0.61"
+[build-dependencies]
+windows-bindgen= "0.63"
