@@ -18,7 +18,7 @@ version = "0.15"
 
 Make use of any DIA SDK APIs as needed.
 
-```rust
+```rust,no_run
 use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
 use windows_core::*;
 
