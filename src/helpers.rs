@@ -31,5 +31,5 @@ pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Re
         }
     }
 
-    Err(Error::from_win32())
+    Err(Error::from_thread())
 }

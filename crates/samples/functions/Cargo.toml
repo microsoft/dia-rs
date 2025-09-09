@@ -5,7 +5,7 @@ edition = "2021"
 publish = false
 
 [dependencies.microsoft-dia]
-path = "../../../"
+path = "../../.."
 
 [dependencies.windows-core]
-version = "0.61"
+version = "0.62"
