@@ -1,6 +1,6 @@
 [package]
 name = "microsoft-dia"
-version = "0.15.0"
+version = "0.16.0"
 authors = ["Microsoft"]
 edition = "2021"
 license = "MIT OR Apache-2.0"
@@ -19,6 +19,7 @@ features = [
     "Win32_System_Variant",
     "Win32_System_Ole",
     "Win32_System_Com_StructuredStorage",
+    "Win32_System_Rpc",
 ]
 
 [dependencies.windows-core]
@@ -28,4 +29,7 @@ version = "0.62"
 version = "0.2"
 
 [build-dependencies.windows-bindgen]
-version = "0.63"
+path = "../windows-rs/crates/libs/bindgen"
+
+[build-dependencies.windows-rdl]
+path = "../windows-rs/crates/libs/rdl"
