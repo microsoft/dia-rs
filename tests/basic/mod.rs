@@ -14,7 +14,7 @@ fn symbol_properties() -> Result<()> {
             .globalScope()?
             .findChildren(
                 SymTagData,
-                w!("main::basic::TEST_DATA"),
+                w!("main::basic::TEST_DATA").as_ptr(),
                 NameSearchOptions::default().0 as u32,
             )?
             .Item(0)?;

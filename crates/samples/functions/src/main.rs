@@ -4,17 +4,21 @@ use windows_core::*;
 fn main() -> Result<()> {
     unsafe {
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
-            s!(
+            w!(
                 r#"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"#
             ),
             &DiaSource,
         )?;
         let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
+        source.loadDataForExe(
+            HSTRING::from(executable.as_os_str()).as_ptr(),
+            std::ptr::null(),
+            None,
+        )?;
         let session = source.openSession()?;
         let symbols = session.globalScope()?.findChildren(
             SymTagFunction,
-            w!("sample_functions::*"),
+            w!("sample_functions::*").as_ptr(),
             nsfRegularExpression.0 as u32,
         )?;
 

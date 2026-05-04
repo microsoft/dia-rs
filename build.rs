@@ -48,6 +48,7 @@ fn main() {
         "--out",
         "src/public_bindings.rs",
         "--flat",
+        "--typedef",
         "--filter",
         "Microsoft.Dia",
         "--reference",
@@ -64,7 +65,7 @@ fn main() {
         "--flat",
         "--filter",
         "IClassFactory",
-        "LoadLibraryExA",
+        "LoadLibraryExW",
         "GetProcAddress",
         "LOAD_WITH_ALTERED_SEARCH_PATH",
     ])

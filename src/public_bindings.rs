@@ -8,9 +8,7 @@
     clippy::all
 )]
 
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct BYTE(pub u8);
+pub type BYTE = u8;
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct BasicType(pub i32);
@@ -3553,12 +3551,8 @@ pub struct CV_modifier_e(pub i32);
 pub const CV_private: CV_access_e = CV_access_e(1i32);
 pub const CV_protected: CV_access_e = CV_access_e(2i32);
 pub const CV_public: CV_access_e = CV_access_e(3i32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct DWORD(pub u32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct DWORDLONG(pub ULONGLONG);
+pub type DWORD = u32;
+pub type DWORDLONG = ULONGLONG;
 pub const DataIsConstant: DataKind = DataKind(9i32);
 pub const DataIsFileStatic: DataKind = DataKind(5i32);
 pub const DataIsGlobal: DataKind = DataKind(6i32);
@@ -3723,14 +3717,14 @@ impl IDiaAddressMap {
     pub unsafe fn set_imageHeaders(
         &self,
         cbdata: DWORD,
-        pbdata: *mut BYTE,
+        pbdata: *const BYTE,
         originalheaders: bool,
     ) -> windows_core::Result<()> {
         unsafe {
             (windows_core::Interface::vtable(self).set_imageHeaders)(
                 windows_core::Interface::as_raw(self),
                 cbdata,
-                pbdata as _,
+                pbdata,
                 originalheaders.into(),
             )
             .ok()
@@ -3739,14 +3733,14 @@ impl IDiaAddressMap {
     pub unsafe fn set_addressMap(
         &self,
         cdata: DWORD,
-        pdata: *mut DiaAddressMapEntry,
+        pdata: *const DiaAddressMapEntry,
         imagetosymbols: bool,
     ) -> windows_core::Result<()> {
         unsafe {
             (windows_core::Interface::vtable(self).set_addressMap)(
                 windows_core::Interface::as_raw(self),
                 cdata,
-                pdata as _,
+                pdata,
                 imagetosymbols.into(),
             )
             .ok()
@@ -3780,13 +3774,13 @@ pub struct IDiaAddressMap_Vtbl {
     pub set_imageHeaders: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         DWORD,
-        *mut BYTE,
+        *const BYTE,
         windows_core::BOOL,
     ) -> windows_core::HRESULT,
     pub set_addressMap: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         DWORD,
-        *mut DiaAddressMapEntry,
+        *const DiaAddressMapEntry,
         windows_core::BOOL,
     ) -> windows_core::HRESULT,
 }
@@ -3803,13 +3797,13 @@ pub trait IDiaAddressMap_Impl: windows_core::IUnknownImpl {
     fn set_imageHeaders(
         &self,
         cbdata: DWORD,
-        pbdata: *mut BYTE,
+        pbdata: *const BYTE,
         originalheaders: windows_core::BOOL,
     ) -> windows_core::Result<()>;
     fn set_addressMap(
         &self,
         cdata: DWORD,
-        pdata: *mut DiaAddressMapEntry,
+        pdata: *const DiaAddressMapEntry,
         imagetosymbols: windows_core::BOOL,
     ) -> windows_core::Result<()>;
 }
@@ -3919,7 +3913,7 @@ impl IDiaAddressMap_Vtbl {
         >(
             this: *mut core::ffi::c_void,
             cbdata: DWORD,
-            pbdata: *mut BYTE,
+            pbdata: *const BYTE,
             originalheaders: windows_core::BOOL,
         ) -> windows_core::HRESULT {
             unsafe {
@@ -3940,7 +3934,7 @@ impl IDiaAddressMap_Vtbl {
         >(
             this: *mut core::ffi::c_void,
             cdata: DWORD,
-            pdata: *mut DiaAddressMapEntry,
+            pdata: *const DiaAddressMapEntry,
             imagetosymbols: windows_core::BOOL,
         ) -> windows_core::HRESULT {
             unsafe {
@@ -4001,7 +3995,7 @@ impl IDiaDataSource {
     pub unsafe fn loadAndValidateDataFromPdb(
         &self,
         pdbpath: LPCOLESTR,
-        pcsig70: *mut windows_core::GUID,
+        pcsig70: *const windows_core::GUID,
         sig: DWORD,
         age: DWORD,
     ) -> windows_core::Result<()> {
@@ -4009,7 +4003,7 @@ impl IDiaDataSource {
             (windows_core::Interface::vtable(self).loadAndValidateDataFromPdb)(
                 windows_core::Interface::as_raw(self),
                 pdbpath,
-                pcsig70 as _,
+                pcsig70,
                 sig,
                 age,
             )
@@ -4062,7 +4056,7 @@ impl IDiaDataSource {
         executable: LPCOLESTR,
         searchpath: LPCOLESTR,
         cbcvinfo: DWORD,
-        pbcvinfo: *mut BYTE,
+        pbcvinfo: *const BYTE,
         pcallback: P4,
     ) -> windows_core::Result<()>
     where
@@ -4074,7 +4068,7 @@ impl IDiaDataSource {
                 executable,
                 searchpath,
                 cbcvinfo,
-                pbcvinfo as _,
+                pbcvinfo,
                 pcallback.param().abi(),
             )
             .ok()
@@ -4088,7 +4082,7 @@ impl IDiaDataSource {
         timestampdbg: DWORD,
         sizeofexe: DWORD,
         cbmiscinfo: DWORD,
-        pbmiscinfo: *mut BYTE,
+        pbmiscinfo: *const BYTE,
         pcallback: P7,
     ) -> windows_core::Result<()>
     where
@@ -4103,7 +4097,7 @@ impl IDiaDataSource {
                 timestampdbg,
                 sizeofexe,
                 cbmiscinfo,
-                pbmiscinfo as _,
+                pbmiscinfo,
                 pcallback.param().abi(),
             )
             .ok()
@@ -4123,7 +4117,7 @@ pub struct IDiaDataSource_Vtbl {
     pub loadAndValidateDataFromPdb: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         LPCOLESTR,
-        *mut windows_core::GUID,
+        *const windows_core::GUID,
         DWORD,
         DWORD,
     ) -> windows_core::HRESULT,
@@ -4146,7 +4140,7 @@ pub struct IDiaDataSource_Vtbl {
         LPCOLESTR,
         LPCOLESTR,
         DWORD,
-        *mut BYTE,
+        *const BYTE,
         *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
     pub loadDataFromMiscInfo: unsafe extern "system" fn(
@@ -4157,7 +4151,7 @@ pub struct IDiaDataSource_Vtbl {
         DWORD,
         DWORD,
         DWORD,
-        *mut BYTE,
+        *const BYTE,
         *mut core::ffi::c_void,
     ) -> windows_core::HRESULT,
 }
@@ -4167,7 +4161,7 @@ pub trait IDiaDataSource_Impl: windows_core::IUnknownImpl {
     fn loadAndValidateDataFromPdb(
         &self,
         pdbpath: LPCOLESTR,
-        pcsig70: *mut windows_core::GUID,
+        pcsig70: *const windows_core::GUID,
         sig: DWORD,
         age: DWORD,
     ) -> windows_core::Result<()>;
@@ -4187,7 +4181,7 @@ pub trait IDiaDataSource_Impl: windows_core::IUnknownImpl {
         executable: LPCOLESTR,
         searchpath: LPCOLESTR,
         cbcvinfo: DWORD,
-        pbcvinfo: *mut BYTE,
+        pbcvinfo: *const BYTE,
         pcallback: windows_core::Ref<windows_core::IUnknown>,
     ) -> windows_core::Result<()>;
     fn loadDataFromMiscInfo(
@@ -4198,7 +4192,7 @@ pub trait IDiaDataSource_Impl: windows_core::IUnknownImpl {
         timestampdbg: DWORD,
         sizeofexe: DWORD,
         cbmiscinfo: DWORD,
-        pbmiscinfo: *mut BYTE,
+        pbmiscinfo: *const BYTE,
         pcallback: windows_core::Ref<windows_core::IUnknown>,
     ) -> windows_core::Result<()>;
 }
@@ -4240,7 +4234,7 @@ impl IDiaDataSource_Vtbl {
         >(
             this: *mut core::ffi::c_void,
             pdbpath: LPCOLESTR,
-            pcsig70: *mut windows_core::GUID,
+            pcsig70: *const windows_core::GUID,
             sig: DWORD,
             age: DWORD,
         ) -> windows_core::HRESULT {
@@ -4319,7 +4313,7 @@ impl IDiaDataSource_Vtbl {
             executable: LPCOLESTR,
             searchpath: LPCOLESTR,
             cbcvinfo: DWORD,
-            pbcvinfo: *mut BYTE,
+            pbcvinfo: *const BYTE,
             pcallback: *mut core::ffi::c_void,
         ) -> windows_core::HRESULT {
             unsafe {
@@ -4347,7 +4341,7 @@ impl IDiaDataSource_Vtbl {
             timestampdbg: DWORD,
             sizeofexe: DWORD,
             cbmiscinfo: DWORD,
-            pbmiscinfo: *mut BYTE,
+            pbmiscinfo: *const BYTE,
             pcallback: *mut core::ffi::c_void,
         ) -> windows_core::HRESULT {
             unsafe {
@@ -4414,7 +4408,7 @@ impl IDiaDataSourceEx {
     pub unsafe fn loadAndValidateDataFromPdbEx(
         &self,
         pdbpath: LPCOLESTR,
-        pcsig70: *mut windows_core::GUID,
+        pcsig70: *const windows_core::GUID,
         sig: DWORD,
         age: DWORD,
         fpdbprefetching: bool,
@@ -4423,7 +4417,7 @@ impl IDiaDataSourceEx {
             (windows_core::Interface::vtable(self).loadAndValidateDataFromPdbEx)(
                 windows_core::Interface::as_raw(self),
                 pdbpath,
-                pcsig70 as _,
+                pcsig70,
                 sig,
                 age,
                 fpdbprefetching.into(),
@@ -4502,13 +4496,13 @@ impl IDiaDataSourceEx {
     }
     pub unsafe fn setPfnMiniPDBErrorCallback2(
         &self,
-        pvcontext: *mut core::ffi::c_void,
+        pvcontext: *const core::ffi::c_void,
         pfn: PFNMINIPDBERRORCALLBACK2,
     ) -> windows_core::Result<()> {
         unsafe {
             (windows_core::Interface::vtable(self).setPfnMiniPDBErrorCallback2)(
                 windows_core::Interface::as_raw(self),
-                pvcontext as _,
+                pvcontext,
                 pfn,
             )
             .ok()
@@ -4547,7 +4541,7 @@ pub struct IDiaDataSourceEx_Vtbl {
     pub loadAndValidateDataFromPdbEx: unsafe extern "system" fn(
         *mut core::ffi::c_void,
         LPCOLESTR,
-        *mut windows_core::GUID,
+        *const windows_core::GUID,
         DWORD,
         DWORD,
         windows_core::BOOL,
@@ -4579,7 +4573,7 @@ pub struct IDiaDataSourceEx_Vtbl {
     ) -> windows_core::HRESULT,
     pub setPfnMiniPDBErrorCallback2: unsafe extern "system" fn(
         *mut core::ffi::c_void,
-        *mut core::ffi::c_void,
+        *const core::ffi::c_void,
         PFNMINIPDBERRORCALLBACK2,
     ) -> windows_core::HRESULT,
     pub ValidatePdb: unsafe extern "system" fn(
@@ -4600,7 +4594,7 @@ pub trait IDiaDataSourceEx_Impl: IDiaDataSource_Impl {
     fn loadAndValidateDataFromPdbEx(
         &self,
         pdbpath: LPCOLESTR,
-        pcsig70: *mut windows_core::GUID,
+        pcsig70: *const windows_core::GUID,
         sig: DWORD,
         age: DWORD,
         fpdbprefetching: windows_core::BOOL,
@@ -4628,7 +4622,7 @@ pub trait IDiaDataSourceEx_Impl: IDiaDataSource_Impl {
     ) -> windows_core::Result<()>;
     fn setPfnMiniPDBErrorCallback2(
         &self,
-        pvcontext: *mut core::ffi::c_void,
+        pvcontext: *const core::ffi::c_void,
         pfn: PFNMINIPDBERRORCALLBACK2,
     ) -> windows_core::Result<()>;
     fn ValidatePdb(
@@ -4666,7 +4660,7 @@ impl IDiaDataSourceEx_Vtbl {
         >(
             this: *mut core::ffi::c_void,
             pdbpath: LPCOLESTR,
-            pcsig70: *mut windows_core::GUID,
+            pcsig70: *const windows_core::GUID,
             sig: DWORD,
             age: DWORD,
             fpdbprefetching: windows_core::BOOL,
@@ -4778,7 +4772,7 @@ impl IDiaDataSourceEx_Vtbl {
             const OFFSET: isize,
         >(
             this: *mut core::ffi::c_void,
-            pvcontext: *mut core::ffi::c_void,
+            pvcontext: *const core::ffi::c_void,
             pfn: PFNMINIPDBERRORCALLBACK2,
         ) -> windows_core::HRESULT {
             unsafe {
@@ -10529,16 +10523,16 @@ impl IDiaLoadCallback {
         &self,
         fexecutable: bool,
         cbdata: DWORD,
-    ) -> windows_core::Result<BYTE> {
+        pbdata: *const BYTE,
+    ) -> windows_core::Result<()> {
         unsafe {
-            let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).NotifyDebugDir)(
                 windows_core::Interface::as_raw(self),
                 fexecutable.into(),
                 cbdata,
-                &mut result__,
+                pbdata,
             )
-            .map(|| result__)
+            .ok()
         }
     }
     pub unsafe fn NotifyOpenDBG(
@@ -10594,7 +10588,7 @@ pub struct IDiaLoadCallback_Vtbl {
         *mut core::ffi::c_void,
         windows_core::BOOL,
         DWORD,
-        *mut BYTE,
+        *const BYTE,
     ) -> windows_core::HRESULT,
     pub NotifyOpenDBG: unsafe extern "system" fn(
         *mut core::ffi::c_void,
@@ -10616,7 +10610,8 @@ pub trait IDiaLoadCallback_Impl: windows_core::IUnknownImpl {
         &self,
         fexecutable: windows_core::BOOL,
         cbdata: DWORD,
-    ) -> windows_core::Result<BYTE>;
+        pbdata: *const BYTE,
+    ) -> windows_core::Result<()>;
     fn NotifyOpenDBG(
         &self,
         dbgpath: LPCOLESTR,
@@ -10639,22 +10634,18 @@ impl IDiaLoadCallback_Vtbl {
             this: *mut core::ffi::c_void,
             fexecutable: windows_core::BOOL,
             cbdata: DWORD,
-            pbdata: *mut BYTE,
+            pbdata: *const BYTE,
         ) -> windows_core::HRESULT {
             unsafe {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                match IDiaLoadCallback_Impl::NotifyDebugDir(
+                IDiaLoadCallback_Impl::NotifyDebugDir(
                     this,
                     core::mem::transmute_copy(&fexecutable),
                     core::mem::transmute_copy(&cbdata),
-                ) {
-                    Ok(ok__) => {
-                        pbdata.write(core::mem::transmute(ok__));
-                        windows_core::HRESULT(0)
-                    }
-                    Err(err) => err.into(),
-                }
+                    core::mem::transmute_copy(&pbdata),
+                )
+                .into()
             }
         }
         unsafe extern "system" fn NotifyOpenDBG<
@@ -10893,16 +10884,16 @@ impl IDiaPropertyStorage {
         &self,
         cpropid: ULONG,
         rgpropid: *const PROPID,
-    ) -> windows_core::Result<windows_core::BSTR> {
+        rglpwstrname: *mut windows_core::BSTR,
+    ) -> windows_core::Result<()> {
         unsafe {
-            let mut result__ = core::mem::zeroed();
             (windows_core::Interface::vtable(self).ReadPropertyNames)(
                 windows_core::Interface::as_raw(self),
                 cpropid,
                 rgpropid,
-                &mut result__,
+                core::mem::transmute(rglpwstrname),
             )
-            .map(|| core::mem::transmute(result__))
+            .ok()
         }
     }
     pub unsafe fn Enum(
@@ -11030,7 +11021,8 @@ pub trait IDiaPropertyStorage_Impl: windows_core::IUnknownImpl {
         &self,
         cpropid: ULONG,
         rgpropid: *const PROPID,
-    ) -> windows_core::Result<windows_core::BSTR>;
+        rglpwstrname: *mut windows_core::BSTR,
+    ) -> windows_core::Result<()>;
     fn Enum(
         &self,
     ) -> windows_core::Result<windows::Win32::System::Com::StructuredStorage::IEnumSTATPROPSTG>;
@@ -11079,17 +11071,13 @@ impl IDiaPropertyStorage_Vtbl {
             unsafe {
                 let this: &Identity =
                     &*((this as *const *const ()).offset(OFFSET) as *const Identity);
-                match IDiaPropertyStorage_Impl::ReadPropertyNames(
+                IDiaPropertyStorage_Impl::ReadPropertyNames(
                     this,
                     core::mem::transmute_copy(&cpropid),
                     core::mem::transmute_copy(&rgpropid),
-                ) {
-                    Ok(ok__) => {
-                        rglpwstrname.write(core::mem::transmute(ok__));
-                        windows_core::HRESULT(0)
-                    }
-                    Err(err) => err.into(),
-                }
+                    core::mem::transmute_copy(&rglpwstrname),
+                )
+                .into()
             }
         }
         unsafe extern "system" fn Enum<Identity: IDiaPropertyStorage_Impl, const OFFSET: isize>(
@@ -26934,22 +26922,8 @@ impl IDiaTable_Vtbl {
     }
 }
 impl windows_core::RuntimeName for IDiaTable {}
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct LONG(pub i32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub struct LPCOLESTR(pub *const OLECHAR);
-impl LPCOLESTR {
-    pub fn is_invalid(&self) -> bool {
-        self.0.is_null()
-    }
-}
-impl Default for LPCOLESTR {
-    fn default() -> Self {
-        unsafe { core::mem::zeroed() }
-    }
-}
+pub type LONG = i32;
+pub type LPCOLESTR = *const OLECHAR;
 pub const LocInMetaData: LocationType = LocationType(9i32);
 pub const LocIsBitField: LocationType = LocationType(6i32);
 pub const LocIsConstant: LocationType = LocationType(10i32);
@@ -26984,9 +26958,7 @@ pub const NAMEHASH_BUILD_START: i32 = 0i32;
 #[repr(transparent)]
 #[derive(Clone, Copy, Debug, Default, Eq, PartialEq)]
 pub struct NameSearchOptions(pub i32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct OLECHAR(pub WCHAR);
+pub type OLECHAR = WCHAR;
 pub type PFNMINIPDBERRORCALLBACK2 = Option<
     unsafe extern "system" fn(
         pvcontext: *mut core::ffi::c_void,
@@ -26995,9 +26967,7 @@ pub type PFNMINIPDBERRORCALLBACK2 = Option<
         szlib: LPCOLESTR,
     ) -> windows_core::HRESULT,
 >;
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct PROPID(pub ULONG);
+pub type PROPID = ULONG;
 pub type PfnPDBDebugDirV = Option<
     unsafe extern "system" fn(
         __midl____midl_itf_dia2_0000_00000000: windows_core::BOOL,
@@ -27068,15 +27038,9 @@ pub const THUNK_ORDINAL_TRAMP_FUNCOVERRIDING: THUNK_ORDINAL = THUNK_ORDINAL(9i32
 pub const THUNK_ORDINAL_TRAMP_INCREMENTAL: THUNK_ORDINAL = THUNK_ORDINAL(5i32);
 pub const THUNK_ORDINAL_TRAMP_STRICTICF: THUNK_ORDINAL = THUNK_ORDINAL(7i32);
 pub const THUNK_ORDINAL_VCALL: THUNK_ORDINAL = THUNK_ORDINAL(2i32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct ULONG(pub DWORD);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct ULONG64(pub u64);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct ULONGLONG(pub u64);
+pub type ULONG = DWORD;
+pub type ULONG64 = u64;
+pub type ULONGLONG = u64;
 pub const UdtClass: UdtKind = UdtKind(1i32);
 pub const UdtInterface: UdtKind = UdtKind(3i32);
 #[repr(transparent)]
@@ -27085,12 +27049,8 @@ pub struct UdtKind(pub i32);
 pub const UdtStruct: UdtKind = UdtKind(0i32);
 pub const UdtTaggedUnion: UdtKind = UdtKind(4i32);
 pub const UdtUnion: UdtKind = UdtKind(2i32);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct WCHAR(pub u16);
-#[repr(transparent)]
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Default)]
-pub struct WORD(pub u16);
+pub type WCHAR = u16;
+pub type WORD = u16;
 pub const btBCD: BasicType = BasicType(9i32);
 pub const btBSTR: BasicType = BasicType(30i32);
 pub const btBit: BasicType = BasicType(29i32);

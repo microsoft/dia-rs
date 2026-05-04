@@ -1,6 +1,5 @@
 use crate::common::get_test_session;
-use microsoft_dia::{nsfRegularExpression, SymTagNull};
-use windows::Win32::Foundation::S_OK;
+use microsoft_dia::{nsfRegularExpression, IDiaSymbol, SymTagNull};
 use windows_core::*;
 
 #[allow(dead_code)]
@@ -16,7 +15,7 @@ fn simple_enumeration() -> Result<()> {
         let session = get_test_session()?;
         let symbols = session.globalScope()?.findChildren(
             SymTagNull,
-            w!("main::enumerators::TEST_VALUE_[0-9]+"),
+            w!("main::enumerators::TEST_VALUE_[0-9]+").0,
             nsfRegularExpression.0 as u32,
         )?;
 
@@ -45,19 +44,15 @@ fn batch_enumeration() -> Result<()> {
         let session = get_test_session()?;
         let symbols = session.globalScope()?.findChildren(
             SymTagNull,
-            w!("main::enumerators::TEST_VALUE_[0-9]+"),
+            w!("main::enumerators::TEST_VALUE_[0-9]+").0,
             nsfRegularExpression.0 as u32,
         )?;
 
-        let mut found = Vec::new();
-        let mut batch = [None, None];
+        let mut symbol: Option<IDiaSymbol> = None;
+        let mut found: Vec<BSTR> = Vec::new();
         let mut fetched = 0;
-        while symbols.Next(&mut batch, &mut fetched) == S_OK {
-            found.extend(
-                batch[0..fetched as usize]
-                    .iter()
-                    .filter_map(|s| s.as_ref()?.name().ok()),
-            );
+        while symbols.Next(1, &mut symbol, &mut fetched).is_ok() && fetched > 0 {
+            found.push(symbol.take().unwrap().name().unwrap());
         }
 
         found.sort_by(|a, b| a.cmp(b));

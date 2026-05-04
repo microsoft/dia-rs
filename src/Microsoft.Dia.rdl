@@ -3652,51 +3652,51 @@ mod Microsoft {
         #[guid(0xb62a2e7a_067a_4ea3_b598_04c09717502c)]
         interface IDiaAddressMap: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_addressMapEnabled(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressMapEnabled(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_addressMapEnabled(&self, NewVal: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddressEnabled(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddressEnabled(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_relativeVirtualAddressEnabled(&self, NewVal: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_imageAlign(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_imageAlign(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_imageAlign(&self, NewVal: DWORD) -> Windows::Win32::Foundation::HRESULT;
-            fn set_imageHeaders(&self, cbData: DWORD, pbData: *mut BYTE, originalHeaders: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
-            fn set_addressMap(&self, cData: DWORD, pData: *mut DiaAddressMapEntry, imageToSymbols: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn set_imageHeaders(&self, cbData: DWORD, #[r#in] pbData: *mut BYTE, originalHeaders: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn set_addressMap(&self, cData: DWORD, #[r#in] pData: *mut DiaAddressMapEntry, imageToSymbols: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x79f1bb5f_b66e_48e5_b6a9_1545c323ca3d)]
         interface IDiaDataSource: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_lastError(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lastError(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             fn loadDataFromPdb(&self, pdbPath: LPCOLESTR) -> Windows::Win32::Foundation::HRESULT;
-            fn loadAndValidateDataFromPdb(&self, pdbPath: LPCOLESTR, pcsig70: *mut GUID, sig: DWORD, age: DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn loadAndValidateDataFromPdb(&self, pdbPath: LPCOLESTR, #[r#in] pcsig70: *mut GUID, sig: DWORD, age: DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn loadDataForExe(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, pCallback: Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             fn loadDataFromIStream(&self, pIStream: Windows::Win32::System::Com::IStream) -> Windows::Win32::Foundation::HRESULT;
             fn openSession(&self, ppSession: *mut IDiaSession) -> Windows::Win32::Foundation::HRESULT;
-            fn loadDataFromCodeViewInfo(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, cbCvInfo: DWORD, pbCvInfo: *mut BYTE, pCallback: Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
-            fn loadDataFromMiscInfo(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, timeStampExe: DWORD, timeStampDbg: DWORD, sizeOfExe: DWORD, cbMiscInfo: DWORD, pbMiscInfo: *mut BYTE, pCallback: Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn loadDataFromCodeViewInfo(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, cbCvInfo: DWORD, #[r#in] pbCvInfo: *mut BYTE, pCallback: Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn loadDataFromMiscInfo(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, timeStampExe: DWORD, timeStampDbg: DWORD, sizeOfExe: DWORD, cbMiscInfo: DWORD, #[r#in] pbMiscInfo: *mut BYTE, pCallback: Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x1a21eb69_962a_4bc4_8bd3_681797d38b23)]
         interface IDiaDataSourceEx: IDiaDataSource {
             fn loadDataFromPdbEx(&self, pdbPath: LPCOLESTR, fPdbPrefetching: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
-            fn loadAndValidateDataFromPdbEx(&self, pdbPath: LPCOLESTR, pcsig70: *mut GUID, sig: DWORD, age: DWORD, fPdbPrefetching: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn loadAndValidateDataFromPdbEx(&self, pdbPath: LPCOLESTR, #[r#in] pcsig70: *mut GUID, sig: DWORD, age: DWORD, fPdbPrefetching: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             fn loadDataForExeEx(&self, executable: LPCOLESTR, searchPath: LPCOLESTR, pCallback: Windows::Win32::System::Com::IUnknown, fPdbPrefetching: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             fn loadDataFromIStreamEx(&self, pIStream: Windows::Win32::System::Com::IStream, fPdbPrefetching: Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             fn getStreamSize(&self, stream: LPCOLESTR, pcb: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             fn getStreamRawData(&self, stream: LPCOLESTR, cbOffset: ULONGLONG, cbRead: ULONGLONG, pcbRead: *mut ULONGLONG, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
-            fn setPfnMiniPDBErrorCallback2(&self, pvContext: *mut void, pfn: PFNMINIPDBERRORCALLBACK2) -> Windows::Win32::Foundation::HRESULT;
+            fn setPfnMiniPDBErrorCallback2(&self, #[r#in] pvContext: *mut void, pfn: PFNMINIPDBERRORCALLBACK2) -> Windows::Win32::Foundation::HRESULT;
             fn ValidatePdb(&self, pdbPath: LPCOLESTR, pcsig70: *const GUID, sig: DWORD, age: DWORD, pfStripped: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x486943e8_d187_4a6b_a3c4_291259fff60d)]
         interface IDiaEnumDebugStreamData: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_name(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_name(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             fn Item(&self, index: DWORD, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
@@ -3706,10 +3706,10 @@ mod Microsoft {
         #[guid(0x08cbb41e_47a6_4f87_92f1_1c9c87ced044)]
         interface IDiaEnumDebugStreams: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: Windows::Win32::System::Variant::VARIANT, stream: *mut IDiaEnumDebugStreamData) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: Windows::Win32::System::Variant::VARIANT, #[retval] stream: *mut IDiaEnumDebugStreamData) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaEnumDebugStreamData, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3718,24 +3718,24 @@ mod Microsoft {
         #[guid(0x9fc77a4b_3c1c_44ed_a798_6c1deea53e1f)]
         interface IDiaEnumFrameData: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaFrameData, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
             fn Clone(&self, ppenum: *mut IDiaEnumFrameData) -> Windows::Win32::Foundation::HRESULT;
-            fn frameByRVA(&self, relativeVirtualAddress: DWORD, frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
-            fn frameByVA(&self, virtualAddress: ULONGLONG, frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
+            fn frameByRVA(&self, relativeVirtualAddress: DWORD, #[retval] frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
+            fn frameByVA(&self, virtualAddress: ULONGLONG, #[retval] frame: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xd5612573_6925_4468_8883_98cdec8c384a)]
         interface IDiaEnumInjectedSources: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, injectedSource: *mut IDiaInjectedSource) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] injectedSource: *mut IDiaInjectedSource) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaInjectedSource, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3744,10 +3744,10 @@ mod Microsoft {
         #[guid(0x1c7ff653_51f7_457e_8419_b20f57ef7e4d)]
         interface IDiaEnumInputAssemblyFiles: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, file: *mut IDiaInputAssemblyFile) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] file: *mut IDiaInputAssemblyFile) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaInputAssemblyFile, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3756,10 +3756,10 @@ mod Microsoft {
         #[guid(0xfe30e878_54ac_44f1_81ba_39de940f6052)]
         interface IDiaEnumLineNumbers: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, lineNumber: *mut IDiaLineNumber) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] lineNumber: *mut IDiaLineNumber) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaLineNumber, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3768,10 +3768,10 @@ mod Microsoft {
         #[guid(0x1994deb2_2c82_4b1d_a57f_aff424d54a68)]
         interface IDiaEnumSectionContribs: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, section: *mut IDiaSectionContrib) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] section: *mut IDiaSectionContrib) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaSectionContrib, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3780,10 +3780,10 @@ mod Microsoft {
         #[guid(0xe8368ca9_01d1_419d_ac0c_e31235dbda9f)]
         interface IDiaEnumSegments: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, segment: *mut IDiaSegment) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] segment: *mut IDiaSegment) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaSegment, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3792,10 +3792,10 @@ mod Microsoft {
         #[guid(0x10f3dbd9_664f_4469_b808_9471c7a50538)]
         interface IDiaEnumSourceFiles: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, sourceFile: *mut IDiaSourceFile) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] sourceFile: *mut IDiaSourceFile) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaSourceFile, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3823,10 +3823,10 @@ mod Microsoft {
         #[guid(0xcab72c48_443b_48f5_9b0b_42f0820ab29a)]
         interface IDiaEnumSymbols: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, symbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] symbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaSymbol, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3834,28 +3834,28 @@ mod Microsoft {
         }
         #[guid(0x624b7d9c_24ea_4421_9d06_3b577471c1fa)]
         interface IDiaEnumSymbolsByAddr: Windows::Win32::System::Com::IUnknown {
-            fn symbolByAddr(&self, isect: DWORD, offset: DWORD, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
-            fn symbolByRVA(&self, relativeVirtualAddress: DWORD, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
-            fn symbolByVA(&self, virtualAddress: ULONGLONG, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByAddr(&self, isect: DWORD, offset: DWORD, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByRVA(&self, relativeVirtualAddress: DWORD, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByVA(&self, virtualAddress: ULONGLONG, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaSymbol, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Prev(&self, celt: ULONG, rgelt: *mut IDiaSymbol, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Clone(&self, ppenum: *mut IDiaEnumSymbolsByAddr) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x1e45bd02_be45_4d71_ba32_0e576cfcd59f)]
         interface IDiaEnumSymbolsByAddr2: IDiaEnumSymbolsByAddr {
-            fn symbolByAddrEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, isect: DWORD, offset: DWORD, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
-            fn symbolByRVAEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, relativeVirtualAddress: DWORD, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
-            fn symbolByVAEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, virtualAddress: ULONGLONG, ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByAddrEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, isect: DWORD, offset: DWORD, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByRVAEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, relativeVirtualAddress: DWORD, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn symbolByVAEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, virtualAddress: ULONGLONG, #[retval] ppSymbol: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             fn NextEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, celt: ULONG, rgelt: *mut IDiaSymbol, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn PrevEx(&self, fPromoteBlockSym: Windows::Win32::Foundation::BOOL, celt: ULONG, rgelt: *mut IDiaSymbol, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xc65c2b0a_1150_4d7a_afcc_e05bf3dee81e)]
         interface IDiaEnumTables: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: Windows::Win32::System::Variant::VARIANT, table: *mut IDiaTable) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: Windows::Win32::System::Variant::VARIANT, #[retval] table: *mut IDiaTable) -> Windows::Win32::Foundation::HRESULT;
             fn Next(&self, celt: ULONG, rgelt: *mut IDiaTable, pceltFetched: *mut ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Skip(&self, celt: ULONG) -> Windows::Win32::Foundation::HRESULT;
             fn Reset(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3864,114 +3864,114 @@ mod Microsoft {
         #[guid(0xa39184b7_6a36_42de_8eec_7df9f3f59f33)]
         interface IDiaFrameData: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_addressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthBlock(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthBlock(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthLocals(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthLocals(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthParams(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthParams(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_maxStack(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_maxStack(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthProlog(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthProlog(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthSavedRegisters(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthSavedRegisters(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_program(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_program(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_systemExceptionHandling(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_systemExceptionHandling(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_cplusplusExceptionHandling(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_cplusplusExceptionHandling(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_functionStart(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_functionStart(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_allocatesBasePointer(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_allocatesBasePointer(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_type(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_type(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_functionParent(&self, pRetVal: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
+            fn get_functionParent(&self, #[retval] pRetVal: *mut IDiaFrameData) -> Windows::Win32::Foundation::HRESULT;
             fn execute(&self, frame: IDiaStackWalkFrame) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xc8e40ed2_a1d9_4221_8692_3ce661184b44)]
         interface IDiaImageData: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_imageBase(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_imageBase(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xae605cdc_8105_4a23_b710_3259f1e26112)]
         interface IDiaInjectedSource: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_crc(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_crc(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_length(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_length(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_filename(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_filename(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_objectFilename(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_objectFilename(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualFilename(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualFilename(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sourceCompression(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sourceCompression(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn get_source(&self, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x3bfe56b0_390c_4863_9430_1f3d083b7684)]
         interface IDiaInputAssemblyFile: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_uniqueId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_uniqueId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_index(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_index(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_timestamp(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_timestamp(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_pdbAvailableAtILMerge(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_pdbAvailableAtILMerge(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_fileName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_fileName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             fn get_version(&self, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xb388eb14_be4d_421d_a8a1_6cf7ab057086)]
         interface IDiaLineNumber: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_compiland(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compiland(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sourceFile(&self, pRetVal: *mut IDiaSourceFile) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sourceFile(&self, #[retval] pRetVal: *mut IDiaSourceFile) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lineNumber(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lineNumber(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lineNumberEnd(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lineNumberEnd(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_columnNumber(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_columnNumber(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_columnNumberEnd(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_columnNumberEnd(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_length(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_length(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sourceFileId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sourceFileId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_statement(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_statement(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_compilandId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compilandId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xc32adb82_73f4_421b_95d5_a4706edf5dbe)]
         interface IDiaLoadCallback: Windows::Win32::System::Com::IUnknown {
-            fn NotifyDebugDir(&self, fExecutable: Windows::Win32::Foundation::BOOL, cbData: DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
+            fn NotifyDebugDir(&self, fExecutable: Windows::Win32::Foundation::BOOL, cbData: DWORD, #[r#in] pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
             fn NotifyOpenDBG(&self, dbgPath: LPCOLESTR, resultCode: Windows::Win32::Foundation::HRESULT) -> Windows::Win32::Foundation::HRESULT;
             fn NotifyOpenPDB(&self, pdbPath: LPCOLESTR, resultCode: Windows::Win32::Foundation::HRESULT) -> Windows::Win32::Foundation::HRESULT;
             fn RestrictRegistryAccess(&self,) -> Windows::Win32::Foundation::HRESULT;
@@ -3987,7 +3987,7 @@ mod Microsoft {
         #[guid(0x9d416f9c_e184_45b2_a4f0_ce517f719e9b)]
         interface IDiaPropertyStorage: Windows::Win32::System::Com::IUnknown {
             fn ReadMultiple(&self, cpspec: ULONG, rgpspec: *const Windows::Win32::System::Com::StructuredStorage::PROPSPEC, rgvar: *mut Windows::Win32::System::Com::StructuredStorage::PROPVARIANT) -> Windows::Win32::Foundation::HRESULT;
-            fn ReadPropertyNames(&self, cpropid: ULONG, rgpropid: *const PROPID, rglpwstrName: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn ReadPropertyNames(&self, cpropid: ULONG, rgpropid: *const PROPID, #[r#in] #[out] rglpwstrName: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             fn Enum(&self, ppenum: *mut Windows::Win32::System::Com::StructuredStorage::IEnumSTATPROPSTG) -> Windows::Win32::Foundation::HRESULT;
             fn ReadDWORD(&self, id: PROPID, pValue: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn ReadLONG(&self, id: PROPID, pValue: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
@@ -4006,79 +4006,79 @@ mod Microsoft {
         #[guid(0x0cf4b60e_35b1_4c6c_bdd8_854b9c8e3857)]
         interface IDiaSectionContrib: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_compiland(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compiland(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_length(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_length(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_notPaged(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_notPaged(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_code(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_code(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_initializedData(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_initializedData(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_uninitializedData(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_uninitializedData(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_remove(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_remove(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_comdat(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_comdat(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_discardable(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_discardable(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_notCached(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_notCached(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_share(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_share(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_execute(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_execute(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_read(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_read(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_write(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_write(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_dataCrc(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_dataCrc(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relocationsCrc(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relocationsCrc(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_compilandId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compilandId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_code16bit(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_code16bit(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x0775b784_c75b_4449_848b_b7bd3159545b)]
         interface IDiaSegment: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_frame(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frame(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_offset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_offset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_length(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_length(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_read(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_read(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_write(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_write(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_execute(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_execute(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x2f609ee1_d1c8_4e24_8288_3326badcd211)]
         interface IDiaSession: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_loadAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_loadAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_loadAddress(&self, NewVal: ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_globalScope(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_globalScope(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             fn getEnumTables(&self, ppEnumTables: *mut IDiaEnumTables) -> Windows::Win32::Foundation::HRESULT;
             fn getSymbolsByAddr(&self, ppEnumbyAddr: *mut IDiaEnumSymbolsByAddr) -> Windows::Win32::Foundation::HRESULT;
             fn findChildren(&self, parent: IDiaSymbol, symtag: SymTagEnum, name: LPCOLESTR, compareFlags: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
@@ -4145,52 +4145,52 @@ mod Microsoft {
         #[guid(0xa2ef5353_f5a8_4eb3_90d2_cb526acb3cdd)]
         interface IDiaSourceFile: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_uniqueId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_uniqueId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_fileName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_fileName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_checksumType(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_checksumType(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_compilands(&self, pRetVal: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compilands(&self, #[retval] pRetVal: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             fn get_checksum(&self, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x5edbc96d_cdd6_4792_afbe_cc89007d9610)]
         interface IDiaStackFrame: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_type(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_type(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_base(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_base(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_size(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_size(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_returnAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_returnAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_localsBase(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_localsBase(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthLocals(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthLocals(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthParams(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthParams(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthProlog(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthProlog(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lengthSavedRegisters(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lengthSavedRegisters(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_systemExceptionHandling(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_systemExceptionHandling(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_cplusplusExceptionHandling(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_cplusplusExceptionHandling(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_functionStart(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_functionStart(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_allocatesBasePointer(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_allocatesBasePointer(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_maxStack(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_maxStack(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_registerValue(&self, index: DWORD, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_registerValue(&self, index: DWORD, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x07c590c1_438d_4f47_bdcd_4397bc81ad75)]
         interface IDiaStackWalkFrame: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_registerValue(&self, index: DWORD, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_registerValue(&self, index: DWORD, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_registerValue(&self, index: DWORD, NewVal: ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             fn readMemory(&self, r#type: MemoryTypeEnum, va: ULONGLONG, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
@@ -4200,7 +4200,7 @@ mod Microsoft {
         #[guid(0x21f81b1b_c5bb_42a3_bc4f_ccbaa75b9f19)]
         interface IDiaStackWalkHelper: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_registerValue(&self, index: DWORD, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_registerValue(&self, index: DWORD, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
             fn put_registerValue(&self, index: DWORD, NewVal: ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             fn readMemory(&self, r#type: MemoryTypeEnum, va: ULONGLONG, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
@@ -4228,167 +4228,167 @@ mod Microsoft {
         #[guid(0xcb787b2f_bd6c_4635_ba52_933126bd2dcd)]
         interface IDiaSymbol: Windows::Win32::System::Com::IUnknown {
             #[special]
-            fn get_symIndexId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_symIndexId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_symTag(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_symTag(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_name(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_name(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lexicalParent(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lexicalParent(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_classParent(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_classParent(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_type(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_type(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_dataKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_dataKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_locationType(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_locationType(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_relativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_relativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_registerId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_registerId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_offset(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_offset(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_length(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_length(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_slot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_slot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_volatileType(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_volatileType(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_constType(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_constType(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_unalignedType(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_unalignedType(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_access(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_access(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_libraryName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_libraryName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_platform(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_platform(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_language(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_language(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_editAndContinueEnabled(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_editAndContinueEnabled(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_frontEndMajor(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frontEndMajor(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_frontEndMinor(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frontEndMinor(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_frontEndBuild(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frontEndBuild(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_backEndMajor(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_backEndMajor(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_backEndMinor(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_backEndMinor(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_backEndBuild(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_backEndBuild(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sourceFileName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sourceFileName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_unused(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_unused(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_thunkOrdinal(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_thunkOrdinal(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_thisAdjust(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_thisAdjust(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualBaseOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualBaseOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtual(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtual(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_intro(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_intro(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_pure(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_pure(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_callingConvention(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_callingConvention(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_value(&self, pRetVal: *mut Windows::Win32::System::Variant::VARIANT) -> Windows::Win32::Foundation::HRESULT;
+            fn get_value(&self, #[retval] pRetVal: *mut Windows::Win32::System::Variant::VARIANT) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_baseType(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_baseType(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_token(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_token(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_timeStamp(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_timeStamp(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_guid(&self, pRetVal: *mut GUID) -> Windows::Win32::Foundation::HRESULT;
+            fn get_guid(&self, #[retval] pRetVal: *mut GUID) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_symbolsFileName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_symbolsFileName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_reference(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_reference(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_count(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_count(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_bitPosition(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_bitPosition(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_arrayIndexType(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_arrayIndexType(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_packed(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_packed(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_constructor(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_constructor(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_overloadedOperator(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_overloadedOperator(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_nested(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_nested(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasNestedTypes(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasNestedTypes(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasAssignmentOperator(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasAssignmentOperator(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasCastOperator(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasCastOperator(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_scoped(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_scoped(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualBaseClass(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualBaseClass(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_indirectVirtualBaseClass(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_indirectVirtualBaseClass(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualBasePointerOffset(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualBasePointerOffset(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualTableShape(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualTableShape(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lexicalParentId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lexicalParentId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_classParentId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_classParentId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_typeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_typeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_arrayIndexTypeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_arrayIndexTypeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualTableShapeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualTableShapeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_code(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_code(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_function(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_function(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_managed(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_managed(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_msil(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_msil(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualBaseDispIndex(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualBaseDispIndex(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_undecoratedName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_undecoratedName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_age(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_age(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_signature(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_signature(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_compilerGenerated(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compilerGenerated(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_addressTaken(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_addressTaken(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_rank(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_rank(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lowerBound(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lowerBound(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_upperBound(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_upperBound(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_lowerBoundId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_lowerBoundId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_upperBoundId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_upperBoundId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn get_dataBytes(&self, cbData: DWORD, pcbData: *mut DWORD, pbData: *mut BYTE) -> Windows::Win32::Foundation::HRESULT;
             fn findChildren(&self, symtag: SymTagEnum, name: LPCOLESTR, compareFlags: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             fn findChildrenEx(&self, symtag: SymTagEnum, name: LPCOLESTR, compareFlags: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
@@ -4396,220 +4396,220 @@ mod Microsoft {
             fn findChildrenExByVA(&self, symtag: SymTagEnum, name: LPCOLESTR, compareFlags: DWORD, va: ULONGLONG, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             fn findChildrenExByRVA(&self, symtag: SymTagEnum, name: LPCOLESTR, compareFlags: DWORD, rva: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_targetSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_targetSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_targetOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_targetOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_targetRelativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_targetRelativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_targetVirtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_targetVirtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_machineType(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_machineType(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_oemId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_oemId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_oemSymbolId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_oemSymbolId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn get_types(&self, cTypes: DWORD, pcTypes: *mut DWORD, pTypes: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             fn get_typeIds(&self, cTypeIds: DWORD, pcTypeIds: *mut DWORD, pdwTypeIds: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_objectPointerType(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_objectPointerType(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_udtKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_udtKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn get_undecoratedNameEx(&self, undecorateOptions: DWORD, name: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_noReturn(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_noReturn(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_customCallingConvention(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_customCallingConvention(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_noInline(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_noInline(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_optimizedCodeDebugInfo(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_optimizedCodeDebugInfo(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_notReached(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_notReached(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_interruptReturn(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_interruptReturn(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_farReturn(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_farReturn(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isStatic(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isStatic(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasDebugInfo(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasDebugInfo(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isLTCG(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isLTCG(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isDataAligned(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isDataAligned(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasSecurityChecks(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasSecurityChecks(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_compilerName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_compilerName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasAlloca(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasAlloca(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasSetJump(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasSetJump(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasLongJump(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasLongJump(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasInlAsm(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasInlAsm(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasEH(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasEH(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasSEH(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasSEH(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasEHa(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasEHa(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isNaked(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isNaked(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isAggregated(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isAggregated(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isSplitted(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isSplitted(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_container(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_container(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_inlSpec(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_inlSpec(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_noStackOrdering(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_noStackOrdering(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_virtualBaseTableType(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_virtualBaseTableType(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasManagedCode(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasManagedCode(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isHotpatchable(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isHotpatchable(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isCVTCIL(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isCVTCIL(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isMSILNetmodule(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isMSILNetmodule(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isCTypes(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isCTypes(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isStripped(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isStripped(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_frontEndQFE(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frontEndQFE(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_backEndQFE(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_backEndQFE(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_wasInlined(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_wasInlined(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_strictGSCheck(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_strictGSCheck(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isCxxReturnUdt(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isCxxReturnUdt(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isConstructorVirtualBase(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isConstructorVirtualBase(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_RValueReference(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_RValueReference(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_unmodifiedType(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_unmodifiedType(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_framePointerPresent(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_framePointerPresent(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isSafeBuffers(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isSafeBuffers(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_intrinsic(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_intrinsic(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sealed(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sealed(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hfaFloat(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hfaFloat(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hfaDouble(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hfaDouble(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_liveRangeStartAddressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_liveRangeStartAddressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_liveRangeStartAddressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_liveRangeStartAddressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_liveRangeStartRelativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_liveRangeStartRelativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_countLiveRanges(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_countLiveRanges(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_liveRangeLength(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_liveRangeLength(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_offsetInUdt(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_offsetInUdt(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_paramBasePointerRegisterId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_paramBasePointerRegisterId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_localBasePointerRegisterId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_localBasePointerRegisterId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isLocationControlFlowDependent(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isLocationControlFlowDependent(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_stride(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_stride(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_numberOfRows(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_numberOfRows(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_numberOfColumns(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_numberOfColumns(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isMatrixRowMajor(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isMatrixRowMajor(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             fn get_numericProperties(&self, cnt: DWORD, pcnt: *mut DWORD, pProperties: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn get_modifierValues(&self, cnt: DWORD, pcnt: *mut DWORD, pModifiers: *mut WORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isReturnValue(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isReturnValue(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isOptimizedAway(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isOptimizedAway(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_builtInKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_builtInKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_registerType(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_registerType(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_baseDataSlot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_baseDataSlot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_baseDataOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_baseDataOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_textureSlot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_textureSlot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_samplerSlot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_samplerSlot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_uavSlot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_uavSlot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_sizeInUdt(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_sizeInUdt(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_memorySpaceKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_memorySpaceKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_unmodifiedTypeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_unmodifiedTypeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_subTypeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_subTypeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_subType(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_subType(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_numberOfModifiers(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_numberOfModifiers(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_numberOfRegisterIndices(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_numberOfRegisterIndices(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isHLSLData(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isHLSLData(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isPointerToDataMember(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isPointerToDataMember(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isPointerToMemberFunction(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isPointerToMemberFunction(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isSingleInheritance(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isSingleInheritance(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isMultipleInheritance(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isMultipleInheritance(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isVirtualInheritance(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isVirtualInheritance(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_restrictedType(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_restrictedType(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isPointerBasedOnSymbolValue(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isPointerBasedOnSymbolValue(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_baseSymbol(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_baseSymbol(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_baseSymbolId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_baseSymbolId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_objectFileName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_objectFileName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isAcceleratorGroupSharedLocal(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isAcceleratorGroupSharedLocal(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isAcceleratorPointerTagLiveRange(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isAcceleratorPointerTagLiveRange(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isAcceleratorStubFunction(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isAcceleratorStubFunction(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_numberOfAcceleratorPointerTags(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_numberOfAcceleratorPointerTags(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isSdl(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isSdl(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isWinRTPointer(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isWinRTPointer(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isRefUdt(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isRefUdt(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isValueUdt(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isValueUdt(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isInterfaceUdt(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isInterfaceUdt(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             fn findInlineFramesByAddr(&self, isect: DWORD, offset: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             fn findInlineFramesByRVA(&self, rva: DWORD, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
             fn findInlineFramesByVA(&self, va: ULONGLONG, ppResult: *mut IDiaEnumSymbols) -> Windows::Win32::Foundation::HRESULT;
@@ -4622,60 +4622,60 @@ mod Microsoft {
             fn get_acceleratorPointerTags(&self, cnt: DWORD, pcnt: *mut DWORD, pPointerTags: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             fn getSrcLineOnTypeDefn(&self, ppResult: *mut IDiaLineNumber) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isPGO(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isPGO(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasValidPGOCounts(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasValidPGOCounts(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isOptimizedForSpeed(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isOptimizedForSpeed(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_PGOEntryCount(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_PGOEntryCount(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_PGOEdgeCount(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_PGOEdgeCount(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_PGODynamicInstructionCount(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_PGODynamicInstructionCount(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_staticSize(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_staticSize(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_finalLiveStaticSize(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_finalLiveStaticSize(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_phaseName(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_phaseName(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_hasControlFlowCheck(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasControlFlowCheck(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_constantExport(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_constantExport(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_dataExport(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_dataExport(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_privateExport(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_privateExport(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_noNameExport(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_noNameExport(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exportHasExplicitlyAssignedOrdinal(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exportHasExplicitlyAssignedOrdinal(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exportIsForwarder(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exportIsForwarder(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_ordinal(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_ordinal(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_frameSize(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_frameSize(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exceptionHandlerAddressSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exceptionHandlerAddressSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exceptionHandlerAddressOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exceptionHandlerAddressOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exceptionHandlerRelativeVirtualAddress(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exceptionHandlerRelativeVirtualAddress(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_exceptionHandlerVirtualAddress(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_exceptionHandlerVirtualAddress(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
             fn findInputAssemblyFile(&self, ppResult: *mut IDiaInputAssemblyFile) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_characteristics(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_characteristics(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_coffGroup(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_coffGroup(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_bindID(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_bindID(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_bindSpace(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_bindSpace(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_bindSlot(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_bindSlot(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x9034a70b_b0b7_4605_8a97_33772f3a7b8c)]
         interface IDiaSymbol10: IDiaSymbol9 {
@@ -4689,72 +4689,72 @@ mod Microsoft {
         #[guid(0x611e86cd_b7d1_4546_8a15_070e2b07a427)]
         interface IDiaSymbol2: IDiaSymbol {
             #[special]
-            fn get_isObjCClass(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isObjCClass(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isObjCCategory(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isObjCCategory(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isObjCProtocol(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isObjCProtocol(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x99b665f7_c1b2_49d3_89b2_a384361acab5)]
         interface IDiaSymbol3: IDiaSymbol2 {
             #[special]
-            fn get_inlinee(&self, pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
+            fn get_inlinee(&self, #[retval] pRetVal: *mut IDiaSymbol) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_inlineeId(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_inlineeId(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xbf6c88a7_e9d6_4346_99a1_d053de5a7808)]
         interface IDiaSymbol4: IDiaSymbol3 {
             #[special]
-            fn get_noexcept(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_noexcept(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xabe2de00_dc2d_4793_af9a_ef1d90832644)]
         interface IDiaSymbol5: IDiaSymbol4 {
             #[special]
-            fn get_hasAbsoluteAddress(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_hasAbsoluteAddress(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x8133dad3_75fe_4234_ac7e_f8e7a1d3cbb3)]
         interface IDiaSymbol6: IDiaSymbol5 {
             #[special]
-            fn get_isStaticMemberFunc(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isStaticMemberFunc(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x64ce6cd5_7315_4328_86d6_10e303e010b4)]
         interface IDiaSymbol7: IDiaSymbol6 {
             #[special]
-            fn get_isSignRet(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isSignRet(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x7f2e041f_1294_41bd_b83a_e715972d2ce3)]
         interface IDiaSymbol8: IDiaSymbol7 {
             #[special]
-            fn get_coroutineKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_coroutineKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_associatedSymbolKind(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_associatedSymbolKind(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_associatedSymbolSection(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_associatedSymbolSection(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_associatedSymbolOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_associatedSymbolOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_associatedSymbolRva(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_associatedSymbolRva(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_associatedSymbolAddr(&self, pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
+            fn get_associatedSymbolAddr(&self, #[retval] pRetVal: *mut ULONGLONG) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0xa89e5969_92a1_4f8a_b704_00121c37abbb)]
         interface IDiaSymbol9: IDiaSymbol8 {
             #[special]
-            fn get_framePadSize(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_framePadSize(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_framePadOffset(&self, pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
+            fn get_framePadOffset(&self, #[retval] pRetVal: *mut DWORD) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_isRTCs(&self, pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
+            fn get_isRTCs(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BOOL) -> Windows::Win32::Foundation::HRESULT;
         }
         #[guid(0x4a59fb77_abac_469b_a30b_9ecc85bfef14)]
         interface IDiaTable: Windows::Win32::System::Com::IEnumUnknown {
             #[special]
-            fn get__NewEnum(&self, pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get__NewEnum(&self, #[retval] pRetVal: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_name(&self, pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
+            fn get_name(&self, #[retval] pRetVal: *mut Windows::Win32::Foundation::BSTR) -> Windows::Win32::Foundation::HRESULT;
             #[special]
-            fn get_Count(&self, pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
-            fn Item(&self, index: DWORD, element: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
+            fn get_Count(&self, #[retval] pRetVal: *mut LONG) -> Windows::Win32::Foundation::HRESULT;
+            fn Item(&self, index: DWORD, #[retval] element: *mut Windows::Win32::System::Com::IUnknown) -> Windows::Win32::Foundation::HRESULT;
         }
         type LONG = i32;
         type LPCOLESTR = *const OLECHAR;

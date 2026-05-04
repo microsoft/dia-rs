@@ -17,17 +17,17 @@ where
     unsafe { GetProcAddress(hmodule, lpprocname.param().abi()) }
 }
 #[inline]
-pub unsafe fn LoadLibraryExA<P0>(
+pub unsafe fn LoadLibraryExW<P0>(
     lplibfilename: P0,
     hfile: Option<HANDLE>,
     dwflags: LOAD_LIBRARY_FLAGS,
 ) -> windows_core::Result<HMODULE>
 where
-    P0: windows_core::Param<windows_core::PCSTR>,
+    P0: windows_core::Param<windows_core::PCWSTR>,
 {
-    windows_core::link!("kernel32.dll" "system" fn LoadLibraryExA(lplibfilename : windows_core::PCSTR, hfile : HANDLE, dwflags : LOAD_LIBRARY_FLAGS) -> HMODULE);
+    windows_core::link!("kernel32.dll" "system" fn LoadLibraryExW(lplibfilename : windows_core::PCWSTR, hfile : HANDLE, dwflags : LOAD_LIBRARY_FLAGS) -> HMODULE);
     let result__ = unsafe {
-        LoadLibraryExA(
+        LoadLibraryExW(
             lplibfilename.param().abi(),
             hfile.unwrap_or(core::mem::zeroed()) as _,
             dwflags,

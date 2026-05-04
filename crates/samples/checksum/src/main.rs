@@ -4,7 +4,7 @@ use windows_core::*;
 fn main() -> Result<()> {
     unsafe {
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
-            s!(
+            w!(
                 r#"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"#
             ),
             &DiaSource,
@@ -12,18 +12,23 @@ fn main() -> Result<()> {
 
         // Open session against own symbols
         let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
+        source.loadDataForExe(
+            HSTRING::from(executable.as_os_str()).as_ptr(),
+            std::ptr::null(),
+            None,
+        )?;
         let session = source.openSession()?;
 
         // Get compilands
-        let symbols =
-            session
-                .globalScope()?
-                .findChildren(SymTagCompiland, None, nsNone.0 as u32)?;
+        let symbols = session.globalScope()?.findChildren(
+            SymTagCompiland,
+            std::ptr::null(),
+            nsNone.0 as u32,
+        )?;
 
         // Get source files
         for _i in 0..symbols.Count()? {
-            let files = session.findFile(None, PCWSTR::null(), nsNone.0 as u32)?;
+            let files = session.findFile(None, std::ptr::null(), nsNone.0 as u32)?;
 
             // Find files with a checksum and print out details
             for j in 0..files.Count()? {
@@ -33,10 +38,18 @@ fn main() -> Result<()> {
                 }
 
                 let mut byte_count = 0u32;
-                file.get_checksum(&mut byte_count, None)?;
+                file.get_checksum(
+                    size_of::<u32>() as u32,
+                    &mut byte_count,
+                    std::ptr::null_mut(),
+                )?;
 
                 let mut bytes = vec![0; byte_count as usize];
-                file.get_checksum(&mut byte_count, Some(&mut bytes))?;
+                file.get_checksum(
+                    size_of::<u32>() as u32,
+                    &mut byte_count,
+                    bytes.as_mut_ptr() as *mut _,
+                )?;
 
                 println!("File: {}", file.fileName()?);
                 println!(

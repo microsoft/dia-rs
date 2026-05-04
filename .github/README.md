@@ -24,12 +24,12 @@ use windows_core::*;
 
 fn main() -> Result<()> {
     unsafe {
-        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource)?;
+        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(w!("msdia140.dll"), &DiaSource)?;
         let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
+        source.loadDataForExe(HSTRING::from(executable.as_os_str()).as_ptr(), std::ptr::null(), None)?;
 
         let session = source.openSession()?;
-        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("*"), nsfRegularExpression.0 as u32)?;
+        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("*").as_ptr(), nsfRegularExpression.0 as u32)?;
 
         println!("Function symbols found in self: ({}):", &executable.to_string_lossy());
 
