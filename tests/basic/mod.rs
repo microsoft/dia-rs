@@ -15,7 +15,7 @@ fn symbol_properties() -> Result<()> {
             .findChildren(
                 SymTagData,
                 w!("main::basic::TEST_DATA"),
-                NameSearchOptions::default().0 as u32,
+                NameSearchOptions::default() as u32,
             )?
             .Item(0)?;
 

@@ -1,6 +1,6 @@
 #![allow(non_snake_case, clippy::missing_safety_doc)]
 
-use crate::helper_bindings::*;
+use crate::bindings::*;
 use windows_core::*;
 
 type DllGetClassObject =
@@ -14,9 +14,11 @@ type DllGetClassObject =
 /// prior to use.
 ///
 pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Result<T> {
-    let instance = LoadLibraryExA(lib, None, LOAD_WITH_ALTERED_SEARCH_PATH)?;
-    if !instance.is_invalid() {
-        if let Some(farproc) = GetProcAddress(instance, s!("DllGetClassObject")) {
+    unsafe {
+        let instance = LoadLibraryExA(lib, None, LOAD_WITH_ALTERED_SEARCH_PATH as u32);
+        if !instance.0.is_null()
+            && let Some(farproc) = GetProcAddress(instance, s!("DllGetClassObject"))
+        {
             let get_class_object: DllGetClassObject = std::mem::transmute(farproc);
             let mut factory: Option<IClassFactory> = None;
             if get_class_object(
@@ -29,7 +31,6 @@ pub unsafe fn NoRegCoCreate<T: Interface>(lib: PCSTR, rclsid: *const GUID) -> Re
                 return factory.unwrap().CreateInstance(None);
             }
         }
+        Err(Error::from_thread())
     }
-
-    Err(Error::from_thread())
 }

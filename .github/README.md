@@ -26,15 +26,15 @@ fn main() -> Result<()> {
     unsafe {
         let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource)?;
         let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
+        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None).ok()?;
 
         let session = source.openSession()?;
-        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("*"), nsfRegularExpression.0 as u32)?;
+        let symbols = session.globalScope()?.findChildren(SymTagFunction, w!("*"), nsfRegularExpression as u32)?;
 
         println!("Function symbols found in self: ({}):", &executable.to_string_lossy());
 
         for i in 0..symbols.Count()? {
-            println!("\t{}", symbols.Item(i as u32)?.name()?);
+            println!("\t{}", symbols.Item(i as u32)?.name()?.display());
         }
 
         Ok(())

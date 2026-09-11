@@ -1,6 +1,5 @@
 use crate::common::get_test_session;
-use microsoft_dia::{nsfRegularExpression, SymTagNull};
-use windows::Win32::Foundation::S_OK;
+use microsoft_dia::{SymTagNull, nsfRegularExpression};
 use windows_core::*;
 
 #[allow(dead_code)]
@@ -17,7 +16,7 @@ fn simple_enumeration() -> Result<()> {
         let symbols = session.globalScope()?.findChildren(
             SymTagNull,
             w!("main::enumerators::TEST_VALUE_[0-9]+"),
-            nsfRegularExpression.0 as u32,
+            nsfRegularExpression as u32,
         )?;
 
         let mut found = Vec::new();
@@ -46,13 +45,13 @@ fn batch_enumeration() -> Result<()> {
         let symbols = session.globalScope()?.findChildren(
             SymTagNull,
             w!("main::enumerators::TEST_VALUE_[0-9]+"),
-            nsfRegularExpression.0 as u32,
+            nsfRegularExpression as u32,
         )?;
 
         let mut found = Vec::new();
         let mut batch = [None, None];
         let mut fetched = 0;
-        while symbols.Next(&mut batch, &mut fetched) == S_OK {
+        while symbols.Next(2, batch.as_mut_ptr(), &mut fetched) == HRESULT(0) {
             found.extend(
                 batch[0..fetched as usize]
                     .iter()

@@ -1,21 +1,28 @@
-use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
+use microsoft_dia::{DiaSource, IDiaDataSource, SymTagFunction, nsfRegularExpression};
 use windows_core::*;
 
 fn main() -> Result<()> {
     unsafe {
-        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
-            s!(
-                r#"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"#
-            ),
-            &DiaSource,
-        )?;
+        let source: IDiaDataSource =
+            microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource).inspect_err(
+                |e| {
+                    eprintln!(
+                        "Failed to create DIA data source ({e}). Make sure msdia140.dll is \
+                    registered or present next to the executable. It can be found at \
+                    <VS Root>\\DIA SDK\\bin\\amd64."
+                    );
+                },
+            )?;
+
         let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
+        source
+            .loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)
+            .ok()?;
         let session = source.openSession()?;
         let symbols = session.globalScope()?.findChildren(
             SymTagFunction,
             w!("sample_functions::*"),
-            nsfRegularExpression.0 as u32,
+            nsfRegularExpression as u32,
         )?;
 
         println!(
@@ -24,7 +31,7 @@ fn main() -> Result<()> {
         );
 
         for i in 0..symbols.Count()? {
-            println!("\t{}", symbols.Item(i as u32)?.name()?);
+            println!("\t{}", symbols.Item(i as u32)?.name()?.display());
         }
 
         Ok(())
