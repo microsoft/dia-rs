@@ -12,6 +12,9 @@ pub fn get_test_session() -> Result<IDiaSession> {
                     r"C:\Program Files\Microsoft Visual Studio\18\Professional\DIA SDK\bin\amd64\msdia140.dll"
                 ),
                 s!(
+                    r"C:\Program Files\Microsoft Visual Studio\18\Enterprise\DIA SDK\bin\amd64\msdia140.dll"
+                ),
+                s!(
                     r"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\DIA SDK\bin\amd64\msdia140.dll"
                 ),
                 s!(r"C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\msdia140.dll"),
@@ -26,6 +29,9 @@ pub fn get_test_session() -> Result<IDiaSession> {
                     r"C:\Program Files\Microsoft Visual Studio\18\Professional\DIA SDK\bin\arm64\msdia140.dll"
                 ),
                 s!(
+                    r"C:\Program Files\Microsoft Visual Studio\18\Enterprise\DIA SDK\bin\arm64\msdia140.dll"
+                ),
+                s!(
                     r"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\DIA SDK\bin\arm64\msdia140.dll"
                 ),
                 s!(r"C:\Program Files (x86)\Windows Kits\10\Debuggers\arm64\msdia140.dll"),
@@ -38,6 +44,9 @@ pub fn get_test_session() -> Result<IDiaSession> {
                 ),
                 s!(
                     r"C:\Program Files\Microsoft Visual Studio\18\Professional\DIA SDK\bin\msdia140.dll"
+                ),
+                s!(
+                    r"C:\Program Files\Microsoft Visual Studio\18\Enterprise\DIA SDK\bin\msdia140.dll"
                 ),
                 s!(
                     r"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\DIA SDK\bin\msdia140.dll"
