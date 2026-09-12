@@ -4903,10 +4903,6 @@ mod Microsoft {
             nsRegularExpression = 9,
             nsCaseInRegularExpression = 10,
         }
-        #[library("msdia140.dll")]
-        extern "system" fn NoOleCoCreate(rclsid: *const GUID, riid: *const GUID, #[iid_is] ppv: *mut *mut void) -> Windows::Win32::HRESULT;
-        #[library("msdia140.dll")]
-        extern "system" fn NoRegCoCreate(dllName: *const u16, rclsid: *const GUID, riid: *const GUID, #[iid_is] ppv: *mut *mut void) -> Windows::Win32::HRESULT;
         extern "C" fn PFNMINIPDBERRORCALLBACK2(pvContext: *mut void, dwErrorCode: u32, szObjOrPdb: Windows::Win32::PCWSTR, szLib: Windows::Win32::PCWSTR) -> Windows::Win32::HRESULT;
         extern "C" fn PfnPDBDebugDirV(param0: Windows::Win32::BOOL, param1: *mut void);
         #[repr(i32)]

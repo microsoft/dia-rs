@@ -20,33 +20,6 @@ where
         )
     }
 }
-#[inline]
-pub unsafe fn NoOleCoCreate<T>(rclsid: *const windows_core::GUID) -> windows_core::Result<T>
-where
-    T: windows_core::Interface,
-{
-    windows_core::link!("msdia140.dll" "system" fn NoOleCoCreate(rclsid : *const windows_core::GUID, riid : *const windows_core::GUID, ppv : *mut *mut core::ffi::c_void) -> windows_core::HRESULT);
-    let mut result__ = core::ptr::null_mut();
-    unsafe {
-        NoOleCoCreate(rclsid, &T::IID, &mut result__)
-            .and_then(|| windows_core::imp::Type::from_abi(result__))
-    }
-}
-#[inline]
-pub unsafe fn NoRegCoCreate<T>(
-    dllname: *const u16,
-    rclsid: *const windows_core::GUID,
-) -> windows_core::Result<T>
-where
-    T: windows_core::Interface,
-{
-    windows_core::link!("msdia140.dll" "system" fn NoRegCoCreate(dllname : *const u16, rclsid : *const windows_core::GUID, riid : *const windows_core::GUID, ppv : *mut *mut core::ffi::c_void) -> windows_core::HRESULT);
-    let mut result__ = core::ptr::null_mut();
-    unsafe {
-        NoRegCoCreate(dllname, rclsid, &T::IID, &mut result__)
-            .and_then(|| windows_core::imp::Type::from_abi(result__))
-    }
-}
 pub type BasicType = i32;
 pub const CHKSUM_TYPE_MD5: CV_SourceChksum_t = 1;
 pub const CHKSUM_TYPE_NONE: CV_SourceChksum_t = 0;

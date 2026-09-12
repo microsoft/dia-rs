@@ -6,13 +6,11 @@ fn main() {
             #include <windows.h>
             #include "../../../../../DIA SDK/include/cvconst.h"
             #include "../../../../../DIA SDK/include/dia2.h"
-            #include "../../../../../DIA SDK/include/diacreate.h"
         "#,
         )
         .reference_default()
         .filter("cvconst.h")
         .filter("dia2.h")
-        .filter("diacreate.h")
         .output("rdl/dia.rdl")
         .namespace("Microsoft.Dia")
         .library("msdia140.dll")
