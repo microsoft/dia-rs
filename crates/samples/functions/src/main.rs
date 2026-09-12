@@ -3,16 +3,12 @@ use windows_core::*;
 
 fn main() -> Result<()> {
     unsafe {
-        let source: IDiaDataSource =
-            microsoft_dia::helpers::NoRegCoCreate(s!("msdia140.dll"), &DiaSource).inspect_err(
-                |e| {
-                    eprintln!(
-                        "Failed to create DIA data source ({e}). Make sure msdia140.dll is \
-                    registered or present next to the executable. It can be found at \
-                    <VS Root>\\DIA SDK\\bin\\amd64."
-                    );
-                },
-            )?;
+        let source: IDiaDataSource = create_dia_source().inspect_err(|_| {
+            eprintln!(
+                "Failed to create DIA data source. Make sure msdia140.dll is \
+            registered or present next to the executable."
+            );
+        })?;
 
         let executable = std::env::current_exe().unwrap();
         source
@@ -36,4 +32,30 @@ fn main() -> Result<()> {
 
         Ok(())
     }
+}
+
+fn create_dia_source() -> Result<IDiaDataSource> {
+    let paths = [
+        s!(
+            r#"C:\Program Files\Microsoft Visual Studio\18\Insiders\DIA SDK\bin\amd64\msdia140.dll"#
+        ),
+        s!(
+            r#"C:\Program Files\Microsoft Visual Studio\18\Professional\DIA SDK\bin\amd64\msdia140.dll"#
+        ),
+        s!(
+            r#"C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\DIA SDK\bin\amd64\msdia140.dll"#
+        ),
+        s!(r#"C:\Program Files (x86)\Windows Kits\10\Debuggers\x64\msdia140.dll"#),
+        s!("msdia140.dll"),
+    ];
+
+    let mut last_error = Error::empty();
+    for path in paths {
+        match unsafe { microsoft_dia::helpers::NoRegCoCreate(path, &DiaSource) } {
+            Ok(source) => return Ok(source),
+            Err(e) => last_error = e,
+        }
+    }
+
+    Err(last_error)
 }
