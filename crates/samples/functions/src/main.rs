@@ -23,7 +23,7 @@ fn main() -> Result<()> {
 
         println!(
             "Function symbols found in sample_functions::* ({}):",
-            &executable.to_string_lossy()
+            executable.to_string_lossy()
         );
 
         for i in 0..symbols.Count()? {
