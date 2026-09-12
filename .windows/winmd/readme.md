@@ -1,1 +1,0 @@
-Files in this directory are automatically generated. See `.metadata` for more information.
