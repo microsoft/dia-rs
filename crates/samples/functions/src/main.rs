@@ -1,32 +1,27 @@
-use microsoft_dia::{nsfRegularExpression, DiaSource, IDiaDataSource, SymTagFunction};
+use microsoft_dia::{DataSource, NameSearchOptions, SymTag};
 use windows_core::*;
 
 fn main() -> Result<()> {
-    unsafe {
-        let source: IDiaDataSource = microsoft_dia::helpers::NoRegCoCreate(
-            s!(
-                r#"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\DIA SDK\bin\amd64\msdia140.dll"#
-            ),
-            &DiaSource,
-        )?;
-        let executable = std::env::current_exe().unwrap();
-        source.loadDataForExe(&HSTRING::from(executable.as_os_str()), None, None)?;
-        let session = source.openSession()?;
-        let symbols = session.globalScope()?.findChildren(
-            SymTagFunction,
-            w!("sample_functions::*"),
-            nsfRegularExpression.0 as u32,
-        )?;
+    let source = DataSource::open()?;
 
-        println!(
-            "Function symbols found in sample_functions::* ({}):",
-            &executable.to_string_lossy()
-        );
+    let executable = std::env::current_exe().unwrap();
+    source.load_exe(executable.to_str().unwrap(), None)?;
 
-        for i in 0..symbols.Count()? {
-            println!("\t{}", symbols.Item(i as u32)?.name()?);
-        }
+    let session = source.open_session()?;
+    let symbols = session.global_scope()?.find_children(
+        SymTag::Function,
+        "sample_functions::*",
+        NameSearchOptions::WILDCARD,
+    )?;
 
-        Ok(())
+    println!(
+        "Function symbols found in sample_functions::* ({}):",
+        executable.to_string_lossy()
+    );
+
+    for sym in symbols {
+        println!("\t{}", sym.name()?);
     }
+
+    Ok(())
 }

@@ -9,69 +9,23 @@ env:
   RUSTFLAGS: -Dwarnings
 
 jobs:
-  metadata:
-    name: Build metadata
-    runs-on: windows-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@55ec9447dda3d1cf6bd587150f3262f30ee10815 # v3.4.2
-      with:
-        dotnet-version: |
-          8.x
-
-    - name: Setup Visual Studio
-      run: |
-        Start-Process -Wait "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vs_installer.exe" -ArgumentList {`
-          modify `
-          --quiet `
-          --installPath "C:\Program Files\Microsoft Visual Studio\2022\Enterprise" `
-          --add `
-          Microsoft.NetCore.Component.Runtime.8.0 `
-          Microsoft.NetCore.Component.SDK `
-          Microsoft.VisualStudio.Component.VC.Tools.ARM64 `
-          Microsoft.VisualStudio.Component.VC.Tools.x86.x64 `
-          Microsoft.VisualStudio.Component.Windows11SDK.22000 `
-        }
-
-    - name: Build metadata
-      shell: cmd
-      run: |
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        dotnet build .metadata
-
-    - name: Upload metadata
-      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
-      with:
-        name: metadata
-        path: .windows/winmd/Microsoft.Dia.winmd
-
   test:
     name: Test
     runs-on: ${{ matrix.os }}
-    needs: metadata
     strategy:
       matrix:
         include:
-        - os: windows-latest
+        - os: windows-2025-vs2026
           rust: stable
           other: x86_64-pc-windows-msvc
           platform: x64
-        - os: windows-latest
+        - os: windows-2025-vs2026
           rust: nightly
           other: i686-pc-windows-msvc
           platform: x86
     steps:
     - name: Checkout
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-
-    - name: Download metadata
-      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-      with:
-        name: metadata
-        path: .windows/winmd
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Update toolchain
       run: rustup update --no-self-update ${{ matrix.rust }} && rustup default ${{ matrix.rust }}
@@ -84,44 +38,30 @@ jobs:
 
   cargo_fmt:
     name: Check cargo formatting
-    runs-on: windows-latest
+    runs-on: windows-2025-vs2026
     steps:
     - name: Checkout
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Run cargo fmt
       run: cargo fmt --all -- --check
 
   cargo_clippy:
     name: Check cargo clippy
-    runs-on: windows-latest
-    needs: metadata
+    runs-on: windows-2025-vs2026
     steps:
     - name: Checkout
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-
-    - name: Download metadata
-      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-      with:
-        name: metadata
-        path: .windows/winmd
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Run cargo clippy
       run: cargo clippy --all -- -D warnings
 
   cargo_doc:
     name: Check cargo docs
-    runs-on: windows-latest
-    needs: metadata
+    runs-on: windows-2025-vs2026
     steps:
     - name: Checkout
-      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
-
-    - name: Download metadata
-      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
-      with:
-        name: metadata
-        path: .windows/winmd
+      uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
     - name: Run cargo doc
       run: cargo doc --no-deps --workspace

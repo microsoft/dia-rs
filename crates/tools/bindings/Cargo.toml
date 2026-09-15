@@ -1,0 +1,9 @@
+[package]
+name = "tool-bindings"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+windows-bindgen = "0.100.0"
+windows-clang = "0.100.0"
+windows-rdl = "0.100.0"

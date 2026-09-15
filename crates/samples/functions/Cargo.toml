@@ -1,11 +1,11 @@
 [package]
-name = "sample_functions"
+name = "sample-functions"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 publish = false
 
 [dependencies.microsoft-dia]
 path = "../../.."
 
 [dependencies.windows-core]
-version = "0.62"
+workspace = true
